@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.TemperatureMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Temperature">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="dCollectDT" property="dcollectdt" jdbcType="TIMESTAMP"/>
+        <result column="fT" property="ft" jdbcType="REAL"/>
+        <result column="devID" property="devid" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, dCollectDT, fT, devID
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_temperature
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!-- 查询当前最新温度-->
+    <select id="selectNewFtById" resultType="com.plat.acoal.model.TemperatureInfo"
+            parameterType="com.plat.acoal.model.TemperatureInfo">
+        select
+        dCollectDT,fT,dev_id as devid
+        from t_temperature
+        where 1=1
+        <if test="devid!=null">
+            AND dev_id = #{devid,jdbcType=INTEGER}
+        </if>
+        order by dCollectDT limit 1
+
+    </select>
+<!--    &lt;!&ndash;查询实时温度曲线&ndash;&gt;-->
+<!--    <select id="selectFtByTime" resultType="com.plat.acoal.entity.Temperature"-->
+<!--            parameterType="com.plat.acoal.model.TemperatureInfo">-->
+
+<!--        SELECT-->
+<!--        dCollectDT,-->
+<!--        fT,-->
+<!--         b   dev_id as devid-->
+<!--        FROM-->
+<!--        t_temperature-->
+<!--        WHERE-->
+<!--        1 = 1-->
+<!--        <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>-->
+<!--        <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>-->
+<!--        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>-->
+<!--    </select>-->
+
+    <!--查询历史温度曲线-->
+    <select id="selectHFtByTime" resultType="com.plat.acoal.entity.Temperature"
+            parameterType="com.plat.acoal.model.TemperatureInfo">
+
+        SELECT
+        dCollectDT,
+        fT
+        FROM
+        t_temperature_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">AND devID = #{devid,jdbcType=INTEGER}</if>
+    </select>
+
+<!--    &lt;!&ndash; selectFtByMinute查询过去一小时的数据其中15条&ndash;&gt;-->
+<!--    <select id="selectFtByMinute" resultType="com.plat.acoal.entity.Temperature"-->
+<!--            parameterType="com.plat.acoal.model.TemperatureInfo">-->
+
+<!--        SELECT-->
+<!--        dCollectDT,-->
+<!--        fT,-->
+<!--        dev_id as devid-->
+<!--        FROM-->
+<!--        t_temperature-->
+<!--        WHERE-->
+<!--        1 = 1-->
+<!--        <if test="devid!=null">AND devID = #{devid,jdbcType=INTEGER}</if>-->
+<!--        <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>-->
+<!--        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>-->
+<!--        ORDER BY-->
+<!--        id ASC-->
+<!--        LIMIT 15-->
+<!--    </select>-->
+    <!-- selectFtByHour查询一天的数据 -->
+    <select id="selectFtByHour" resultType="com.plat.acoal.entity.Temperature"
+            parameterType="com.plat.acoal.model.TemperatureInfo">
+
+        SELECT
+        DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
+        AVG(fT) as fT,
+        dev_id as devid
+        FROM
+        t_temperature_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
+        <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
+        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+        group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
+        ORDER BY
+        id ASC
+        LIMIT 24
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_temperature
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.Temperature">
+    insert into t_temperature (id, dCollectDT, fT, 
+      )
+    values (#{id,jdbcType=INTEGER}, #{dcollectdt,jdbcType=TIMESTAMP}, #{ft,jdbcType=REAL}, 
+      #{devid,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Temperature">
+        insert into t_temperature
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dcollectdt != null">
+                dCollectDT,
+            </if>
+            <if test="ft != null">
+                fT,
+            </if>
+            <if test="devid != null">
+                ,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="dcollectdt != null">
+                #{dcollectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ft != null">
+                #{ft,jdbcType=REAL},
+            </if>
+            <if test="devid != null">
+                #{devid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Temperature">
+        update t_temperature
+        <set>
+            <if test="dcollectdt != null">
+                dCollectDT = #{dcollectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ft != null">
+                fT = #{ft,jdbcType=REAL},
+            </if>
+            <if test="devid != null">
+                 = #{devid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Temperature">
+    update t_temperature
+    set dCollectDT = #{dcollectdt,jdbcType=TIMESTAMP},
+      fT = #{ft,jdbcType=REAL},
+       = #{devid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

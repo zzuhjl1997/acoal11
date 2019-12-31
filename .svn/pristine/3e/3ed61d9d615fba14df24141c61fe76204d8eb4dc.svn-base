@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.PressureMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Pressure" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dCollectDT" property="dcollectdt" jdbcType="TIMESTAMP" />
+    <result column="tpressure" property="tpressure" jdbcType="REAL" />
+    <result column="dev_id" property="devId" jdbcType="INTEGER" />
+    <result column="hydrant_id" property="hydrantId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dCollectDT, tpressure, dev_id, hydrant_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pressure
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_pressure
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.Pressure" >
+    insert into t_pressure (id, dCollectDT, tpressure, 
+      dev_id, hydrant_id)
+    values (#{id,jdbcType=BIGINT}, #{dcollectdt,jdbcType=TIMESTAMP}, #{tpressure,jdbcType=REAL}, 
+      #{devId,jdbcType=INTEGER}, #{hydrantId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.Pressure" >
+    insert into t_pressure
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dcollectdt != null" >
+        dCollectDT,
+      </if>
+      <if test="tpressure != null" >
+        tpressure,
+      </if>
+      <if test="devId != null" >
+        dev_id,
+      </if>
+      <if test="hydrantId != null" >
+        hydrant_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dcollectdt != null" >
+        #{dcollectdt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tpressure != null" >
+        #{tpressure,jdbcType=REAL},
+      </if>
+      <if test="devId != null" >
+        #{devId,jdbcType=INTEGER},
+      </if>
+      <if test="hydrantId != null" >
+        #{hydrantId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Pressure" >
+    update t_pressure
+    <set >
+      <if test="dcollectdt != null" >
+        dCollectDT = #{dcollectdt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tpressure != null" >
+        tpressure = #{tpressure,jdbcType=REAL},
+      </if>
+      <if test="devId != null" >
+        dev_id = #{devId,jdbcType=INTEGER},
+      </if>
+      <if test="hydrantId != null" >
+        hydrant_id = #{hydrantId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Pressure" >
+    update t_pressure
+    set dCollectDT = #{dcollectdt,jdbcType=TIMESTAMP},
+      tpressure = #{tpressure,jdbcType=REAL},
+      dev_id = #{devId,jdbcType=INTEGER},
+      hydrant_id = #{hydrantId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,226 @@
+package com.plat.acoal.bean;
+
+import java.util.List;
+
+public class ResultData {
+
+    private int code=0;
+    private String msg="";
+    private int count=0;
+    private int pageno=0;
+    private int pagecount=0;
+    private List data=null;
+    private List datalst2=null;
+    private List datalst3=null;
+    private List datalst4=null;
+    private List datalst5=null;
+
+    private String strdata=null;
+    private Object info=null;
+    private double[] arrddata1;
+    private double[] arrddata2;
+    private double[] arrddata3;
+
+    private String[] arrsdata1;
+    private String[] arrsdata2;
+    private String[] arrsdata3;
+    private String[] arrsdatax1;
+    private String[] arrsdatax2;
+    private String[] arrsdatax3;
+
+    private int[] arridata1;
+    private int[] arridata2;
+    private int[] arridata3;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getPageno() {
+        return pageno;
+    }
+
+    public void setPageno(int pageno) {
+        this.pageno = pageno;
+    }
+
+    public int getPagecount() {
+        return pagecount;
+    }
+
+    public void setPagecount(int pagecount) {
+        this.pagecount = pagecount;
+    }
+
+    public List getData() {
+        return data;
+    }
+
+    public void setData(List data) {
+        this.data = data;
+    }
+
+    public List getDatalst2() {
+        return datalst2;
+    }
+
+    public void setDatalst2(List datalst2) {
+        this.datalst2 = datalst2;
+    }
+
+    public List getDatalst3() {
+        return datalst3;
+    }
+
+    public void setDatalst3(List datalst3) {
+        this.datalst3 = datalst3;
+    }
+
+    public List getDatalst4() {
+        return datalst4;
+    }
+
+    public void setDatalst4(List datalst4) {
+        this.datalst4 = datalst4;
+    }
+
+    public List getDatalst5() {
+        return datalst5;
+    }
+
+    public void setDatalst5(List datalst5) {
+        this.datalst5 = datalst5;
+    }
+
+    public String getStrdata() {
+        return strdata;
+    }
+
+    public void setStrdata(String strdata) {
+        this.strdata = strdata;
+    }
+
+    public Object getInfo() {
+        return info;
+    }
+
+    public void setInfo(Object info) {
+        this.info = info;
+    }
+
+    public double[] getArrddata1() {
+        return arrddata1;
+    }
+
+    public void setArrddata1(double[] arrddata1) {
+        this.arrddata1 = arrddata1;
+    }
+
+    public double[] getArrddata2() {
+        return arrddata2;
+    }
+
+    public void setArrddata2(double[] arrddata2) {
+        this.arrddata2 = arrddata2;
+    }
+
+    public double[] getArrddata3() {
+        return arrddata3;
+    }
+
+    public void setArrddata3(double[] arrddata3) {
+        this.arrddata3 = arrddata3;
+    }
+
+    public String[] getArrsdata1() {
+        return arrsdata1;
+    }
+
+    public void setArrsdata1(String[] arrsdata1) {
+        this.arrsdata1 = arrsdata1;
+    }
+
+    public String[] getArrsdata2() {
+        return arrsdata2;
+    }
+
+    public void setArrsdata2(String[] arrsdata2) {
+        this.arrsdata2 = arrsdata2;
+    }
+
+    public String[] getArrsdata3() {
+        return arrsdata3;
+    }
+
+    public void setArrsdata3(String[] arrsdata3) {
+        this.arrsdata3 = arrsdata3;
+    }
+
+    public String[] getArrsdatax1() {
+        return arrsdatax1;
+    }
+
+    public void setArrsdatax1(String[] arrsdatax1) {
+        this.arrsdatax1 = arrsdatax1;
+    }
+
+    public String[] getArrsdatax2() {
+        return arrsdatax2;
+    }
+
+    public void setArrsdatax2(String[] arrsdatax2) {
+        this.arrsdatax2 = arrsdatax2;
+    }
+
+    public String[] getArrsdatax3() {
+        return arrsdatax3;
+    }
+
+    public void setArrsdatax3(String[] arrsdatax3) {
+        this.arrsdatax3 = arrsdatax3;
+    }
+
+    public int[] getArridata1() {
+        return arridata1;
+    }
+
+    public void setArridata1(int[] arridata1) {
+        this.arridata1 = arridata1;
+    }
+
+    public int[] getArridata2() {
+        return arridata2;
+    }
+
+    public void setArridata2(int[] arridata2) {
+        this.arridata2 = arridata2;
+    }
+
+    public int[] getArridata3() {
+        return arridata3;
+    }
+
+    public void setArridata3(int[] arridata3) {
+        this.arridata3 = arridata3;
+    }
+}

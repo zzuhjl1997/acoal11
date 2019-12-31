@@ -1,0 +1,56 @@
+package com.plat.acoal.model;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class DevInfo {
+
+    private Integer id;
+    //序号
+    private Integer count;
+
+    private Integer code;
+
+    private Integer icustomerid;
+
+    private Integer region;
+
+    private String site;
+
+    private String name;
+
+    private Integer type;
+
+    private String ip;
+
+    private String serNum;
+
+    private String remark;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    private Integer status;
+
+    private double fT;
+
+    private String typename;
+
+    private String devname;
+
+    private Float gco;
+
+    private Float gch4;
+
+    private Float go2;
+
+    private Float fdust;
+
+    private Integer alarm;
+
+    private Integer is_auto;
+
+}

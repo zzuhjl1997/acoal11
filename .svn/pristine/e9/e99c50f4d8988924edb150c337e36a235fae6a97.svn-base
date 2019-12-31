@@ -1,0 +1,23 @@
+package com.plat.acoal.service;
+
+import com.plat.acoal.model.GasModel;
+
+import java.util.List;
+
+public interface GasService {
+    /**
+     * 查询当前最新温度
+     * @param
+     * @return
+     */
+    List<GasModel> selectNewGasById(GasModel gasModel);
+
+
+    /**
+     * 查询一天的数据
+     * @return
+     */
+    List<GasModel> selectGasByHour (GasModel gasModel);
+
+
+}

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.DevMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Dev">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="INTEGER"/>
+        <result column="iCustomerID" property="icustomerid" jdbcType="INTEGER"/>
+        <result column="region" property="region" jdbcType="INTEGER"/>
+        <result column="site" property="site" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="ser_num" property="serNum" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="DevNameModelMap" type="com.plat.acoal.model.DevNameModel">
+        <id column="id" property="devId" jdbcType="INTEGER"/>
+        <result column="name" property="devName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="DevTypeModelMap" type="com.plat.acoal.model.DevTypeModel">
+        <id column="id" property="devTypeId" jdbcType="INTEGER"/>
+        <result column="name" property="devTypeName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="DevInfoModel" type="com.plat.acoal.model.DevInfoModel">
+        <id column="devId" property="devId" jdbcType="INTEGER"/>
+        <result column="devName" property="devName" jdbcType="VARCHAR"/>
+        <result column="devTypeId" property="devTypeId" jdbcType="INTEGER"/>
+        <result column="devTypeName" property="devTypeName" jdbcType="VARCHAR"/>
+        <result column="regionId" property="regionId" jdbcType="INTEGER"/>
+        <result column="regionName" property="regionName" jdbcType="VARCHAR"/>
+        <result column="devSite" property="devSite" jdbcType="VARCHAR"/>
+        <result column="devStatus" property="devStatus" jdbcType="INTEGER"/>
+        <result column="devCode" property="devCode" jdbcType="INTEGER"/>
+        <result column="devSerNum" property="devSerNum" jdbcType="VARCHAR"/>
+        <result column="devRemark" property="devRemark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="DevActiveModelMap" type="com.plat.acoal.model.DevActiveModel">
+        <id column="devActiveId" property="devActiveId" jdbcType="INTEGER"/>
+        <result column="devId" property="devId" jdbcType="INTEGER"/>
+        <result column="devName" property="devName" jdbcType="VARCHAR"/>
+        <result column="devTypeId" property="devTypeId" jdbcType="INTEGER"/>
+        <result column="devTypeName" property="devTypeName" jdbcType="VARCHAR"/>
+        <result column="regionName" property="regionName" jdbcType="VARCHAR"/>
+        <result column="regionId" property="regionId" jdbcType="INTEGER"/>
+        <result column="devSite" property="devSite" jdbcType="VARCHAR"/>
+        <result column="devActiveCloseTime" property="devActiveCloseTime" jdbcType="TIMESTAMP"/>
+        <result column="devActiveOpenTime" property="devActiveOpenTime" jdbcType="TIMESTAMP"/>
+        <result column="userId" property="userId" jdbcType="INTEGER"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, code, iCustomerID, region, site, name, type, ip, ser_num, remark, create_time,
+    update_time, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_dev
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_dev
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.Dev">
+    insert into t_dev (id, code, iCustomerID,
+      region, site, name,
+      type, ip, ser_num, remark,
+      create_time, update_time, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, #{icustomerid,jdbcType=INTEGER},
+      #{region,jdbcType=INTEGER}, #{site,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{serNum,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Dev">
+        insert into t_dev
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="icustomerid != null">
+                iCustomerID,
+            </if>
+            <if test="region != null">
+                region,
+            </if>
+            <if test="site != null">
+                site,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="serNum != null">
+                ser_num,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=INTEGER},
+            </if>
+            <if test="icustomerid != null">
+                #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="region != null">
+                #{region,jdbcType=INTEGER},
+            </if>
+            <if test="site != null">
+                #{site,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="serNum != null">
+                #{serNum,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Dev">
+        update t_dev
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=INTEGER},
+            </if>
+            <if test="icustomerid != null">
+                iCustomerID = #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="region != null">
+                region = #{region,jdbcType=INTEGER},
+            </if>
+            <if test="site != null">
+                site = #{site,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="serNum != null">
+                ser_num = #{serNum,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Dev">
+    update t_dev
+    set code = #{code,jdbcType=INTEGER},
+      iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      region = #{region,jdbcType=INTEGER},
+      site = #{site,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      ip = #{ip,jdbcType=VARCHAR},
+      ser_num = #{serNum,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectNameByCondition" parameterType="Map" resultMap="DevNameModelMap">
+        select id,name from t_dev where 1 = 1
+        <if test="customerId != null">
+            AND customer = #{customerId}
+        </if>;
+    </select>
+
+    <select id="selectTypeByCondition" parameterType="Map" resultMap="DevTypeModelMap">
+        select id,name from t_dev_type;
+        <if test="customerId != null">
+            AND customer = #{customerId}
+        </if>;
+    </select>
+
+    <select id="selectDevInfoByCondition" parameterType="map" resultMap="DevInfoModel">
+        SELECT
+        `d`.id AS `devId`,
+        `d`.status AS `devStatus`,
+        `d`.`name` AS `devName`,
+        `d`.code AS `devCode`,
+        `dt`.id AS `devTypeId`,
+        `dt`.`name` AS `devTypeName`,
+        `d`.ser_num AS `devSerNum`,
+        `r`.id AS `regionId`,
+        `r`.`name` AS `regionName`,
+        `d`.site AS `devSite`,
+        `d`.remark AS `devRemark`
+        FROM
+        (SELECT * from t_dev WHERE 1 = 1
+        <if test="customerId != null">
+            AND t_dev.iCustomerID = #{customerId,jdbcType=INTEGER}
+        </if>
+        <if test="devTypeId != null">
+            AND t_dev.type = #{devTypeId,jdbcType=INTEGER}
+        </if>
+        <if test="devName != null">
+            AND t_dev.name LIKE '%' #{devName,jdbcType=VARCHAR} '%'
+        </if>
+        <if test="regionId != null">
+            AND t_dev.id = #{regionId,jdbcType=INTEGER}
+        </if>
+        )AS `d`
+        LEFT JOIN t_dev_type AS `dt` ON `d`.type = `dt`.id
+        LEFT JOIN t_region AS `r` ON `d`.region = `r`.id
+    </select>
+
+    <select id="selectDevActiveModelByCondition" parameterType="map" resultMap="DevActiveModelMap">
+        SELECT
+        `da`.id AS `devActiveId` ,
+        `da`.dev_id AS `devId`,
+        `da`.close_time AS `devActiveCloseTime`,
+        `da`.open_time AS `devActiveOpenTime`,
+        `da`.user AS `userId`,
+        `u`.cUserName AS `userName`,
+        `d`.name AS `devName`,
+        `d`.type AS `devTypeId`,
+        `dt`.name AS `devTypeName`,
+        `d`.region AS `regionId`,
+        `r`.name AS `regionName`,
+        `d`.site AS `devSite`
+        FROM
+        (SELECT * FROM t_dev_active
+        WHERE 1 = 1
+        <if test="devId != null">AND t_dev_active.dev_id = #{devId,jdbcType=INTEGER}</if>
+        <if test="user != null">AND t_dev_active.user = #{userId,jdbcType=INTEGER}</if>
+        )AS `da`
+        LEFT JOIN t_dev AS `d` ON `da`.dev_id = `d`.id
+        LEFT JOIN t_dev_type AS `dt` ON `d`.type = `dt`.id
+        LEFT JOIN t_user AS `u` ON `da`.USER = `u`.iUserID
+        LEFT JOIN t_region AS `r` ON `d`.region = `r`.id
+        WHERE
+        1 = 1
+        <if test="devTypeId != null">AND `dt`.id = #{devTypeId}</if>
+        <if test="devName != null">AND `dt`.name '%' #{devName} '%'</if>
+        <if test="regionId != null">AND `r`.id = #{regionId}</if>
+        <if test="regionName != null">AND `r`.name = #{regionName}</if>
+        <if test="customerId != null">AND `d`.customer = #{customerId}</if>
+    </select>
+
+    <select id="selectDevByCustomerId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        dev.id,code, iCustomerID, region, site, dev.name, dev.type, ip, ser_num, create_time,
+        update_time, status
+        from t_dev dev LEFT JOIN t_dev_type type ON dev.type = type.id
+        where
+        1=1
+        <if test="icustomerid != null">
+            AND iCustomerID = #{icustomerid}
+        </if>
+        <if test="type != null">
+            AND type.id = #{type}
+        </if>
+    </select>
+    <select id="selectDevByRegionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        t_dev
+        WHERE
+        type = 7
+        AND region = #{regionid}
+    </select>
+    <select id="selectFireByCondition" resultType="com.plat.acoal.model.DevInfo"
+            parameterType="com.plat.acoal.entity.Dev">
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS NAME,
+        td.id AS id,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        td.site,
+        td.is_auto AS is_auto
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_alarm ta ON td.ID=ta.dev_id
+        WHERE 1=1
+        AND tdt.id=8
+        <if test="status!=null">AND td.`status` = #{status}</if>
+        <if test="name!=null">AND td.`name` LIKE "%"#{name}"%"</if>
+    </select>
+    <select id="selectFireById" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo">
+        SELECT
+        id,
+        is_auto,
+        STATUS
+        FROM
+        t_dev
+        WHERE
+        1 = 1
+        AND type =8
+        <if test="id!=null">AND id = #{id}</if>
+    </select>
+    <select id="selectCountByType" resultType="java.lang.Integer">
+
+
+        SELECT
+        COUNT(*)
+        FROM
+        t_dev
+        WHERE 1=1
+        <if test="type!=null">AND type = #{type}</if>
+
+
+    </select>
+</mapper>

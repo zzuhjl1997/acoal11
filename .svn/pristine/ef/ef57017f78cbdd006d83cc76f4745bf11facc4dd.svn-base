@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.CustomerMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Customer">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="iCustomerID" property="icustomerid" jdbcType="INTEGER"/>
+        <result column="cCustomerName" property="ccustomername" jdbcType="VARCHAR"/>
+        <result column="cCustomerAddress" property="ccustomeraddress" jdbcType="VARCHAR"/>
+        <result column="cOperationName" property="coperationname" jdbcType="VARCHAR"/>
+        <result column="cOperationPhone" property="coperationphone" jdbcType="VARCHAR"/>
+        <result column="cLogoPath" property="clogopath" jdbcType="VARCHAR"/>
+        <result column="dInstallDate" property="dinstalldate" jdbcType="TIMESTAMP"/>
+        <result column="dSafeStartDate" property="dsafestartdate" jdbcType="TIMESTAMP"/>
+        <result column="dExpairedDate" property="dexpaireddate" jdbcType="TIMESTAMP"/>
+        <result column="agent" property="agent" jdbcType="INTEGER"/>
+        <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="latitudetx" property="latitudetx" jdbcType="DOUBLE"/>
+        <result column="longitudetx" property="longitudetx" jdbcType="DOUBLE"/>
+        <result column="usesms" property="usesms" jdbcType="TINYINT"/>
+        <result column="leftsmsnums" property="leftsmsnums" jdbcType="INTEGER"/>
+        <result column="memo" property="memo" jdbcType="VARCHAR"/>
+        <result column="buildingArea" property="buildingarea" jdbcType="DOUBLE"/>
+        <result column="fireDevice" property="firedevice" jdbcType="VARCHAR"/>
+        <result column="cShortName" property="cshortname" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="qyperson" property="qyperson" jdbcType="VARCHAR"/>
+        <result column="qymobile" property="qymobile" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, iCustomerID, cCustomerName, cCustomerAddress, cOperationName, cOperationPhone, 
+    cLogoPath, dInstallDate, dSafeStartDate, dExpairedDate, agent, latitude, longitude, 
+    latitudetx, longitudetx, usesms, leftsmsnums, memo, buildingArea, fireDevice, cShortName, 
+    province, city, district, qyperson, qymobile
+  </sql>
+
+    <!--查询所有用户-->
+    <select id="seletAllCustomers" resultType="com.plat.acoal.entity.Customer"
+            parameterType="com.plat.acoal.entity.Customer">
+        SELECT
+        <include refid="Base_Column_List"/>
+
+        from t_customer
+
+    </select>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_customer
+        where ID = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_customer
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.Customer">
+    insert into t_customer (ID, iCustomerID, cCustomerName, 
+      cCustomerAddress, cOperationName, cOperationPhone, 
+      cLogoPath, dInstallDate, dSafeStartDate, 
+      dExpairedDate, agent, latitude, 
+      longitude, latitudetx, longitudetx, 
+      usesms, leftsmsnums, memo, 
+      buildingArea, fireDevice, cShortName, 
+      province, city, district, 
+      qyperson, qymobile)
+    values (#{id,jdbcType=INTEGER}, #{icustomerid,jdbcType=INTEGER}, #{ccustomername,jdbcType=VARCHAR}, 
+      #{ccustomeraddress,jdbcType=VARCHAR}, #{coperationname,jdbcType=VARCHAR}, #{coperationphone,jdbcType=VARCHAR}, 
+      #{clogopath,jdbcType=VARCHAR}, #{dinstalldate,jdbcType=TIMESTAMP}, #{dsafestartdate,jdbcType=TIMESTAMP}, 
+      #{dexpaireddate,jdbcType=TIMESTAMP}, #{agent,jdbcType=INTEGER}, #{latitude,jdbcType=DOUBLE}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitudetx,jdbcType=DOUBLE}, #{longitudetx,jdbcType=DOUBLE}, 
+      #{usesms,jdbcType=TINYINT}, #{leftsmsnums,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, 
+      #{buildingarea,jdbcType=DOUBLE}, #{firedevice,jdbcType=VARCHAR}, #{cshortname,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, 
+      #{qyperson,jdbcType=VARCHAR}, #{qymobile,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Customer">
+        insert into t_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="icustomerid != null">
+                iCustomerID,
+            </if>
+            <if test="ccustomername != null">
+                cCustomerName,
+            </if>
+            <if test="ccustomeraddress != null">
+                cCustomerAddress,
+            </if>
+            <if test="coperationname != null">
+                cOperationName,
+            </if>
+            <if test="coperationphone != null">
+                cOperationPhone,
+            </if>
+            <if test="clogopath != null">
+                cLogoPath,
+            </if>
+            <if test="dinstalldate != null">
+                dInstallDate,
+            </if>
+            <if test="dsafestartdate != null">
+                dSafeStartDate,
+            </if>
+            <if test="dexpaireddate != null">
+                dExpairedDate,
+            </if>
+            <if test="agent != null">
+                agent,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="latitudetx != null">
+                latitudetx,
+            </if>
+            <if test="longitudetx != null">
+                longitudetx,
+            </if>
+            <if test="usesms != null">
+                usesms,
+            </if>
+            <if test="leftsmsnums != null">
+                leftsmsnums,
+            </if>
+            <if test="memo != null">
+                memo,
+            </if>
+            <if test="buildingarea != null">
+                buildingArea,
+            </if>
+            <if test="firedevice != null">
+                fireDevice,
+            </if>
+            <if test="cshortname != null">
+                cShortName,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="district != null">
+                district,
+            </if>
+            <if test="qyperson != null">
+                qyperson,
+            </if>
+            <if test="qymobile != null">
+                qymobile,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="icustomerid != null">
+                #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="ccustomername != null">
+                #{ccustomername,jdbcType=VARCHAR},
+            </if>
+            <if test="ccustomeraddress != null">
+                #{ccustomeraddress,jdbcType=VARCHAR},
+            </if>
+            <if test="coperationname != null">
+                #{coperationname,jdbcType=VARCHAR},
+            </if>
+            <if test="coperationphone != null">
+                #{coperationphone,jdbcType=VARCHAR},
+            </if>
+            <if test="clogopath != null">
+                #{clogopath,jdbcType=VARCHAR},
+            </if>
+            <if test="dinstalldate != null">
+                #{dinstalldate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dsafestartdate != null">
+                #{dsafestartdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dexpaireddate != null">
+                #{dexpaireddate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="agent != null">
+                #{agent,jdbcType=INTEGER},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitudetx != null">
+                #{latitudetx,jdbcType=DOUBLE},
+            </if>
+            <if test="longitudetx != null">
+                #{longitudetx,jdbcType=DOUBLE},
+            </if>
+            <if test="usesms != null">
+                #{usesms,jdbcType=TINYINT},
+            </if>
+            <if test="leftsmsnums != null">
+                #{leftsmsnums,jdbcType=INTEGER},
+            </if>
+            <if test="memo != null">
+                #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingarea != null">
+                #{buildingarea,jdbcType=DOUBLE},
+            </if>
+            <if test="firedevice != null">
+                #{firedevice,jdbcType=VARCHAR},
+            </if>
+            <if test="cshortname != null">
+                #{cshortname,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="district != null">
+                #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="qyperson != null">
+                #{qyperson,jdbcType=VARCHAR},
+            </if>
+            <if test="qymobile != null">
+                #{qymobile,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Customer">
+        update t_customer
+        <set>
+            <if test="icustomerid != null">
+                iCustomerID = #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="ccustomername != null">
+                cCustomerName = #{ccustomername,jdbcType=VARCHAR},
+            </if>
+            <if test="ccustomeraddress != null">
+                cCustomerAddress = #{ccustomeraddress,jdbcType=VARCHAR},
+            </if>
+            <if test="coperationname != null">
+                cOperationName = #{coperationname,jdbcType=VARCHAR},
+            </if>
+            <if test="coperationphone != null">
+                cOperationPhone = #{coperationphone,jdbcType=VARCHAR},
+            </if>
+            <if test="clogopath != null">
+                cLogoPath = #{clogopath,jdbcType=VARCHAR},
+            </if>
+            <if test="dinstalldate != null">
+                dInstallDate = #{dinstalldate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dsafestartdate != null">
+                dSafeStartDate = #{dsafestartdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dexpaireddate != null">
+                dExpairedDate = #{dexpaireddate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="agent != null">
+                agent = #{agent,jdbcType=INTEGER},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitudetx != null">
+                latitudetx = #{latitudetx,jdbcType=DOUBLE},
+            </if>
+            <if test="longitudetx != null">
+                longitudetx = #{longitudetx,jdbcType=DOUBLE},
+            </if>
+            <if test="usesms != null">
+                usesms = #{usesms,jdbcType=TINYINT},
+            </if>
+            <if test="leftsmsnums != null">
+                leftsmsnums = #{leftsmsnums,jdbcType=INTEGER},
+            </if>
+            <if test="memo != null">
+                memo = #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingarea != null">
+                buildingArea = #{buildingarea,jdbcType=DOUBLE},
+            </if>
+            <if test="firedevice != null">
+                fireDevice = #{firedevice,jdbcType=VARCHAR},
+            </if>
+            <if test="cshortname != null">
+                cShortName = #{cshortname,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="district != null">
+                district = #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="qyperson != null">
+                qyperson = #{qyperson,jdbcType=VARCHAR},
+            </if>
+            <if test="qymobile != null">
+                qymobile = #{qymobile,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Customer">
+    update t_customer
+    set iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      cCustomerName = #{ccustomername,jdbcType=VARCHAR},
+      cCustomerAddress = #{ccustomeraddress,jdbcType=VARCHAR},
+      cOperationName = #{coperationname,jdbcType=VARCHAR},
+      cOperationPhone = #{coperationphone,jdbcType=VARCHAR},
+      cLogoPath = #{clogopath,jdbcType=VARCHAR},
+      dInstallDate = #{dinstalldate,jdbcType=TIMESTAMP},
+      dSafeStartDate = #{dsafestartdate,jdbcType=TIMESTAMP},
+      dExpairedDate = #{dexpaireddate,jdbcType=TIMESTAMP},
+      agent = #{agent,jdbcType=INTEGER},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitudetx = #{latitudetx,jdbcType=DOUBLE},
+      longitudetx = #{longitudetx,jdbcType=DOUBLE},
+      usesms = #{usesms,jdbcType=TINYINT},
+      leftsmsnums = #{leftsmsnums,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR},
+      buildingArea = #{buildingarea,jdbcType=DOUBLE},
+      fireDevice = #{firedevice,jdbcType=VARCHAR},
+      cShortName = #{cshortname,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      qyperson = #{qyperson,jdbcType=VARCHAR},
+      qymobile = #{qymobile,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

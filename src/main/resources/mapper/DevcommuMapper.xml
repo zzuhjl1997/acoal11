@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.DevcommuMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Devcommu" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="iCustomerID" property="icustomerid" jdbcType="INTEGER" />
+    <result column="cDevAddress" property="cdevaddress" jdbcType="VARCHAR" />
+    <result column="iDevID" property="idevid" jdbcType="INTEGER" />
+    <result column="iDevType" property="idevtype" jdbcType="INTEGER" />
+    <result column="idisplayorder" property="idisplayorder" jdbcType="INTEGER" />
+    <result column="cDevName" property="cdevname" jdbcType="VARCHAR" />
+    <result column="cDevInstPosition" property="cdevinstposition" jdbcType="VARCHAR" />
+    <result column="iOnLine" property="ionline" jdbcType="TINYINT" />
+    <result column="dLastOnLineTime" property="dlastonlinetime" jdbcType="DATE" />
+    <result column="iModuleId" property="imoduleid" jdbcType="BIGINT" />
+    <result column="iModuleIdSlave" property="imoduleidslave" jdbcType="BIGINT" />
+    <result column="meterno" property="meterno" jdbcType="VARCHAR" />
+    <result column="iProtocolType" property="iprotocoltype" jdbcType="INTEGER" />
+    <result column="stdload" property="stdload" jdbcType="DOUBLE" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, iCustomerID, cDevAddress, iDevID, iDevType, idisplayorder, cDevName, cDevInstPosition, 
+    iOnLine, dLastOnLineTime, iModuleId, iModuleIdSlave, meterno, iProtocolType, stdload, 
+    memo, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_devcommu
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_devcommu
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.Devcommu" >
+    insert into t_devcommu (ID, iCustomerID, cDevAddress, 
+      iDevID, iDevType, idisplayorder, 
+      cDevName, cDevInstPosition, iOnLine, 
+      dLastOnLineTime, iModuleId, iModuleIdSlave, 
+      meterno, iProtocolType, stdload, 
+      memo, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{icustomerid,jdbcType=INTEGER}, #{cdevaddress,jdbcType=VARCHAR}, 
+      #{idevid,jdbcType=INTEGER}, #{idevtype,jdbcType=INTEGER}, #{idisplayorder,jdbcType=INTEGER}, 
+      #{cdevname,jdbcType=VARCHAR}, #{cdevinstposition,jdbcType=VARCHAR}, #{ionline,jdbcType=TINYINT}, 
+      #{dlastonlinetime,jdbcType=DATE}, #{imoduleid,jdbcType=BIGINT}, #{imoduleidslave,jdbcType=BIGINT}, 
+      #{meterno,jdbcType=VARCHAR}, #{iprotocoltype,jdbcType=INTEGER}, #{stdload,jdbcType=DOUBLE}, 
+      #{memo,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.Devcommu" >
+    insert into t_devcommu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="icustomerid != null" >
+        iCustomerID,
+      </if>
+      <if test="cdevaddress != null" >
+        cDevAddress,
+      </if>
+      <if test="idevid != null" >
+        iDevID,
+      </if>
+      <if test="idevtype != null" >
+        iDevType,
+      </if>
+      <if test="idisplayorder != null" >
+        idisplayorder,
+      </if>
+      <if test="cdevname != null" >
+        cDevName,
+      </if>
+      <if test="cdevinstposition != null" >
+        cDevInstPosition,
+      </if>
+      <if test="ionline != null" >
+        iOnLine,
+      </if>
+      <if test="dlastonlinetime != null" >
+        dLastOnLineTime,
+      </if>
+      <if test="imoduleid != null" >
+        iModuleId,
+      </if>
+      <if test="imoduleidslave != null" >
+        iModuleIdSlave,
+      </if>
+      <if test="meterno != null" >
+        meterno,
+      </if>
+      <if test="iprotocoltype != null" >
+        iProtocolType,
+      </if>
+      <if test="stdload != null" >
+        stdload,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="icustomerid != null" >
+        #{icustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="cdevaddress != null" >
+        #{cdevaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="idevid != null" >
+        #{idevid,jdbcType=INTEGER},
+      </if>
+      <if test="idevtype != null" >
+        #{idevtype,jdbcType=INTEGER},
+      </if>
+      <if test="idisplayorder != null" >
+        #{idisplayorder,jdbcType=INTEGER},
+      </if>
+      <if test="cdevname != null" >
+        #{cdevname,jdbcType=VARCHAR},
+      </if>
+      <if test="cdevinstposition != null" >
+        #{cdevinstposition,jdbcType=VARCHAR},
+      </if>
+      <if test="ionline != null" >
+        #{ionline,jdbcType=TINYINT},
+      </if>
+      <if test="dlastonlinetime != null" >
+        #{dlastonlinetime,jdbcType=DATE},
+      </if>
+      <if test="imoduleid != null" >
+        #{imoduleid,jdbcType=BIGINT},
+      </if>
+      <if test="imoduleidslave != null" >
+        #{imoduleidslave,jdbcType=BIGINT},
+      </if>
+      <if test="meterno != null" >
+        #{meterno,jdbcType=VARCHAR},
+      </if>
+      <if test="iprotocoltype != null" >
+        #{iprotocoltype,jdbcType=INTEGER},
+      </if>
+      <if test="stdload != null" >
+        #{stdload,jdbcType=DOUBLE},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Devcommu" >
+    update t_devcommu
+    <set >
+      <if test="icustomerid != null" >
+        iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="cdevaddress != null" >
+        cDevAddress = #{cdevaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="idevid != null" >
+        iDevID = #{idevid,jdbcType=INTEGER},
+      </if>
+      <if test="idevtype != null" >
+        iDevType = #{idevtype,jdbcType=INTEGER},
+      </if>
+      <if test="idisplayorder != null" >
+        idisplayorder = #{idisplayorder,jdbcType=INTEGER},
+      </if>
+      <if test="cdevname != null" >
+        cDevName = #{cdevname,jdbcType=VARCHAR},
+      </if>
+      <if test="cdevinstposition != null" >
+        cDevInstPosition = #{cdevinstposition,jdbcType=VARCHAR},
+      </if>
+      <if test="ionline != null" >
+        iOnLine = #{ionline,jdbcType=TINYINT},
+      </if>
+      <if test="dlastonlinetime != null" >
+        dLastOnLineTime = #{dlastonlinetime,jdbcType=DATE},
+      </if>
+      <if test="imoduleid != null" >
+        iModuleId = #{imoduleid,jdbcType=BIGINT},
+      </if>
+      <if test="imoduleidslave != null" >
+        iModuleIdSlave = #{imoduleidslave,jdbcType=BIGINT},
+      </if>
+      <if test="meterno != null" >
+        meterno = #{meterno,jdbcType=VARCHAR},
+      </if>
+      <if test="iprotocoltype != null" >
+        iProtocolType = #{iprotocoltype,jdbcType=INTEGER},
+      </if>
+      <if test="stdload != null" >
+        stdload = #{stdload,jdbcType=DOUBLE},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Devcommu" >
+    update t_devcommu
+    set iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      cDevAddress = #{cdevaddress,jdbcType=VARCHAR},
+      iDevID = #{idevid,jdbcType=INTEGER},
+      iDevType = #{idevtype,jdbcType=INTEGER},
+      idisplayorder = #{idisplayorder,jdbcType=INTEGER},
+      cDevName = #{cdevname,jdbcType=VARCHAR},
+      cDevInstPosition = #{cdevinstposition,jdbcType=VARCHAR},
+      iOnLine = #{ionline,jdbcType=TINYINT},
+      dLastOnLineTime = #{dlastonlinetime,jdbcType=DATE},
+      iModuleId = #{imoduleid,jdbcType=BIGINT},
+      iModuleIdSlave = #{imoduleidslave,jdbcType=BIGINT},
+      meterno = #{meterno,jdbcType=VARCHAR},
+      iProtocolType = #{iprotocoltype,jdbcType=INTEGER},
+      stdload = #{stdload,jdbcType=DOUBLE},
+      memo = #{memo,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

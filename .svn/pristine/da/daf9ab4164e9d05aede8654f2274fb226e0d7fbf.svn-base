@@ -1,0 +1,25 @@
+package com.plat.acoal.service.impl;
+
+import com.plat.acoal.dao.PressureFlowMapper;
+import com.plat.acoal.model.PressureFlowModel;
+import com.plat.acoal.service.PressureFlowService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+@Service
+public class PressureFlowServiceImpl implements PressureFlowService {
+    @Autowired
+    public PressureFlowMapper pressureFlowMapper;
+
+
+    @Override
+    public List<PressureFlowModel> selectNewInfoById(PressureFlowModel pressureFlowModel) {
+        return pressureFlowMapper.selectNewInfoById(pressureFlowModel);
+    }
+
+    @Override
+    public List<PressureFlowModel> selectInfoByHour(PressureFlowModel pressureFlowModel) {
+        return pressureFlowMapper.selectInfoByHour(pressureFlowModel);
+    }
+}

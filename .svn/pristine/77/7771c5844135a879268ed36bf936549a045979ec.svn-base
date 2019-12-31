@@ -1,0 +1,15 @@
+package com.plat.acoal.service;
+
+import com.plat.acoal.entity.Dev;
+import com.plat.acoal.model.*;
+
+import java.util.List;
+import java.util.Map;
+
+public interface DevService {
+    List<DevNameModel> selectNameByCondition(Map<String, String> condition);
+    List<DevTypeModel> selectTypeByCondition(Map<String, String> condition);
+    List<DevInfoModel> selectDevInfoModelByCondtition(Integer currentPage, Map<String, String> condition);
+    List<DevActiveModel> selectDevActiveModelByCondtition(Integer currentPage, Map<String, String> condition);
+    Dev selectDevById(Dev dev);
+}

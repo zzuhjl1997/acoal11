@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plat.acoal.dao.AlarmMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Alarm">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="iCustomerID" jdbcType="INTEGER" property="icustomerid" />
+        <result column="dev_id" jdbcType="INTEGER" property="devId" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="grade" jdbcType="INTEGER" property="grade" />
+        <result column="data" jdbcType="REAL" property="data" />
+        <result column="info" jdbcType="VARCHAR" property="info" />
+        <result column="alarm_time" jdbcType="TIMESTAMP" property="alarmTime" />
+        <result column="is_dis" jdbcType="INTEGER" property="isDis" />
+        <result column="threshold" jdbcType="REAL" property="threshold" />
+        <result column="count" jdbcType="INTEGER" property="count" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="deal_user_id" jdbcType="INTEGER" property="dealUserId" />
+        <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime" />
+    </resultMap>
+    <resultMap id="AlarmModelMap" type="com.plat.acoal.model.AlarmModel">
+        <id column="alarmId" property="alarmId" jdbcType="INTEGER"/>
+        <result column="alarmData" property="alarmData" jdbcType="FLOAT"/>
+        <result column="alarmDis" property="alarmDis" jdbcType="INTEGER"/>
+        <result column="alarmCount" property="alarmCount" jdbcType="INTEGER"/>
+        <result column="alarmTime" property="alarmTime" jdbcType="TIMESTAMP"/>
+        <result column="alarmGradeName" property="alarmGradeName" jdbcType="VARCHAR"/>
+        <result column="devName" property="devName" jdbcType="VARCHAR"/>
+        <result column="alarmTypeId" property="alarmTypeId" jdbcType="INTEGER"/>
+        <result column="alarmTypeName" property="alarmTypeName" jdbcType="VARCHAR"/>
+        <result column="alarmGradeId" property="alarmGradeId" jdbcType="INTEGER"/>
+        <result column="alarmGradeName" property="alarmGradeName" jdbcType="VARCHAR"/>
+        <result column="alarmInfo" property="alarmInfo" jdbcType="VARCHAR"/>
+        <result column="regionId" property="regionId" jdbcType="INTEGER"/>
+        <result column="regionName" property="regionName" jdbcType="VARCHAR"/>
+        <result column="alarmThreshold" property="alarmThreshold" jdbcType="FLOAT"/>
+        <result column="devStatus" property="devStatus" jdbcType="INTEGER"/>
+        <result column="alarmDealUserId" property="alarmDealUserId" jdbcType="INTEGER"/>
+        <result column="alarmDealTime" property="alarmDealTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, iCustomerID, dev_id, type, grade, data, info, alarm_time, is_dis, threshold,
+    count, remark, deal_user_id, deal_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_alarm
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_alarm
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.Alarm">
+    insert into t_alarm (id, iCustomerID, dev_id,
+      type, grade, data, info,
+      alarm_time, is_dis, threshold,
+      count, remark, deal_user_id,
+      deal_time)
+    values (#{id,jdbcType=BIGINT}, #{icustomerid,jdbcType=INTEGER}, #{devId,jdbcType=INTEGER},
+      #{type,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{data,jdbcType=REAL}, #{info,jdbcType=VARCHAR},
+      #{alarmTime,jdbcType=TIMESTAMP}, #{isDis,jdbcType=INTEGER}, #{threshold,jdbcType=REAL},
+      #{count,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{dealUserId,jdbcType=INTEGER},
+      #{dealTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Alarm">
+        insert into t_alarm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="icustomerid != null">
+                iCustomerID,
+            </if>
+            <if test="devId != null">
+                dev_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="data != null">
+                data,
+            </if>
+            <if test="info != null">
+                info,
+            </if>
+            <if test="alarmTime != null">
+                alarm_time,
+            </if>
+            <if test="isDis != null">
+                is_dis,
+            </if>
+            <if test="threshold != null">
+                threshold,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="dealUserId != null">
+                deal_user_id,
+            </if>
+            <if test="dealTime != null">
+                deal_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="icustomerid != null">
+                #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="devId != null">
+                #{devId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="data != null">
+                #{data,jdbcType=REAL},
+            </if>
+            <if test="info != null">
+                #{info,jdbcType=VARCHAR},
+            </if>
+            <if test="alarmTime != null">
+                #{alarmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDis != null">
+                #{isDis,jdbcType=INTEGER},
+            </if>
+            <if test="threshold != null">
+                #{threshold,jdbcType=REAL},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dealUserId != null">
+                #{dealUserId,jdbcType=INTEGER},
+            </if>
+            <if test="dealTime != null">
+                #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Alarm">
+        update t_alarm
+        <set>
+            <if test="icustomerid != null">
+                iCustomerID = #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="devId != null">
+                dev_id = #{devId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="data != null">
+                data = #{data,jdbcType=REAL},
+            </if>
+            <if test="info != null">
+                info = #{info,jdbcType=VARCHAR},
+            </if>
+            <if test="alarmTime != null">
+                alarm_time = #{alarmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDis != null">
+                is_dis = #{isDis,jdbcType=INTEGER},
+            </if>
+            <if test="threshold != null">
+                threshold = #{threshold,jdbcType=REAL},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dealUserId != null">
+                deal_user_id = #{dealUserId,jdbcType=INTEGER},
+            </if>
+            <if test="dealTime != null">
+                deal_time = #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Alarm">
+    update t_alarm
+    set iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      dev_id = #{devId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=INTEGER},
+      data = #{data,jdbcType=REAL},
+      info = #{info,jdbcType=VARCHAR},
+      alarm_time = #{alarmTime,jdbcType=TIMESTAMP},
+      is_dis = #{isDis,jdbcType=INTEGER},
+      threshold = #{threshold,jdbcType=REAL},
+      count = #{count,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      deal_user_id = #{dealUserId,jdbcType=INTEGER},
+      deal_time = #{dealTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="selectAlarmModelByCondition" parameterType="map" resultMap="AlarmModelMap">
+        SELECT
+        `a`.id AS `alarmId`,
+        `a`.alarm_time AS `alarmTime`,
+        `a`.data AS `alarmData`,
+        `a`.count AS `alarmCount`,
+        `a`.is_dis AS `alarmDis`,
+        `ag`.id AS `alarmGradeId`,
+        `ag`.`name` AS `alarmGradeName`,
+        `at`.id AS `alarmTypeId`,
+        `a`.threshold AS `alarmThreshold`,
+        `at`.`name` AS `alarmTypeName`,
+        `d`.`name` AS `devName`,
+        `r`.id AS `regionId`,
+        `r`.`name` AS `regionName`,
+        `d`.site AS `devSite`,
+        `a`.deal_user_id AS `alarmDealUserId`,
+        `a`.deal_time AS `alarmDealTime`,
+        `a`.info AS `alarmInfo`,
+        `d`.status AS `devStatus`
+        FROM
+        (
+        SELECT * FROM `t_alarm`
+        WHERE 1 = 1
+
+        <if test="regionId != null">
+            AND `t_alarm`.region = #{regionId,jdbcType=INTEGER}
+        </if>
+        <if test="customerId != null">
+            AND `t_alarm`.iCustomerID = #{customerId,jdbcType=INTEGER}
+        </if>
+        <if test="devId != null">
+            AND `t_alarm`.dev_id = #{devId,jdbcType=INTEGER}
+        </if>
+        <if test="alarmDis != null">
+            AND `t_alarm`.is_dis = #{alarmDis,jdbcType=INTEGER}
+        </if>
+        <if test="alarmId != null">
+            AND `t_alarm`.id = #{alarmId,jdbc=INTEGER}
+        </if>
+        <if test="alarmTimeHead != null">
+            AND `t_alarm`.alarm_time &gt; #{alarmTimeHead,jdbcType=TIMESTAMP}
+        </if>
+        <if test="alarmTimeTail != null">
+            AND `t_alarm`.alarm_time &lt; #{alarmTimeTail,jdbcType=TIMESTAMP}
+        </if>
+        <if test="alarmTypeId != null">
+            AND `t_alarm`.type = #{alarmTypeId,jdbcType=INTEGER}
+        </if>
+        <if test="alarmGradeId != null">
+            AND `t_alarm`.grade = #{alarmGradeId,jdbcType=INTEGER}
+        </if>
+        ) AS `a`
+        LEFT JOIN `t_dev` AS `d` ON `a`.dev_id = `d`.id
+        LEFT JOIN `t_alarm_type` AS `at` ON `a`.type = `at`.id
+        LEFT JOIN `t_alarm_grade` AS `ag` ON `a`.grade = `ag`.id
+        LEFT JOIN `t_region` AS `r` ON `d`.region = `r`.id
+        WHERE 1 = 1
+        <if test="devName != null">
+            AND `d`.name "%" #{devName,jdbcType=INTEGER} "%"
+        </if>
+        <if test="alarmGradeName != null">
+            AND `ag`.name LIKE '%' #{alarmGradeName,jdbcType=VARCHAR} '%'
+        </if>
+        <if test="regionName != null">
+            AND `r`.name LIKE '%' #{regionName,jdbcType=VARCHAR} '%'
+        </if>
+        <if test="devStatus != null">
+            AND `d`.status = #{devStatus,jdbcType=INTEGER}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.SmsMobileMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.SmsMobile" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="customerid" property="customerid" jdbcType="INTEGER" />
+    <result column="deviceid" property="deviceid" jdbcType="INTEGER" />
+    <result column="mobile1" property="mobile1" jdbcType="VARCHAR" />
+    <result column="mobile2" property="mobile2" jdbcType="VARCHAR" />
+    <result column="mobile3" property="mobile3" jdbcType="VARCHAR" />
+    <result column="mobile1desc" property="mobile1desc" jdbcType="VARCHAR" />
+    <result column="mobile2desc" property="mobile2desc" jdbcType="VARCHAR" />
+    <result column="mobile3desc" property="mobile3desc" jdbcType="VARCHAR" />
+    <result column="mobile4" property="mobile4" jdbcType="VARCHAR" />
+    <result column="mobile5" property="mobile5" jdbcType="VARCHAR" />
+    <result column="mobile6" property="mobile6" jdbcType="VARCHAR" />
+    <result column="mobile4desc" property="mobile4desc" jdbcType="VARCHAR" />
+    <result column="mobile5desc" property="mobile5desc" jdbcType="VARCHAR" />
+    <result column="mobile6desc" property="mobile6desc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, customerid, deviceid, mobile1, mobile2, mobile3, mobile1desc, mobile2desc, mobile3desc, 
+    mobile4, mobile5, mobile6, mobile4desc, mobile5desc, mobile6desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_smsmobile
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_smsmobile
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.SmsMobile" >
+    insert into t_smsmobile (id, customerid, deviceid, 
+      mobile1, mobile2, mobile3, 
+      mobile1desc, mobile2desc, mobile3desc, 
+      mobile4, mobile5, mobile6, 
+      mobile4desc, mobile5desc, mobile6desc
+      )
+    values (#{id,jdbcType=INTEGER}, #{customerid,jdbcType=INTEGER}, #{deviceid,jdbcType=INTEGER}, 
+      #{mobile1,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, #{mobile3,jdbcType=VARCHAR}, 
+      #{mobile1desc,jdbcType=VARCHAR}, #{mobile2desc,jdbcType=VARCHAR}, #{mobile3desc,jdbcType=VARCHAR}, 
+      #{mobile4,jdbcType=VARCHAR}, #{mobile5,jdbcType=VARCHAR}, #{mobile6,jdbcType=VARCHAR}, 
+      #{mobile4desc,jdbcType=VARCHAR}, #{mobile5desc,jdbcType=VARCHAR}, #{mobile6desc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.SmsMobile" >
+    insert into t_smsmobile
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customerid != null" >
+        customerid,
+      </if>
+      <if test="deviceid != null" >
+        deviceid,
+      </if>
+      <if test="mobile1 != null" >
+        mobile1,
+      </if>
+      <if test="mobile2 != null" >
+        mobile2,
+      </if>
+      <if test="mobile3 != null" >
+        mobile3,
+      </if>
+      <if test="mobile1desc != null" >
+        mobile1desc,
+      </if>
+      <if test="mobile2desc != null" >
+        mobile2desc,
+      </if>
+      <if test="mobile3desc != null" >
+        mobile3desc,
+      </if>
+      <if test="mobile4 != null" >
+        mobile4,
+      </if>
+      <if test="mobile5 != null" >
+        mobile5,
+      </if>
+      <if test="mobile6 != null" >
+        mobile6,
+      </if>
+      <if test="mobile4desc != null" >
+        mobile4desc,
+      </if>
+      <if test="mobile5desc != null" >
+        mobile5desc,
+      </if>
+      <if test="mobile6desc != null" >
+        mobile6desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="deviceid != null" >
+        #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="mobile1 != null" >
+        #{mobile1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile2 != null" >
+        #{mobile2,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile3 != null" >
+        #{mobile3,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile1desc != null" >
+        #{mobile1desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile2desc != null" >
+        #{mobile2desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile3desc != null" >
+        #{mobile3desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile4 != null" >
+        #{mobile4,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile5 != null" >
+        #{mobile5,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile6 != null" >
+        #{mobile6,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile4desc != null" >
+        #{mobile4desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile5desc != null" >
+        #{mobile5desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile6desc != null" >
+        #{mobile6desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.SmsMobile" >
+    update t_smsmobile
+    <set >
+      <if test="customerid != null" >
+        customerid = #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="deviceid != null" >
+        deviceid = #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="mobile1 != null" >
+        mobile1 = #{mobile1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile2 != null" >
+        mobile2 = #{mobile2,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile3 != null" >
+        mobile3 = #{mobile3,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile1desc != null" >
+        mobile1desc = #{mobile1desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile2desc != null" >
+        mobile2desc = #{mobile2desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile3desc != null" >
+        mobile3desc = #{mobile3desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile4 != null" >
+        mobile4 = #{mobile4,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile5 != null" >
+        mobile5 = #{mobile5,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile6 != null" >
+        mobile6 = #{mobile6,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile4desc != null" >
+        mobile4desc = #{mobile4desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile5desc != null" >
+        mobile5desc = #{mobile5desc,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile6desc != null" >
+        mobile6desc = #{mobile6desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.SmsMobile" >
+    update t_smsmobile
+    set customerid = #{customerid,jdbcType=INTEGER},
+      deviceid = #{deviceid,jdbcType=INTEGER},
+      mobile1 = #{mobile1,jdbcType=VARCHAR},
+      mobile2 = #{mobile2,jdbcType=VARCHAR},
+      mobile3 = #{mobile3,jdbcType=VARCHAR},
+      mobile1desc = #{mobile1desc,jdbcType=VARCHAR},
+      mobile2desc = #{mobile2desc,jdbcType=VARCHAR},
+      mobile3desc = #{mobile3desc,jdbcType=VARCHAR},
+      mobile4 = #{mobile4,jdbcType=VARCHAR},
+      mobile5 = #{mobile5,jdbcType=VARCHAR},
+      mobile6 = #{mobile6,jdbcType=VARCHAR},
+      mobile4desc = #{mobile4desc,jdbcType=VARCHAR},
+      mobile5desc = #{mobile5desc,jdbcType=VARCHAR},
+      mobile6desc = #{mobile6desc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plat.acoal.dao.OperationLogMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.OperationLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="operationUserID" jdbcType="INTEGER" property="operationuserid"/>
+        <result column="operationDate" jdbcType="TIMESTAMP" property="operationdate"/>
+        <result column="tAction" jdbcType="VARCHAR" property="taction"/>
+        <result column="tUrl" jdbcType="VARCHAR" property="turl"/>
+        <result column="tUrlName" jdbcType="VARCHAR" property="turlname"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, status, operationUserID, operationDate, tAction, tUrl, tUrlName, ip
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_operation_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectLogs" parameterType="com.plat.acoal.model.OperationIAO"
+            resultType="com.plat.acoal.model.OperationIAO">
+    SELECT
+	  tu.cUserName AS username,
+	  top.operationDate AS operationdate,
+	  top.tUrlName AS turlname,
+	  top.`status` AS `status`
+      FROM
+	  t_operation_log top
+	  INNER JOIN t_user tu ON tu.iUserID = top.operationUserID
+      WHERE
+	  1 = 1
+	  <if test="dcollectstart!=null">
+        AND top.operationDate BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}
+      </if>
+     <if test="dcollectend!=null">
+        AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+	    AND tu.cUserName = #{username,jdbcType=VARCHAR}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_operation_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.OperationLog">
+    insert into t_operation_log (id, status, operationUserID,
+      operationDate, tAction, tUrl,
+      tUrlName, ip)
+    values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{operationuserid,jdbcType=INTEGER},
+      #{operationdate,jdbcType=TIMESTAMP}, #{taction,jdbcType=VARCHAR}, #{turl,jdbcType=VARCHAR},
+      #{turlname,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.OperationLog">
+        insert into t_operation_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="operationuserid != null">
+                operationUserID,
+            </if>
+            <if test="operationdate != null">
+                operationDate,
+            </if>
+            <if test="taction != null">
+                tAction,
+            </if>
+            <if test="turl != null">
+                tUrl,
+            </if>
+            <if test="turlname != null">
+                tUrlName,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="operationuserid != null">
+                #{operationuserid,jdbcType=INTEGER},
+            </if>
+            <if test="operationdate != null">
+                #{operationdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="taction != null">
+                #{taction,jdbcType=VARCHAR},
+            </if>
+            <if test="turl != null">
+                #{turl,jdbcType=VARCHAR},
+            </if>
+            <if test="turlname != null">
+                #{turlname,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.OperationLog">
+        update t_operation_log
+        <set>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="operationuserid != null">
+                operationUserID = #{operationuserid,jdbcType=INTEGER},
+            </if>
+            <if test="operationdate != null">
+                operationDate = #{operationdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="taction != null">
+                tAction = #{taction,jdbcType=VARCHAR},
+            </if>
+            <if test="turl != null">
+                tUrl = #{turl,jdbcType=VARCHAR},
+            </if>
+            <if test="turlname != null">
+                tUrlName = #{turlname,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.OperationLog">
+    update t_operation_log
+    set status = #{status,jdbcType=INTEGER},
+      operationUserID = #{operationuserid,jdbcType=INTEGER},
+      operationDate = #{operationdate,jdbcType=TIMESTAMP},
+      tAction = #{taction,jdbcType=VARCHAR},
+      tUrl = #{turl,jdbcType=VARCHAR},
+      tUrlName = #{turlname,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

@@ -1,0 +1,24 @@
+package com.plat.acoal.service.impl;
+
+import com.plat.acoal.dao.GasMapper;
+import com.plat.acoal.model.GasModel;
+import com.plat.acoal.service.GasService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+@Service
+public class GasServiceImpl implements GasService {
+    @Autowired
+    public GasMapper gasMapper;
+
+    @Override
+    public List<GasModel> selectNewGasById(GasModel gasModel) {
+        return gasMapper.selectNewGasById(gasModel);
+    }
+
+    @Override
+    public List<GasModel> selectGasByHour(GasModel gasModel) {
+        return gasMapper.selectGasByHour(gasModel);
+    }
+}

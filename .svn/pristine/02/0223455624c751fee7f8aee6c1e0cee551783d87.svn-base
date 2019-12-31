@@ -1,0 +1,12 @@
+package com.plat.acoal.service;
+
+
+import com.plat.acoal.model.AlarmModel;
+
+import java.util.List;
+import java.util.Map;
+
+public interface AlarmService {
+    List<AlarmModel> selectAlarmModelByCondition(Integer currentPage, Map<String, String> condition);
+    int deleteByPrimaryKey(Long id);
+}

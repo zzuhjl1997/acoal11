@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.DevListMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.DevList" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="iCustomerID" property="icustomerid" jdbcType="INTEGER" />
+    <result column="cNo" property="cno" jdbcType="VARCHAR" />
+    <result column="cName" property="cname" jdbcType="VARCHAR" />
+    <result column="cBarcode" property="cbarcode" jdbcType="VARCHAR" />
+    <result column="cModel" property="cmodel" jdbcType="VARCHAR" />
+    <result column="cStdNo" property="cstdno" jdbcType="VARCHAR" />
+    <result column="cDetialConfig" property="cdetialconfig" jdbcType="VARCHAR" />
+    <result column="cManufactory" property="cmanufactory" jdbcType="VARCHAR" />
+    <result column="cClassify" property="cclassify" jdbcType="VARCHAR" />
+    <result column="cStorePlace" property="cstoreplace" jdbcType="VARCHAR" />
+    <result column="cKeeper" property="ckeeper" jdbcType="VARCHAR" />
+    <result column="cWeight" property="cweight" jdbcType="VARCHAR" />
+    <result column="cSize" property="csize" jdbcType="VARCHAR" />
+    <result column="dEntry" property="dentry" jdbcType="TIMESTAMP" />
+    <result column="dManufacture" property="dmanufacture" jdbcType="TIMESTAMP" />
+    <result column="fValueOrg" property="fvalueorg" jdbcType="REAL" />
+    <result column="fValueNet" property="fvaluenet" jdbcType="REAL" />
+    <result column="fValueAccDep" property="fvalueaccdep" jdbcType="REAL" />
+    <result column="fServiceLife" property="fservicelife" jdbcType="REAL" />
+    <result column="cRemark" property="cremark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, iCustomerID, cNo, cName, cBarcode, cModel, cStdNo, cDetialConfig, cManufactory, 
+    cClassify, cStorePlace, cKeeper, cWeight, cSize, dEntry, dManufacture, fValueOrg, 
+    fValueNet, fValueAccDep, fServiceLife, cRemark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from dev_list
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from dev_list
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.DevList" >
+    insert into dev_list (ID, iCustomerID, cNo, 
+      cName, cBarcode, cModel, 
+      cStdNo, cDetialConfig, cManufactory, 
+      cClassify, cStorePlace, cKeeper, 
+      cWeight, cSize, dEntry, 
+      dManufacture, fValueOrg, fValueNet, 
+      fValueAccDep, fServiceLife, cRemark
+      )
+    values (#{id,jdbcType=BIGINT}, #{icustomerid,jdbcType=INTEGER}, #{cno,jdbcType=VARCHAR}, 
+      #{cname,jdbcType=VARCHAR}, #{cbarcode,jdbcType=VARCHAR}, #{cmodel,jdbcType=VARCHAR}, 
+      #{cstdno,jdbcType=VARCHAR}, #{cdetialconfig,jdbcType=VARCHAR}, #{cmanufactory,jdbcType=VARCHAR}, 
+      #{cclassify,jdbcType=VARCHAR}, #{cstoreplace,jdbcType=VARCHAR}, #{ckeeper,jdbcType=VARCHAR}, 
+      #{cweight,jdbcType=VARCHAR}, #{csize,jdbcType=VARCHAR}, #{dentry,jdbcType=TIMESTAMP}, 
+      #{dmanufacture,jdbcType=TIMESTAMP}, #{fvalueorg,jdbcType=REAL}, #{fvaluenet,jdbcType=REAL}, 
+      #{fvalueaccdep,jdbcType=REAL}, #{fservicelife,jdbcType=REAL}, #{cremark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.DevList" >
+    insert into dev_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="icustomerid != null" >
+        iCustomerID,
+      </if>
+      <if test="cno != null" >
+        cNo,
+      </if>
+      <if test="cname != null" >
+        cName,
+      </if>
+      <if test="cbarcode != null" >
+        cBarcode,
+      </if>
+      <if test="cmodel != null" >
+        cModel,
+      </if>
+      <if test="cstdno != null" >
+        cStdNo,
+      </if>
+      <if test="cdetialconfig != null" >
+        cDetialConfig,
+      </if>
+      <if test="cmanufactory != null" >
+        cManufactory,
+      </if>
+      <if test="cclassify != null" >
+        cClassify,
+      </if>
+      <if test="cstoreplace != null" >
+        cStorePlace,
+      </if>
+      <if test="ckeeper != null" >
+        cKeeper,
+      </if>
+      <if test="cweight != null" >
+        cWeight,
+      </if>
+      <if test="csize != null" >
+        cSize,
+      </if>
+      <if test="dentry != null" >
+        dEntry,
+      </if>
+      <if test="dmanufacture != null" >
+        dManufacture,
+      </if>
+      <if test="fvalueorg != null" >
+        fValueOrg,
+      </if>
+      <if test="fvaluenet != null" >
+        fValueNet,
+      </if>
+      <if test="fvalueaccdep != null" >
+        fValueAccDep,
+      </if>
+      <if test="fservicelife != null" >
+        fServiceLife,
+      </if>
+      <if test="cremark != null" >
+        cRemark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="icustomerid != null" >
+        #{icustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="cno != null" >
+        #{cno,jdbcType=VARCHAR},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cbarcode != null" >
+        #{cbarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cmodel != null" >
+        #{cmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="cstdno != null" >
+        #{cstdno,jdbcType=VARCHAR},
+      </if>
+      <if test="cdetialconfig != null" >
+        #{cdetialconfig,jdbcType=VARCHAR},
+      </if>
+      <if test="cmanufactory != null" >
+        #{cmanufactory,jdbcType=VARCHAR},
+      </if>
+      <if test="cclassify != null" >
+        #{cclassify,jdbcType=VARCHAR},
+      </if>
+      <if test="cstoreplace != null" >
+        #{cstoreplace,jdbcType=VARCHAR},
+      </if>
+      <if test="ckeeper != null" >
+        #{ckeeper,jdbcType=VARCHAR},
+      </if>
+      <if test="cweight != null" >
+        #{cweight,jdbcType=VARCHAR},
+      </if>
+      <if test="csize != null" >
+        #{csize,jdbcType=VARCHAR},
+      </if>
+      <if test="dentry != null" >
+        #{dentry,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dmanufacture != null" >
+        #{dmanufacture,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fvalueorg != null" >
+        #{fvalueorg,jdbcType=REAL},
+      </if>
+      <if test="fvaluenet != null" >
+        #{fvaluenet,jdbcType=REAL},
+      </if>
+      <if test="fvalueaccdep != null" >
+        #{fvalueaccdep,jdbcType=REAL},
+      </if>
+      <if test="fservicelife != null" >
+        #{fservicelife,jdbcType=REAL},
+      </if>
+      <if test="cremark != null" >
+        #{cremark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.DevList" >
+    update dev_list
+    <set >
+      <if test="icustomerid != null" >
+        iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="cno != null" >
+        cNo = #{cno,jdbcType=VARCHAR},
+      </if>
+      <if test="cname != null" >
+        cName = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cbarcode != null" >
+        cBarcode = #{cbarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cmodel != null" >
+        cModel = #{cmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="cstdno != null" >
+        cStdNo = #{cstdno,jdbcType=VARCHAR},
+      </if>
+      <if test="cdetialconfig != null" >
+        cDetialConfig = #{cdetialconfig,jdbcType=VARCHAR},
+      </if>
+      <if test="cmanufactory != null" >
+        cManufactory = #{cmanufactory,jdbcType=VARCHAR},
+      </if>
+      <if test="cclassify != null" >
+        cClassify = #{cclassify,jdbcType=VARCHAR},
+      </if>
+      <if test="cstoreplace != null" >
+        cStorePlace = #{cstoreplace,jdbcType=VARCHAR},
+      </if>
+      <if test="ckeeper != null" >
+        cKeeper = #{ckeeper,jdbcType=VARCHAR},
+      </if>
+      <if test="cweight != null" >
+        cWeight = #{cweight,jdbcType=VARCHAR},
+      </if>
+      <if test="csize != null" >
+        cSize = #{csize,jdbcType=VARCHAR},
+      </if>
+      <if test="dentry != null" >
+        dEntry = #{dentry,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dmanufacture != null" >
+        dManufacture = #{dmanufacture,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fvalueorg != null" >
+        fValueOrg = #{fvalueorg,jdbcType=REAL},
+      </if>
+      <if test="fvaluenet != null" >
+        fValueNet = #{fvaluenet,jdbcType=REAL},
+      </if>
+      <if test="fvalueaccdep != null" >
+        fValueAccDep = #{fvalueaccdep,jdbcType=REAL},
+      </if>
+      <if test="fservicelife != null" >
+        fServiceLife = #{fservicelife,jdbcType=REAL},
+      </if>
+      <if test="cremark != null" >
+        cRemark = #{cremark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.DevList" >
+    update dev_list
+    set iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      cNo = #{cno,jdbcType=VARCHAR},
+      cName = #{cname,jdbcType=VARCHAR},
+      cBarcode = #{cbarcode,jdbcType=VARCHAR},
+      cModel = #{cmodel,jdbcType=VARCHAR},
+      cStdNo = #{cstdno,jdbcType=VARCHAR},
+      cDetialConfig = #{cdetialconfig,jdbcType=VARCHAR},
+      cManufactory = #{cmanufactory,jdbcType=VARCHAR},
+      cClassify = #{cclassify,jdbcType=VARCHAR},
+      cStorePlace = #{cstoreplace,jdbcType=VARCHAR},
+      cKeeper = #{ckeeper,jdbcType=VARCHAR},
+      cWeight = #{cweight,jdbcType=VARCHAR},
+      cSize = #{csize,jdbcType=VARCHAR},
+      dEntry = #{dentry,jdbcType=TIMESTAMP},
+      dManufacture = #{dmanufacture,jdbcType=TIMESTAMP},
+      fValueOrg = #{fvalueorg,jdbcType=REAL},
+      fValueNet = #{fvaluenet,jdbcType=REAL},
+      fValueAccDep = #{fvalueaccdep,jdbcType=REAL},
+      fServiceLife = #{fservicelife,jdbcType=REAL},
+      cRemark = #{cremark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

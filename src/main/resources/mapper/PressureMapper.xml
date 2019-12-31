@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.PressureMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Pressure" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dCollectDT" property="dcollectdt" jdbcType="TIMESTAMP" />
+    <result column="tpressure" property="tpressure" jdbcType="REAL" />
+    <result column="dev_id" property="devId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dCollectDT, tpressure, dev_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_pressure
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 查询最新压力信息-->
+    <select id="selectNewPById" resultType="com.plat.acoal.model.PressureFlowModel">
+      SELECT
+      dCollectDT,tpressure,dev_id as devid
+      FROM
+      t_pressure
+      WHERE
+      1 = 1
+      <if test="devid!=null">
+        AND dev_id= #{devid,jdbcType=BIGINT}
+      </if>
+      ORDER BY
+      dCollectDT DESC
+      LIMIT 3
+    </select>
+
+  <select id="selectPByHour" resultType="com.plat.acoal.model.PressureFlowModel" parameterType="com.plat.acoal.model.PressureFlowModel">
+    SELECT
+    DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
+    tpressure,dev_id as devid
+    FROM
+    t_pressure_history
+    WHERE
+    1 = 1
+    <if test="devid!=null">
+      AND dev_id= #{devid,jdbcType=BIGINT}
+    </if>
+    <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
+    <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+    group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
+    ORDER BY
+    id ASC
+    LIMIT 24
+  </select>
+
+</mapper>

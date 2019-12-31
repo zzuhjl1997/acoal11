@@ -1,0 +1,65 @@
+package com.plat.acoal.entity;
+
+import java.util.Date;
+
+public class Gas {
+    private Long id;
+
+    private Date dcollectdt;
+
+    private Float gco;
+
+    private Float gch4;
+
+    private Float go2;
+
+    private Integer devId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDcollectdt() {
+        return dcollectdt;
+    }
+
+    public void setDcollectdt(Date dcollectdt) {
+        this.dcollectdt = dcollectdt;
+    }
+
+    public Float getGco() {
+        return gco;
+    }
+
+    public void setGco(Float gco) {
+        this.gco = gco;
+    }
+
+    public Float getGch4() {
+        return gch4;
+    }
+
+    public void setGch4(Float gch4) {
+        this.gch4 = gch4;
+    }
+
+    public Float getGo2() {
+        return go2;
+    }
+
+    public void setGo2(Float go2) {
+        this.go2 = go2;
+    }
+
+    public Integer getDevId() {
+        return devId;
+    }
+
+    public void setDevId(Integer devId) {
+        this.devId = devId;
+    }
+}

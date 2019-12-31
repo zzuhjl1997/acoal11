@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.EventMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Event" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="iEventType" property="ieventtype" jdbcType="TINYINT" />
+    <result column="dOccurDT" property="doccurdt" jdbcType="TIMESTAMP" />
+    <result column="cAllOccurDT" property="calloccurdt" jdbcType="VARCHAR" />
+    <result column="iAddress" property="iaddress" jdbcType="INTEGER" />
+    <result column="iDevGroup" property="idevgroup" jdbcType="INTEGER" />
+    <result column="iPhase" property="iphase" jdbcType="TINYINT" />
+    <result column="iDayOccurCnt" property="idayoccurcnt" jdbcType="INTEGER" />
+    <result column="cTagFilter" property="ctagfilter" jdbcType="VARCHAR" />
+    <result column="cEventMsg" property="ceventmsg" jdbcType="VARCHAR" />
+    <result column="iDealWithType" property="idealwithtype" jdbcType="TINYINT" />
+    <result column="isConfirm" property="isconfirm" jdbcType="TINYINT" />
+    <result column="cRemark" property="cremark" jdbcType="VARCHAR" />
+    <result column="iLevel" property="ilevel" jdbcType="TINYINT" />
+    <result column="dDealTime" property="ddealtime" jdbcType="TIMESTAMP" />
+    <result column="iDealUid" property="idealuid" jdbcType="INTEGER" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="isfault" property="isfault" jdbcType="TINYINT" />
+    <result column="isread" property="isread" jdbcType="INTEGER" />
+    <result column="curvalue" property="curvalue" jdbcType="DOUBLE" />
+    <result column="lmtvalue" property="lmtvalue" jdbcType="DOUBLE" />
+    <result column="iDeviceId" property="ideviceid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, iEventType, dOccurDT, cAllOccurDT, iAddress, iDevGroup, iPhase, iDayOccurCnt, 
+    cTagFilter, cEventMsg, iDealWithType, isConfirm, cRemark, iLevel, dDealTime, iDealUid, 
+    updatetime, isfault, isread, curvalue, lmtvalue, iDeviceId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_event
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_event
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.Event" >
+    insert into t_event (ID, iEventType, dOccurDT, 
+      cAllOccurDT, iAddress, iDevGroup, 
+      iPhase, iDayOccurCnt, cTagFilter, 
+      cEventMsg, iDealWithType, isConfirm, 
+      cRemark, iLevel, dDealTime, 
+      iDealUid, updatetime, isfault, 
+      isread, curvalue, lmtvalue, 
+      iDeviceId)
+    values (#{id,jdbcType=BIGINT}, #{ieventtype,jdbcType=TINYINT}, #{doccurdt,jdbcType=TIMESTAMP}, 
+      #{calloccurdt,jdbcType=VARCHAR}, #{iaddress,jdbcType=INTEGER}, #{idevgroup,jdbcType=INTEGER}, 
+      #{iphase,jdbcType=TINYINT}, #{idayoccurcnt,jdbcType=INTEGER}, #{ctagfilter,jdbcType=VARCHAR}, 
+      #{ceventmsg,jdbcType=VARCHAR}, #{idealwithtype,jdbcType=TINYINT}, #{isconfirm,jdbcType=TINYINT}, 
+      #{cremark,jdbcType=VARCHAR}, #{ilevel,jdbcType=TINYINT}, #{ddealtime,jdbcType=TIMESTAMP}, 
+      #{idealuid,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, #{isfault,jdbcType=TINYINT}, 
+      #{isread,jdbcType=INTEGER}, #{curvalue,jdbcType=DOUBLE}, #{lmtvalue,jdbcType=DOUBLE}, 
+      #{ideviceid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.Event" >
+    insert into t_event
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="ieventtype != null" >
+        iEventType,
+      </if>
+      <if test="doccurdt != null" >
+        dOccurDT,
+      </if>
+      <if test="calloccurdt != null" >
+        cAllOccurDT,
+      </if>
+      <if test="iaddress != null" >
+        iAddress,
+      </if>
+      <if test="idevgroup != null" >
+        iDevGroup,
+      </if>
+      <if test="iphase != null" >
+        iPhase,
+      </if>
+      <if test="idayoccurcnt != null" >
+        iDayOccurCnt,
+      </if>
+      <if test="ctagfilter != null" >
+        cTagFilter,
+      </if>
+      <if test="ceventmsg != null" >
+        cEventMsg,
+      </if>
+      <if test="idealwithtype != null" >
+        iDealWithType,
+      </if>
+      <if test="isconfirm != null" >
+        isConfirm,
+      </if>
+      <if test="cremark != null" >
+        cRemark,
+      </if>
+      <if test="ilevel != null" >
+        iLevel,
+      </if>
+      <if test="ddealtime != null" >
+        dDealTime,
+      </if>
+      <if test="idealuid != null" >
+        iDealUid,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="isfault != null" >
+        isfault,
+      </if>
+      <if test="isread != null" >
+        isread,
+      </if>
+      <if test="curvalue != null" >
+        curvalue,
+      </if>
+      <if test="lmtvalue != null" >
+        lmtvalue,
+      </if>
+      <if test="ideviceid != null" >
+        iDeviceId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ieventtype != null" >
+        #{ieventtype,jdbcType=TINYINT},
+      </if>
+      <if test="doccurdt != null" >
+        #{doccurdt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calloccurdt != null" >
+        #{calloccurdt,jdbcType=VARCHAR},
+      </if>
+      <if test="iaddress != null" >
+        #{iaddress,jdbcType=INTEGER},
+      </if>
+      <if test="idevgroup != null" >
+        #{idevgroup,jdbcType=INTEGER},
+      </if>
+      <if test="iphase != null" >
+        #{iphase,jdbcType=TINYINT},
+      </if>
+      <if test="idayoccurcnt != null" >
+        #{idayoccurcnt,jdbcType=INTEGER},
+      </if>
+      <if test="ctagfilter != null" >
+        #{ctagfilter,jdbcType=VARCHAR},
+      </if>
+      <if test="ceventmsg != null" >
+        #{ceventmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="idealwithtype != null" >
+        #{idealwithtype,jdbcType=TINYINT},
+      </if>
+      <if test="isconfirm != null" >
+        #{isconfirm,jdbcType=TINYINT},
+      </if>
+      <if test="cremark != null" >
+        #{cremark,jdbcType=VARCHAR},
+      </if>
+      <if test="ilevel != null" >
+        #{ilevel,jdbcType=TINYINT},
+      </if>
+      <if test="ddealtime != null" >
+        #{ddealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idealuid != null" >
+        #{idealuid,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isfault != null" >
+        #{isfault,jdbcType=TINYINT},
+      </if>
+      <if test="isread != null" >
+        #{isread,jdbcType=INTEGER},
+      </if>
+      <if test="curvalue != null" >
+        #{curvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="lmtvalue != null" >
+        #{lmtvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="ideviceid != null" >
+        #{ideviceid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Event" >
+    update t_event
+    <set >
+      <if test="ieventtype != null" >
+        iEventType = #{ieventtype,jdbcType=TINYINT},
+      </if>
+      <if test="doccurdt != null" >
+        dOccurDT = #{doccurdt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calloccurdt != null" >
+        cAllOccurDT = #{calloccurdt,jdbcType=VARCHAR},
+      </if>
+      <if test="iaddress != null" >
+        iAddress = #{iaddress,jdbcType=INTEGER},
+      </if>
+      <if test="idevgroup != null" >
+        iDevGroup = #{idevgroup,jdbcType=INTEGER},
+      </if>
+      <if test="iphase != null" >
+        iPhase = #{iphase,jdbcType=TINYINT},
+      </if>
+      <if test="idayoccurcnt != null" >
+        iDayOccurCnt = #{idayoccurcnt,jdbcType=INTEGER},
+      </if>
+      <if test="ctagfilter != null" >
+        cTagFilter = #{ctagfilter,jdbcType=VARCHAR},
+      </if>
+      <if test="ceventmsg != null" >
+        cEventMsg = #{ceventmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="idealwithtype != null" >
+        iDealWithType = #{idealwithtype,jdbcType=TINYINT},
+      </if>
+      <if test="isconfirm != null" >
+        isConfirm = #{isconfirm,jdbcType=TINYINT},
+      </if>
+      <if test="cremark != null" >
+        cRemark = #{cremark,jdbcType=VARCHAR},
+      </if>
+      <if test="ilevel != null" >
+        iLevel = #{ilevel,jdbcType=TINYINT},
+      </if>
+      <if test="ddealtime != null" >
+        dDealTime = #{ddealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idealuid != null" >
+        iDealUid = #{idealuid,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isfault != null" >
+        isfault = #{isfault,jdbcType=TINYINT},
+      </if>
+      <if test="isread != null" >
+        isread = #{isread,jdbcType=INTEGER},
+      </if>
+      <if test="curvalue != null" >
+        curvalue = #{curvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="lmtvalue != null" >
+        lmtvalue = #{lmtvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="ideviceid != null" >
+        iDeviceId = #{ideviceid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Event" >
+    update t_event
+    set iEventType = #{ieventtype,jdbcType=TINYINT},
+      dOccurDT = #{doccurdt,jdbcType=TIMESTAMP},
+      cAllOccurDT = #{calloccurdt,jdbcType=VARCHAR},
+      iAddress = #{iaddress,jdbcType=INTEGER},
+      iDevGroup = #{idevgroup,jdbcType=INTEGER},
+      iPhase = #{iphase,jdbcType=TINYINT},
+      iDayOccurCnt = #{idayoccurcnt,jdbcType=INTEGER},
+      cTagFilter = #{ctagfilter,jdbcType=VARCHAR},
+      cEventMsg = #{ceventmsg,jdbcType=VARCHAR},
+      iDealWithType = #{idealwithtype,jdbcType=TINYINT},
+      isConfirm = #{isconfirm,jdbcType=TINYINT},
+      cRemark = #{cremark,jdbcType=VARCHAR},
+      iLevel = #{ilevel,jdbcType=TINYINT},
+      dDealTime = #{ddealtime,jdbcType=TIMESTAMP},
+      iDealUid = #{idealuid,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      isfault = #{isfault,jdbcType=TINYINT},
+      isread = #{isread,jdbcType=INTEGER},
+      curvalue = #{curvalue,jdbcType=DOUBLE},
+      lmtvalue = #{lmtvalue,jdbcType=DOUBLE},
+      iDeviceId = #{ideviceid,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

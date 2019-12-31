@@ -1,0 +1,91 @@
+package com.plat.acoal.controller;
+
+import com.alibaba.fastjson.JSON;
+import com.plat.acoal.entity.Dev;
+import com.plat.acoal.service.impl.DevServiceImpl;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
+@RestController
+@Log4j2
+@RequestMapping(value = "/dev", produces = "application/json;charset=UTF-8")
+public class DevContorller {
+    @Autowired
+    private DevServiceImpl dsi;
+    @GetMapping("/dim")
+    public String selectDevInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session){
+        /*User user = (User)session.getAttribute("user");
+        Integer customerId = user.getIcustomerid();
+        condition.put("customerId",customerId.toString());*/
+        Integer currentPage = 1;
+        if (condition.containsKey("currentPage")) {
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            condition.remove("currentPage");
+        } else {
+            currentPage = null;
+        }
+        return JSON.toJSONString(dsi.selectDevInfoModelByCondtition(currentPage,condition));
+    }
+    @GetMapping("/name")
+    public String selectNameByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+        /*User user = (User)session.getAttribute("user");
+        Integer customerId = user.getIcustomerid();
+        condition.put("customerId",customerId.toString());*/
+        return JSON.toJSONString(dsi.selectNameByCondition(condition));
+    }
+    @GetMapping("/type")
+    public String selectTypeByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+        /*User user = (User)session.getAttribute("user");
+        Integer customerid = user.getIcustomerid();
+        condition.put("customer",customer);
+        */
+        return JSON.toJSONString(dsi.selectTypeByCondition(condition));
+    }
+    @GetMapping("/dam")
+    public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+        /*User user = (User)session.getAttribute("user");
+        Integer customerId = user.getIcustomerid();
+        condition.put("customerId",customerId.toString());*/
+        Integer currentPage = 1;
+        if (condition.containsKey("currentPage")) {
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            condition.remove("currentPage");
+        } else {
+            currentPage = null;
+        }
+        return JSON.toJSONString(dsi.selectDevActiveModelByCondtition(currentPage,condition));
+    };
+    /**
+     * 查询消防炮状态
+     */
+
+    @GetMapping("/fire")
+    public String getFireStatus(Dev dev, HttpServletRequest request) {
+
+        String devid = "3";
+        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
+            devid = request.getParameter("devid");
+        }
+
+
+
+
+
+        return  null;
+
+
+    }
+
+
+
+
+}

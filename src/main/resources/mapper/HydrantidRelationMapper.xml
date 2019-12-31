@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.HydrantidRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.HydrantidRelation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="hydrantid" property="hydrantid" jdbcType="INTEGER" />
+    <result column="flowid" property="flowid" jdbcType="INTEGER" />
+    <result column="pressureid" property="pressureid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, hydrantid, flowid, pressureid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_hydrantid_relation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByHid" resultType="com.plat.acoal.entity.HydrantidRelation">
+      select
+      <include refid="Base_Column_List" />
+      from t_hydrantid_relation
+      where hydrantid = #{hydrantid,jdbcType=INTEGER}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_hydrantid_relation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.HydrantidRelation" >
+    insert into t_hydrantid_relation (id, hydrantid, flowid, 
+      pressureid)
+    values (#{id,jdbcType=INTEGER}, #{hydrantid,jdbcType=INTEGER}, #{flowid,jdbcType=INTEGER}, 
+      #{pressureid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.HydrantidRelation" >
+    insert into t_hydrantid_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="hydrantid != null" >
+        hydrantid,
+      </if>
+      <if test="flowid != null" >
+        flowid,
+      </if>
+      <if test="pressureid != null" >
+        pressureid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hydrantid != null" >
+        #{hydrantid,jdbcType=INTEGER},
+      </if>
+      <if test="flowid != null" >
+        #{flowid,jdbcType=INTEGER},
+      </if>
+      <if test="pressureid != null" >
+        #{pressureid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.HydrantidRelation" >
+    update t_hydrantid_relation
+    <set >
+      <if test="hydrantid != null" >
+        hydrantid = #{hydrantid,jdbcType=INTEGER},
+      </if>
+      <if test="flowid != null" >
+        flowid = #{flowid,jdbcType=INTEGER},
+      </if>
+      <if test="pressureid != null" >
+        pressureid = #{pressureid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.HydrantidRelation" >
+    update t_hydrantid_relation
+    set hydrantid = #{hydrantid,jdbcType=INTEGER},
+      flowid = #{flowid,jdbcType=INTEGER},
+      pressureid = #{pressureid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

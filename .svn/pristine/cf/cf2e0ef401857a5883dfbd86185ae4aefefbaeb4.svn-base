@@ -1,0 +1,24 @@
+package com.plat.acoal.dao;
+
+import com.plat.acoal.entity.Gas;
+import com.plat.acoal.model.GasModel;
+
+import java.util.List;
+
+public interface GasMapper {
+    int deleteByPrimaryKey(Long id);
+
+    int insert(Gas record);
+
+    int insertSelective(Gas record);
+
+    Gas selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(Gas record);
+
+    int updateByPrimaryKey(Gas record);
+    List<GasModel> selectNewGasById(GasModel gasModel);
+    List<GasModel> selectGasByHour(GasModel gasModel);
+
+    List<Gas> selectGasByRegionId(Integer regionId);
+}

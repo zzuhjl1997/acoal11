@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.DevModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.DevModule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="moduleid" property="moduleid" jdbcType="BIGINT" />
+    <result column="devaddress" property="devaddress" jdbcType="VARCHAR" />
+    <result column="customerid" property="customerid" jdbcType="INTEGER" />
+    <result column="simcard" property="simcard" jdbcType="VARCHAR" />
+    <result column="protocoltype" property="protocoltype" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, moduleid, devaddress, customerid, simcard, protocoltype, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_devmodule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_devmodule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.DevModule" >
+    insert into t_devmodule (id, moduleid, devaddress, 
+      customerid, simcard, protocoltype, 
+      updatetime)
+    values (#{id,jdbcType=INTEGER}, #{moduleid,jdbcType=BIGINT}, #{devaddress,jdbcType=VARCHAR}, 
+      #{customerid,jdbcType=INTEGER}, #{simcard,jdbcType=VARCHAR}, #{protocoltype,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.DevModule" >
+    insert into t_devmodule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="moduleid != null" >
+        moduleid,
+      </if>
+      <if test="devaddress != null" >
+        devaddress,
+      </if>
+      <if test="customerid != null" >
+        customerid,
+      </if>
+      <if test="simcard != null" >
+        simcard,
+      </if>
+      <if test="protocoltype != null" >
+        protocoltype,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="moduleid != null" >
+        #{moduleid,jdbcType=BIGINT},
+      </if>
+      <if test="devaddress != null" >
+        #{devaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="simcard != null" >
+        #{simcard,jdbcType=VARCHAR},
+      </if>
+      <if test="protocoltype != null" >
+        #{protocoltype,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.DevModule" >
+    update t_devmodule
+    <set >
+      <if test="moduleid != null" >
+        moduleid = #{moduleid,jdbcType=BIGINT},
+      </if>
+      <if test="devaddress != null" >
+        devaddress = #{devaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        customerid = #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="simcard != null" >
+        simcard = #{simcard,jdbcType=VARCHAR},
+      </if>
+      <if test="protocoltype != null" >
+        protocoltype = #{protocoltype,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.DevModule" >
+    update t_devmodule
+    set moduleid = #{moduleid,jdbcType=BIGINT},
+      devaddress = #{devaddress,jdbcType=VARCHAR},
+      customerid = #{customerid,jdbcType=INTEGER},
+      simcard = #{simcard,jdbcType=VARCHAR},
+      protocoltype = #{protocoltype,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
