@@ -57,8 +57,8 @@ public class DevServiceImpl implements DevService {
     }
 
     @Override
-    public int selectCountByType(int type) {
-        return dm.selectCountByType(type);
+    public int selectCountByType(Map<String, String> condition) {
+        return dm.selectCountByType(condition);
     }
 
 
@@ -66,6 +66,16 @@ public class DevServiceImpl implements DevService {
     @Override
     public List<Dev> selectDevByRegion(Integer currentPage, Dev dev) {
         return dm.selectDevInfoByCon(dev);
+    }
+
+    @Override
+    public List<DevInfo> selectDevInfoByCondition(Map<String, String> condition) {
+        return dm.selectDevInfoByCus(condition);
+    }
+
+    @Override
+    public List<DevInfo> selectDevByCondition(Map<String, String> condition) {
+        return dm.selectDevByCondition(condition);
     }
 
 

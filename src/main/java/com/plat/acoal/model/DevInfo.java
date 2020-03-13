@@ -36,6 +36,8 @@ public class DevInfo {
     private Integer status;
 
     private double fT;
+    private double tflow;
+    private double tpressure;
 
     private String typename;
 

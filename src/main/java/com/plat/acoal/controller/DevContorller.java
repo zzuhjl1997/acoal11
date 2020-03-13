@@ -12,6 +12,8 @@ import com.plat.acoal.service.RegionService;
 import com.plat.acoal.service.impl.AlarmServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.RegionServiceImpl;
+import com.plat.acoal.utils.NumberUtil;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 @Log4j2
@@ -154,7 +157,7 @@ public class DevContorller {
      * @return
      */
     @GetMapping("/newstatus")
-    public String getStatus(Dev dev, HttpServletRequest request) {
+    public String getStatus(@RequestParam Map<String, String> condition, Dev dev, HttpServletRequest request) {
         String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
@@ -166,7 +169,7 @@ public class DevContorller {
         int sum = 0;
         if (newDev != null) {
             int type = newDev.getType();
-            sum = devServiceImpl.selectCountByType(type);
+            sum = devServiceImpl.selectCountByType(condition);
         }
         ResultData resultData = new ResultData();
         resultData.setDev(dev);
@@ -176,7 +179,7 @@ public class DevContorller {
     }
 
     /**
-     * 获取监测点列表
+     * 获取监测点列表  树状图
      */
     @GetMapping("/devlist")
     private String getdevlist(@RequestParam Map<String, String> condition, HttpSession session) {
@@ -208,12 +211,193 @@ public class DevContorller {
                 dev.setRegion(item.getId());
             }
             List<Dev> listdev = devServiceImpl.selectDevByRegion(currentPage, dev);
-
             item.setDevs(listdev);
             listrg_re.add(item);
         }
 
         return JSON.toJSONString(listrg_re, SerializerFeature.DisableCircularReferenceDetect);
     }
+
+    /**
+     * 获取风机的列表 或者其他设备的列表
+     *
+     * @param
+     */
+    @GetMapping("/fanlist")
+    private String getfanlist(@RequestParam Map<String, String> condition, HttpSession session) {
+        Integer customerId = 2;
+        Integer count = null;
+        List<DevInfo> list = devServiceImpl.selectDevInfoByCondition(condition);
+        count = devServiceImpl.selectCountByType(condition);
+        ResultData resultData = new ResultData();
+        resultData.setData(list);
+        resultData.setCount(count);
+        return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    /**
+     * 获取设备在线率  首页》》设备在线率
+     * 思路：查询每个种类设备的总数
+     * 设置status的值为1时的在线设备总数
+     * 在线/总设备=设备在线率
+     * List(Map<String,Integer>)
+     */
+    @GetMapping("/onlinerate")
+    private String onlinerate(@RequestParam Map<String, String> condition, HttpSession session) {
+        Integer customerId = 2;
+        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        Map<String, String> param_tem = new HashMap<String, String>();
+        Map<String, String> param_co = new HashMap<String, String>();
+        Map<String, String> param_ch4 = new HashMap<String, String>();
+        Map<String, String> param_dust = new HashMap<String, String>();
+        Map<String, String> param_press = new HashMap<String, String>();
+        Map<String, String> param_flow = new HashMap<String, String>();
+
+
+        //红外线温度
+        Integer count_tem = null;
+        Integer count_tem_online = null;
+        double tem_online = 0.0;
+
+        condition.put("type", "2");
+        count_tem = devServiceImpl.selectCountByType(condition);
+        condition.put("status", "1");
+        count_tem_online = devServiceImpl.selectCountByType(condition);
+        tem_online = count_tem_online / count_tem;
+        param_tem.put("tem_online", String.valueOf(NumberUtil.DecimalToPercent(tem_online)));
+        list.add(param_tem);
+        condition.put("status", "null");
+        //co
+        Integer count_co = null;
+        Integer count_co_online = null;
+        double co_online = 0.0;
+        condition.put("type", "5");
+        count_co = devServiceImpl.selectCountByType(condition);
+        condition.put("status", "1");
+        count_co_online = devServiceImpl.selectCountByType(condition);
+        co_online = count_co_online / count_co;
+        param_co.put("co_online", String.valueOf(NumberUtil.DecimalToPercent(co_online)));
+        list.add(param_co);
+
+        condition.put("status", "null");
+        //ch4
+        Integer count_ch4 = null;
+        Integer count_ch4_online = null;
+        double ch4_online = 0.0;
+
+        condition.put("status", "null");
+        condition.put("type", "6");
+        count_ch4 = devServiceImpl.selectCountByType(condition);
+        condition.put("status", "1");
+        count_ch4_online = devServiceImpl.selectCountByType(condition);
+        ch4_online = count_ch4_online / count_ch4;
+        param_ch4.put("ch4_online", String.valueOf(NumberUtil.DecimalToPercent(ch4_online)));
+        list.add(param_ch4);
+
+
+        condition.put("status", "null");
+
+        //粉尘
+        Integer count_dust = null;
+        Integer count_dust_online = null;
+        double dust_online = 0.0;
+
+        condition.put("status", "null");
+
+        condition.put("type", "4");
+        count_dust = devServiceImpl.selectCountByType(condition);
+        condition.put("status", "1");
+        count_dust_online = devServiceImpl.selectCountByType(condition);
+        dust_online = count_dust_online / count_dust;
+        param_dust.put("dust_online", String.valueOf(NumberUtil.DecimalToPercent(dust_online)));
+        list.add(param_dust);
+
+
+        condition.put("status", "null");
+
+        //水压
+        Integer count_press = null;
+        Integer count_press_online = null;
+        double press_online = 0.0;
+
+        condition.put("type", "7");
+        count_press = devServiceImpl.selectCountByType(condition);
+        condition.put("status", "1");
+        count_press_online = devServiceImpl.selectCountByType(condition);
+        dust_online = count_press_online / count_press;
+        param_press.put("press_online", String.valueOf(NumberUtil.DecimalToPercent(press_online)));
+        list.add(param_press);
+
+
+        condition.put("status", "null");
+
+        //流量
+        Integer count_flow = null;
+        Integer count_flow_online = null;
+        double flow_online = 0.0;
+
+        condition.put("type", "8");
+        count_flow = devServiceImpl.selectCountByType(condition);
+        condition.put("status", "1");
+        count_flow_online = devServiceImpl.selectCountByType(condition);
+        flow_online = count_flow_online / count_flow;
+        param_flow.put("flow_online", String.valueOf(NumberUtil.DecimalToPercent(flow_online)));
+        list.add(param_flow);
+
+//        resultData.setCount(count);
+        return JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    /**
+     * 获取大屏实时数据 三个表格 三个坐标轴
+     */
+    @GetMapping("/realtimedata")
+    private String realtimedata(@RequestParam Map<String, String> condition, HttpSession session){
+
+        Integer customerId = 2;
+        //获取CO,CH4,粉尘实时数据
+        int pos=0;
+
+
+        String[] press_devname=null;
+        double[] press_value=null;
+
+
+
+        String[] tem_devname=null;
+        double[] tem_value=null;
+
+
+        String[] flow_devname=null;
+        double[] flow_value=null;
+
+        condition.put("type","5");
+        List<DevInfo> list_co=devServiceImpl.selectDevByCondition(condition);
+        condition.put("type","6");
+        List<DevInfo> list_ch4=devServiceImpl.selectDevByCondition(condition);
+        condition.put("type","4");
+        List<DevInfo> list_dust=devServiceImpl.selectDevByCondition(condition);
+
+        //获取某区域水压温度流量
+        condition.put("type","7");
+        condition.put("region","1")
+        List<DevInfo> list_press=devServiceImpl.selectDevByCondition(condition);
+        for (DevInfo devInfo:list_press
+             ) {
+            press_devname[pos]=devInfo.getDevname();
+            press_value[pos]=devInfo.getTpressure();
+            pos ++;
+        }
+
+
+
+
+
+       // return JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
+
+
+    }
+
+
 
 }

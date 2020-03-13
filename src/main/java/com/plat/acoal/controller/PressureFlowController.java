@@ -1,23 +1,29 @@
 package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.entity.HydrantidRelation;
+import com.plat.acoal.entity.Region;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.PressureFlowModel;
+import com.plat.acoal.model.RegionModel;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.HydrantidRelationServiceImpl;
 import com.plat.acoal.service.impl.PressureFlowServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,13 +89,30 @@ public class PressureFlowController {
         //根据消防栓Id查找设备Id
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
         pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
-        List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
-        for (PressureFlowModel d : newPress
+        List<PressureFlowModel> newFlow = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
+        String []arrtime=new String[4];
+        double []flow={0.0,0.0,0.0,0.0};
+        int pos=0;
+        for (PressureFlowModel d : newFlow
         ) {
-            Date dt = d.getDcollectdt();
-            d.setDcollectdt_re(DateUtil.dateToString(dt));
+            if (d!=null){
+                Date dt = d.getDcollectdt();
+                d.setDcollectdt_re(DateUtil.dateToString(dt));
+                arrtime[pos]=DateUtil.dateToString(dt);
+
+               flow[pos]=d.getTflow();
+               pos++;
+
+
+            }
+
         }
-        return JSON.toJSONString(newPress);
+        ResultData resultData=new ResultData();
+        resultData.setArrsdata1(arrtime);
+        resultData.setArrddata3(flow);
+
+
+        return JSON.toJSONString(resultData);
     }
 
     /**
@@ -98,7 +121,7 @@ public class PressureFlowController {
      * @param request
      * @return
      */
-    @GetMapping("/pList")
+/*    @GetMapping("/pList")
     public String getPList(DevInfo devInfo, HttpServletRequest request) {
 
 
@@ -110,26 +133,32 @@ public class PressureFlowController {
             item.setCount(count);
         }
         return JSON.toJSONString(listinfo);
-    }
+    }*/
 
     /**
-     * 水流监控列表
+     * 水流水压监控列表
      * @param devInfo
      * @param request
      * @return
      */
-    @GetMapping("/fList")
+    @GetMapping("/pfList")
     public String getFList(DevInfo devInfo, HttpServletRequest request) {
 
+        List<DevInfo> listinfop = pressureFlowServiceImpl.selectPList(devInfo);
+        List<DevInfo> listinfof = pressureFlowServiceImpl.selectFList(devInfo);
 
-        List<DevInfo> listinfo = pressureFlowServiceImpl.selectFList(devInfo);
+
+        List<DevInfo> listpf=new ArrayList<DevInfo>();
+        listpf.addAll(listinfof);
+        listpf.addAll(listinfop);
+
         int count=0;
-        for (DevInfo item:listinfo
+        for (DevInfo item:listpf
         ) {
             count ++;
             item.setCount(count);
         }
-        return JSON.toJSONString(listinfo);
+        return JSON.toJSONString(listpf);
     }
 
     /**
@@ -273,7 +302,14 @@ public class PressureFlowController {
     }
 
 
-}
+
+    }
+
+
+
+
+
+
 
 
 

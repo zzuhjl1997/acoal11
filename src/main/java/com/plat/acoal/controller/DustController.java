@@ -101,7 +101,7 @@ public class DustController {
         return JSON.toJSONString(resultData);
     }
     /**
-     * 温度监控列表
+     * 烟尘监控列表
      * @param devInfo
      * @param request
      * @return

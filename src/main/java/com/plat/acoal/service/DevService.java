@@ -17,9 +17,13 @@ public interface DevService {
 
     DevInfo selectFireDev(DevInfo devInfo);
 
-    int selectCountByType(int type);
+    int selectCountByType(Map<String, String> condition);
 
 
 
     List<Dev> selectDevByRegion(Integer currentPage, Dev dev);
+
+    List<DevInfo> selectDevInfoByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectDevByCondition(Map<String, String> condition);
 }

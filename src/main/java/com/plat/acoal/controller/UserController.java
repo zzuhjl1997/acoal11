@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,10 +33,18 @@ public class UserController {
 
     @GetMapping("")
     public String selectAllUserCus() {
+        int sequence=0;
         User user = new User();
         List<UserCustomer> list = usi.selectAllUserCus(user);
+        List<UserCustomer> list_re = new ArrayList<UserCustomer>();
+        for (UserCustomer uc:list
+             ) {
+            sequence ++;
+            uc.setSequence(sequence);
+            list_re.add(uc);
+        }
 
-        return JSON.toJSONString(list);
+        return JSON.toJSONString(list_re);
     }
 
     /*

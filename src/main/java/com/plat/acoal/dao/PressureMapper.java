@@ -7,17 +7,17 @@ import com.plat.acoal.model.PressureFlowModel;
 import java.util.List;
 
 public interface PressureMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Pressure record);
-
-    int insertSelective(Pressure record);
+//    int deleteByPrimaryKey(Long id);
+//
+//    int insert(Pressure record);
+//
+//    int insertSelective(Pressure record);
 
     Pressure selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(Pressure record);
-
-    int updateByPrimaryKey(Pressure record);
+//    int updateByPrimaryKeySelective(Pressure record);
+//
+//    int updateByPrimaryKey(Pressure record);
 
     List<PressureFlowModel> selectNewPById(PressureFlowModel pressureFlowModel);
 

@@ -36,7 +36,11 @@ public interface DevMapper {
 
     DevInfo selectFireById(DevInfo devInfo);
 
-    int selectCountByType(int type);
+    int selectCountByType(Map<String, String> condition);
 
     List<Dev> selectDevInfoByCon(Dev dev);
+
+    List<DevInfo> selectDevInfoByCus(Map<String, String> condition);
+
+    List<DevInfo> selectDevByCondition(Map<String, String> condition);
 }

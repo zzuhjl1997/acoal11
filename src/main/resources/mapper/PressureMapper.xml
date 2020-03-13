@@ -61,18 +61,17 @@
         td.update_time AS updateTime,
         td.ip AS ip,
         td.`status` AS `status`,
-        tp.tpressure as tpressure
+        tp.tpressure as tpressure,
+        td.type AS type
         FROM
         t_dev td
         INNER JOIN t_dev_type tdt ON td.type = tdt.id
         INNER JOIN t_pressure tp ON td.id = tp.dev_id
         WHERE 1=1
+        AND td.type =5
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
         <if test="status!=null">AND td.`status` = #{status,jdbcType=INTEGER}</if>
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
         ) a
     </select>
-
-
-
 </mapper>

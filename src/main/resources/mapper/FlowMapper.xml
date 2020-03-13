@@ -31,7 +31,7 @@
     </if>
     ORDER BY
     dCollectDT DESC
-    LIMIT 3
+    LIMIT 4
 
   </select>
   <select id="selectFByHour" resultType="com.plat.acoal.model.PressureFlowModel">
@@ -62,7 +62,8 @@
     td.update_time AS updateTime,
     td.ip AS ip,
     td.`status` AS `status`,
-    tf.tFlow as tflow
+    tf.tFlow as tflow,
+    td.type AS type
     FROM
     t_dev td
     INNER JOIN t_dev_type tdt ON td.type = tdt.id
