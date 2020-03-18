@@ -78,14 +78,17 @@ public class UserServiceImpl implements UserService {
     public JsonResult selectUserByUserName(String username, String password) {
         JsonResult jr = new JsonResult();
         User user = userMapper.selectUserByUserName(username);
-
+        if(user!=null){
         if(MD5Utils.md5(password).equals(user.getCpassword())){
             jr.setStatus(200);
-            jr.setData(user);
+//            jr.setData(user);
             jr.setMsg("请求成功");
         }else{
             jr.setStatus(300);
-            jr.setMsg("请求失败");
+            jr.setMsg("密码错误");
+        }}else {
+            jr.setStatus(300);
+            jr.setMsg("用户不存在");
         }
         return jr;
     }

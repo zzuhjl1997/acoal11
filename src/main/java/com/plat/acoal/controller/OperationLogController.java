@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.entity.Customer;
 import com.plat.acoal.entity.OperationLog;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 @RestController
@@ -24,14 +22,7 @@ public class OperationLogController {
     @GetMapping("")
     public String selectLogs(OperationIAO operationIAO) {
       List<OperationIAO> list=osi.selectLogs(operationIAO);
-
-
        // List<Customer> list = csi.selectAllCustomers(customer);
         return JSON.toJSONString(list);
     }
-
-
-
-
-
 }

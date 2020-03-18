@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.entity.Dept;
 import com.plat.acoal.service.impl.DeptServiceImpl;
@@ -8,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
-
 @RestController
 @Log4j2
 @RequestMapping("/dept")
@@ -24,5 +21,4 @@ public class DeptController {
         List<Dept> list = dsi.selectAllDepts(dept);
         return JSON.toJSONString(list);
     }
-
 }

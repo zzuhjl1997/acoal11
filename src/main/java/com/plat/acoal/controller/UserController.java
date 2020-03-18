@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.entity.OperationLog;
 import com.plat.acoal.entity.User;
@@ -11,12 +10,10 @@ import com.plat.acoal.utils.JsonResult;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 /*
  *@RestController
  *reestful风格的Controller的注解，用之替代Controller;相当于@Controller+@ResponseBody
@@ -25,12 +22,10 @@ import java.util.List;
 @Log4j2
 @RequestMapping(value = "/user", produces = "application/json;charset=UTF-8")
 public class UserController {
-
     @Autowired
     public UserServiceImpl usi;
     @Autowired
     public OperationLogServiceImpl osi;
-
     @GetMapping("")
     public String selectAllUserCus() {
         int sequence=0;
@@ -43,32 +38,26 @@ public class UserController {
             uc.setSequence(sequence);
             list_re.add(uc);
         }
-
         return JSON.toJSONString(list_re);
     }
-
     /*
      *@GetMapping
      *相当于@RequestMapping(value = "",method = RequestMethod.GET)
      */
  /*   @GetMapping("/{id}")
     public String selectUserById(@PathVariable("id") Integer id) {
-
         User user = usi.selectUserById(id);
         return JSON.toJSONString(user);
     }*/
     @GetMapping("/search")
     public String selectUserByName(String cusername) {
-
         List<UserCustomer> usercus_re = usi.selectUserByName(cusername);
         for (UserCustomer uc : usercus_re
         ) {
             uc.setRemark("");
         }
-
         return JSON.toJSONString(usercus_re);
     }
-
     /**
      * hjl
      * 添加用户并进行日志记录
@@ -79,11 +68,9 @@ public class UserController {
      */
     @PostMapping("/add")
     public String addUser(User user, HttpServletRequest request) {
-
 //        User user_s= (User) request.getSession().getAttribute("");
 //        int userid=user.getIuserid();
         OperationLog operationLog = new OperationLog();
-
         int i = usi.addUser(user);
         JsonResult jr = new JsonResult();
         if (i > 0) {
@@ -93,7 +80,6 @@ public class UserController {
         int userid = 517704512;
         String uri = request.getRequestURI();
         String action = request.getMethod();
-
         operationLog.setOperationdate(new Date());
         operationLog.setOperationuserid(userid);
         operationLog.setTaction(action);
@@ -106,16 +92,12 @@ public class UserController {
             jr.setStatus(200);
             jr.setMsg("添加用户成功");
         }
-
         return JSON.toJSONString(jr);
     }
-
     @PostMapping("/update")
     public String updateUser(User user, HttpServletRequest request) {
-
         int i = usi.updateUser(user);
         JsonResult jr = new JsonResult();
-
         int userid = 517704512;
         String uri = request.getRequestURI();
         String action = request.getMethod();
@@ -125,7 +107,6 @@ public class UserController {
         operationLog.setTaction(action);
         operationLog.setTurl(uri);
         operationLog.setTurlname("修改用户");
-
         operationLog.setStatus(0);
         if (i > 0) {
             operationLog.setStatus(1);
@@ -138,11 +119,8 @@ public class UserController {
 //            jr.setStatus(200);
 //            jr.setMsg("修改日志成功");
         }
-
         return JSON.toJSONString(jr);
     }
-
-
     /*
      *在这个@DeleteMapping注解中的{id}代表地址参数
      * 比如访问地址/user/123，{id}即为123
@@ -153,7 +131,6 @@ public class UserController {
      */
     @PostMapping("/delete")
     public String deleteUserById(Integer id, HttpServletRequest request) {
-
         int i = usi.deleteUserById(id);
         JsonResult jr = new JsonResult();
         if (i > 0) {
@@ -169,7 +146,6 @@ public class UserController {
         operationLog.setTaction(action);
         operationLog.setTurl(uri);
         operationLog.setTurlname("删除用户");
-
         operationLog.setStatus(0);
         if (i > 0) {
             operationLog.setStatus(1);
@@ -177,24 +153,20 @@ public class UserController {
             jr.setMsg("删除成功");
         }
         int j = osi.addLogs(operationLog);
-
         return JSON.toJSONString(jr);
     }
-
     /**
      * 用户登录
      * @param username
      * @param password
      * @return
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     private JsonResult login(String username,String password,HttpServletRequest request){
-
-        JsonResult jr = usi.selectUserByUserName(username,password);
-        if (jr.getStatus().equals(200)){
+            JsonResult jr = usi.selectUserByUserName(username,password);
+            if (Integer.valueOf(200).equals(jr.getStatus())){
             request.getSession().setAttribute("user",jr.getData());
         }
         return jr;
     }
-
 }

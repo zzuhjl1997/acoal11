@@ -26,4 +26,6 @@ public interface DevService {
     List<DevInfo> selectDevInfoByCondition(Map<String, String> condition);
 
     List<DevInfo> selectDevByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectDevNowByCondition(Map<String, String> condition);
 }

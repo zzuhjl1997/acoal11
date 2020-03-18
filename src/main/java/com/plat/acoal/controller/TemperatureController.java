@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.Temperature;
@@ -13,21 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 @RestController
 @Log4j2
 @RequestMapping(value = "/temperature", produces = "application/json;charset=UTF-8")
 public class TemperatureController {
     @Autowired
     public TemperatureServiceImpl temperatureServiceImpl;
-
     /**
      * 查询最新温度
      *
@@ -50,12 +48,9 @@ public class TemperatureController {
              ) {
             Date dt=t.getDcollectdt();
             t.setDcollectdt_re(DateUtil.dateToString(dt));
-
         }
         return JSON.toJSONString(newFt);
     }
-
-
     /**
      * 查询某天的温度
      *
@@ -85,7 +80,6 @@ public class TemperatureController {
         double[] ftArr = new double[24];
         String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
         for (int i = 0; i < 24; i++) {
-
 //            arrhours[i] = String.valueOf(i)+":00";
             arrhours[i] = String.valueOf(i);
         }
@@ -97,18 +91,14 @@ public class TemperatureController {
         List<Temperature> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
         for (Temperature item : newFt) {
             Date dt = item.getDcollectdt();
-
             if (item.getFt() != null && pos < 24) {
                 ftArr[pos] = item.getFt();
                 arrhours[pos] = dfhour.format(dt);
             }
             pos++;
-
-
         }
         resultData.setArrddata1(ftArr);
         resultData.setArrsdata1(arrhours);
-
         return JSON.toJSONString(resultData);
     }
     /**
@@ -118,20 +108,24 @@ public class TemperatureController {
      * @return
      */
     @GetMapping("/ftList")
-    public String getCoList(DevInfo devInfo, HttpServletRequest request) {
+    public String getCoList(DevInfo devInfo, HttpServletRequest request, HttpSession session) throws ParseException {
+        Integer icustomerid=null;
+        if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
+            icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
+        }
 
 
+        devInfo.setType(2);
         List<DevInfo> listinfo = temperatureServiceImpl.selectFtList(devInfo);
         int count=0;
         for (DevInfo item:listinfo
         ) {
             count ++;
             item.setCount(count);
+            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+            System.out.println("更新时间"+DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+            System.out.println("对象"+item);
         }
         return JSON.toJSONString(listinfo);
     }
-
-
-
-
 }

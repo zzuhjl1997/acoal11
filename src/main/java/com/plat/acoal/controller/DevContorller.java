@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.plat.acoal.bean.ResultData;
@@ -21,15 +20,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 @RestController
 @Log4j2
 @RequestMapping(value = "/dev", produces = "application/json;charset=UTF-8")
@@ -42,8 +38,6 @@ public class DevContorller {
     public DevServiceImpl devServiceImpl;
     @Autowired
     private RegionServiceImpl regionServiceImpl;
-
-
     @GetMapping("/dim")
     public String selectDevInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
@@ -58,7 +52,6 @@ public class DevContorller {
         }
         return JSON.toJSONString(dsi.selectDevInfoModelByCondtition(currentPage, condition));
     }
-
     @GetMapping("/name")
     public String selectNameByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
@@ -66,7 +59,6 @@ public class DevContorller {
         condition.put("customerId",customerId.toString());*/
         return JSON.toJSONString(dsi.selectNameByCondition(condition));
     }
-
     @GetMapping("/type")
     public String selectTypeByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
@@ -75,7 +67,6 @@ public class DevContorller {
         */
         return JSON.toJSONString(dsi.selectTypeByCondition(condition));
     }
-
     @GetMapping("/dam")
     public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
@@ -90,13 +81,10 @@ public class DevContorller {
         }
         return JSON.toJSONString(dsi.selectDevActiveModelByCondtition(currentPage, condition));
     }
-
     ;
-
     /**
      * 查询消防炮状态列表
      */
-
     @GetMapping("/fire")
     public String getFireList(Dev dev, HttpServletRequest request) {
 //
@@ -106,7 +94,6 @@ public class DevContorller {
 //        }
         //查询消防炮列表监测数据
         List<DevInfo> lst = dsi.selectFireList(dev);
-
         //查询对应的消防炮的报警状态
         AlarmInfo alarmInfo = new AlarmInfo();
         for (DevInfo item : lst
@@ -120,13 +107,11 @@ public class DevContorller {
         }
         return JSON.toJSONString(lst);
     }
-
     /**
      * 查询消防炮状态
      */
     @GetMapping("/nowFire")
     public String getFireStatus(DevInfo devInfo, HttpServletRequest request) {
-
         String devid = "8";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
@@ -138,7 +123,6 @@ public class DevContorller {
         if (devInfo != null) {
             //查询对应的消防炮的报警状态
             AlarmInfo alarmInfo = new AlarmInfo();
-
             alarmInfo.setDevid(devInfo.getId());
             List<AlarmInfo> lsta = alarmServiceImpl.selectAlarmInfoByCondition(alarmInfo);
             if (lsta.size() > 0) {
@@ -148,7 +132,6 @@ public class DevContorller {
         }
         return JSON.toJSONString(devInfo1);
     }
-
     /**
      * 获取设备基础信息
      *
@@ -163,7 +146,6 @@ public class DevContorller {
             devid = request.getParameter("devid");
         }
         dev.setId(Integer.parseInt(devid));
-
         Dev newDev = devServiceImpl.selectDevById(dev);
         //获取该类设备总数
         int sum = 0;
@@ -174,21 +156,16 @@ public class DevContorller {
         ResultData resultData = new ResultData();
         resultData.setDev(dev);
         resultData.setCount(sum);
-
         return JSON.toJSONString(resultData);
     }
-
     /**
      * 获取监测点列表  树状图
      */
     @GetMapping("/devlist")
     private String getdevlist(@RequestParam Map<String, String> condition, HttpSession session) {
-
        /* User user = (User)session.getAttribute("user");
         Integer icustomerid = user.getIcustomerid();*/
         Integer customerId = 2;
-
-
         Region region = new Region();
         Integer currentPage = 1;
         if (condition.containsKey("currentPage")) {
@@ -198,11 +175,9 @@ public class DevContorller {
             currentPage = null;
         }
         Integer regionId = 1;
-
         List<RegionModel> listrg = regionServiceImpl.selectRegionByCus(customerId);
         List<RegionModel> listrg_re = new ArrayList<RegionModel>();
 //        List<Dev> listdev=new ArrayList<Dev>();
-
         for (RegionModel item : listrg
         ) {
             Dev dev = new Dev();
@@ -214,10 +189,8 @@ public class DevContorller {
             item.setDevs(listdev);
             listrg_re.add(item);
         }
-
         return JSON.toJSONString(listrg_re, SerializerFeature.DisableCircularReferenceDetect);
     }
-
     /**
      * 获取风机的列表 或者其他设备的列表
      *
@@ -234,7 +207,6 @@ public class DevContorller {
         resultData.setCount(count);
         return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
     }
-
     /**
      * 获取设备在线率  首页》》设备在线率
      * 思路：查询每个种类设备的总数
@@ -252,13 +224,10 @@ public class DevContorller {
         Map<String, String> param_dust = new HashMap<String, String>();
         Map<String, String> param_press = new HashMap<String, String>();
         Map<String, String> param_flow = new HashMap<String, String>();
-
-
         //红外线温度
         Integer count_tem = null;
         Integer count_tem_online = null;
         double tem_online = 0.0;
-
         condition.put("type", "2");
         count_tem = devServiceImpl.selectCountByType(condition);
         condition.put("status", "1");
@@ -278,13 +247,11 @@ public class DevContorller {
         co_online = count_co_online / count_co;
         param_co.put("co_online", String.valueOf(NumberUtil.DecimalToPercent(co_online)));
         list.add(param_co);
-
         condition.put("status", "null");
         //ch4
         Integer count_ch4 = null;
         Integer count_ch4_online = null;
         double ch4_online = 0.0;
-
         condition.put("status", "null");
         condition.put("type", "6");
         count_ch4 = devServiceImpl.selectCountByType(condition);
@@ -293,17 +260,12 @@ public class DevContorller {
         ch4_online = count_ch4_online / count_ch4;
         param_ch4.put("ch4_online", String.valueOf(NumberUtil.DecimalToPercent(ch4_online)));
         list.add(param_ch4);
-
-
         condition.put("status", "null");
-
         //粉尘
         Integer count_dust = null;
         Integer count_dust_online = null;
         double dust_online = 0.0;
-
         condition.put("status", "null");
-
         condition.put("type", "4");
         count_dust = devServiceImpl.selectCountByType(condition);
         condition.put("status", "1");
@@ -311,15 +273,11 @@ public class DevContorller {
         dust_online = count_dust_online / count_dust;
         param_dust.put("dust_online", String.valueOf(NumberUtil.DecimalToPercent(dust_online)));
         list.add(param_dust);
-
-
         condition.put("status", "null");
-
         //水压
         Integer count_press = null;
         Integer count_press_online = null;
         double press_online = 0.0;
-
         condition.put("type", "7");
         count_press = devServiceImpl.selectCountByType(condition);
         condition.put("status", "1");
@@ -327,15 +285,11 @@ public class DevContorller {
         dust_online = count_press_online / count_press;
         param_press.put("press_online", String.valueOf(NumberUtil.DecimalToPercent(press_online)));
         list.add(param_press);
-
-
         condition.put("status", "null");
-
         //流量
         Integer count_flow = null;
         Integer count_flow_online = null;
         double flow_online = 0.0;
-
         condition.put("type", "8");
         count_flow = devServiceImpl.selectCountByType(condition);
         condition.put("status", "1");
@@ -343,61 +297,40 @@ public class DevContorller {
         flow_online = count_flow_online / count_flow;
         param_flow.put("flow_online", String.valueOf(NumberUtil.DecimalToPercent(flow_online)));
         list.add(param_flow);
-
 //        resultData.setCount(count);
         return JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
     }
-
     /**
      * 获取大屏实时数据 三个表格 三个坐标轴
      */
     @GetMapping("/realtimedata")
     private String realtimedata(@RequestParam Map<String, String> condition, HttpSession session){
-
         Integer customerId = 2;
         //获取CO,CH4,粉尘实时数据
         int pos=0;
-
-
         String[] press_devname=null;
         double[] press_value=null;
-
-
-
         String[] tem_devname=null;
         double[] tem_value=null;
-
-
         String[] flow_devname=null;
         double[] flow_value=null;
-
         condition.put("type","5");
         List<DevInfo> list_co=devServiceImpl.selectDevByCondition(condition);
         condition.put("type","6");
         List<DevInfo> list_ch4=devServiceImpl.selectDevByCondition(condition);
         condition.put("type","4");
         List<DevInfo> list_dust=devServiceImpl.selectDevByCondition(condition);
-
         //获取某区域水压温度流量
+        //获取水压
         condition.put("type","7");
-        condition.put("region","1")
-        List<DevInfo> list_press=devServiceImpl.selectDevByCondition(condition);
+        condition.put("region","1");
+        List<DevInfo> list_press=devServiceImpl.selectDevNowByCondition(condition);
         for (DevInfo devInfo:list_press
              ) {
             press_devname[pos]=devInfo.getDevname();
             press_value[pos]=devInfo.getTpressure();
             pos ++;
         }
-
-
-
-
-
-       // return JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
-
-
+       return JSON.toJSONString(list_press, SerializerFeature.DisableCircularReferenceDetect);
     }
-
-
-
 }

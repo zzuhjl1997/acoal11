@@ -1,7 +1,9 @@
 package com.plat.acoal.model;
 
+import com.plat.acoal.utils.DateUtil;
 import lombok.Data;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 @Data
@@ -32,9 +34,8 @@ public class DevInfo {
     private Date createTime;
 
     private Date updateTime;
-
+    private String lastTime;
     private Integer status;
-
     private double fT;
     private double tflow;
     private double tpressure;
@@ -54,5 +55,6 @@ public class DevInfo {
     private Integer alarm;
 
     private Integer is_auto;
+
 
 }

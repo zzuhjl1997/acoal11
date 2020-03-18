@@ -27,7 +27,7 @@ public interface GasService {
      * @param devInfo
      * @return
      */
-    List<DevInfo> selectCh4List(DevInfo devInfo);
+    List<DevInfo> selectCh4List(DevInfo devInfo,Integer currentPage,Integer ageSize);
 
     /**
      * 查询一氧化碳列表

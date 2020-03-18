@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
@@ -11,12 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 @RestController
 @Log4j2
 @RequestMapping(value = "/dust",produces = "application/json;charset=UTF-8")
@@ -36,7 +34,6 @@ public class DustController {
             devid = request.getParameter("devid");
         }
         dustModel.setDevid(Integer.parseInt(devid));
-
         List<DustModel> newDust = dustServiceImpl.selectNewInfoById(dustModel);
         for (DustModel d : newDust
         ) {
@@ -45,8 +42,6 @@ public class DustController {
         }
         return JSON.toJSONString(newDust);
     }
-
-
     /**
      * 查询一天的浓度
      *
@@ -86,7 +81,6 @@ public class DustController {
         dustModel.setDevid(Integer.parseInt(devid));
         dustModel.setDcollectstart(startdate);
         dustModel.setDcollectend(enddate);
-
         List<DustModel> newDust = dustServiceImpl.selectInfoByHour(dustModel);
         ResultData resultData = new ResultData();
         for (DustModel item : newDust) {
@@ -103,21 +97,25 @@ public class DustController {
     /**
      * 烟尘监控列表
      * @param devInfo
-     * @param request
+     * @param session
      * @return
      */
     @GetMapping("/dustList")
-    public String getCoList(DevInfo devInfo, HttpServletRequest request) {
+    public String getCoList(DevInfo devInfo, HttpSession session) {
+        Integer icustomerid=null;
+        if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
+            icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
+        }
+        devInfo.setType(4);
         List<DevInfo> listinfo = dustServiceImpl.selectDustList(devInfo);
         int count=0;
         for (DevInfo item:listinfo
         ) {
             count ++;
             item.setCount(count);
+            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+
         }
         return JSON.toJSONString(listinfo);
     }
-
-
-
 }

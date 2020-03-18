@@ -1,5 +1,4 @@
 package com.plat.acoal.service.impl;
-
 import com.github.pagehelper.PageHelper;
 import com.plat.acoal.dao.AlarmMapper;
 import com.plat.acoal.entity.Alarm;
@@ -8,15 +7,12 @@ import com.plat.acoal.model.AlarmModel;
 import com.plat.acoal.service.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
-
 @Service
 public class AlarmServiceImpl implements AlarmService {
     @Autowired
     private AlarmMapper am;
-
     @Override
     public List<AlarmModel> selectAlarmModelByCondition(Integer currentPage, Map<String,String> condition){
         if(currentPage != null){
@@ -24,16 +20,12 @@ public class AlarmServiceImpl implements AlarmService {
         }
         return am.selectAlarmModelByCondition(condition);
     }
-
     @Override
     public int deleteByPrimaryKey(Long id) {
         return am.deleteByPrimaryKey(id);
     }
-
     @Override
     public List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo) {
         return am.selectAlarmInfoByCondition(alarmInfo);
     }
-
-
 }

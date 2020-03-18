@@ -2,10 +2,10 @@ package com.plat.acoal.entity;
 
 import java.util.Date;
 
-public class RealCannonData {
-    private Integer id;
+public class Cannon {
+    private Long id;
 
-    private Integer devid;
+    private Integer devId;
 
     private Date collectdt;
 
@@ -15,20 +15,20 @@ public class RealCannonData {
 
     private Integer isopen;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getDevid() {
-        return devid;
+    public Integer getDevId() {
+        return devId;
     }
 
-    public void setDevid(Integer devid) {
-        this.devid = devid;
+    public void setDevId(Integer devId) {
+        this.devId = devId;
     }
 
     public Date getCollectdt() {

@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.service.impl.AlarmServiceImpl;
 import com.plat.acoal.utils.JsonResult;
@@ -9,32 +8,31 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import java.util.Map;
-
 @RestController
 @RequestMapping(value = "/alarm", produces = "application/json;charset=UTF-8")
 @Log4j2
 public class AlarmController {
     @Autowired
     AlarmServiceImpl atsi;
-
     @GetMapping("/am")
     public String selectAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
         Integer currentPage = 1;
+        Integer pageSize = 1;
         if (condition.containsKey("currentPage")) {
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            currentPage = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
+
             condition.remove("currentPage");
         } else {
             currentPage = null;
         }
         return JSON.toJSONString(atsi.selectAlarmModelByCondition(currentPage, condition));
     }
-
     @DeleteMapping("/am")
     public String deleteByAlarmId(@RequestParam(value = "alarmIds") String alarmIds) {
         JsonResult jr = new JsonResult();
@@ -55,7 +53,6 @@ public class AlarmController {
         }
         return JSON.toJSONString(jr);
     }
-
     @GetMapping("/export")
     public ResponseEntity<byte[]> exportAlarmModelByCondition(@RequestParam Map<String, String> condition,HttpSession session) {
         /*User user = (User)session.getAttribute("user");

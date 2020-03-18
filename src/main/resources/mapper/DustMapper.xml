@@ -23,7 +23,7 @@
     fDust AS fdust,
     dev_id AS devid
     FROM
-    t_dust_history
+    t_dust
     WHERE
     1 = 1
     <if test="devid!=null">
@@ -85,7 +85,7 @@
     INNER JOIN t_dev_type tdt ON td.type = tdt.id
     INNER JOIN t_dust tdu ON td.id = tdu.dev_id
     WHERE 1=1
-    AND td.type=2
+    <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
     <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
     <if test="status!=null">AND td.`status` = #{status,jdbcType=INTEGER}</if>
     <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>

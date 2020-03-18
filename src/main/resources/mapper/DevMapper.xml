@@ -392,16 +392,32 @@
     </select>
     <select id="selectDevByCondition" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
 
-       SELECT
-	     td.`name` as name,
-	     trco.gCO as gco,
-	     td.`status` as `status`
-         FROM
-	     `t_realco` trco
-	     INNER JOIN t_dev td
-         WHERE
-	     1 = 1
+        SELECT
+        td.`name` as name,
+        trco.gCO as gco,
+        td.`status` as `status`
+        FROM
+        `t_realco` trco
+        INNER JOIN t_dev td
+        WHERE
+        1 = 1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and type=#{type}</if>
+    </select>
+    <select id="selectDevNowByCondition" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
+     SELECT
+	AVG( trp.tpressure ) AS tpressure,
+	td.`name` AS name,
+	tr.`name` AS region
+    FROM
+	t_realpressure trp
+	INNER JOIN t_dev td ON trp.dev_id = td.id
+	INNER JOIN t_region tr ON td.region = tr.id
+        WHERE 1=1
+        <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and td.type=#{type}</if>
+        <if test="region!=null">and td.region=#{type}</if>
+    GROUP BY
+	td.region
     </select>
 </mapper>

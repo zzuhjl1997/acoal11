@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.CannonMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Cannon">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="dev_id" property="devId" jdbcType="INTEGER"/>
+        <result column="collectdt" property="collectdt" jdbcType="TIMESTAMP"/>
+        <result column="isfire" property="isfire" jdbcType="INTEGER"/>
+        <result column="isfault" property="isfault" jdbcType="INTEGER"/>
+        <result column="isopen" property="isopen" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, dev_id, collectdt, isfire, isfault, isopen
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cannon
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectCannonList" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
+
+        SELECT DISTINCT
+        *
+        FROM
+        (
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS NAME,
+        td.site AS site,
+        td.update_time AS updateTime,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tca.isfault AS isfault,
+        tca.isfire AS isfire,
+        tca.isopen AS isopen
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_cannon tca ON td.id = tca.dev_id
+        WHERE 1=1
+        <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
+        <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
+        <if test="status!=null">AND td.`status` = #{status,jdbcType=INTEGER}</if>
+        <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+        ) a
+    </select>
+    <select id="selectNewCannonById" resultType="com.plat.acoal.model.CannonInfo" parameterType="map">
+        SELECT
+        collectdt,
+        isfire,
+        isopen,
+        isfault,
+        dev_id AS devid
+        FROM
+        t_cannon
+        WHERE 1 = 1
+        <if test="devid!=null">
+            AND dev_id = #{devid,jdbcType=INTEGER}
+        </if>
+        ORDER BY
+        collectdt
+        LIMIT 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_cannon
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.Cannon">
+    insert into t_cannon (id, dev_id, collectdt, 
+      isfire, isfault, isopen
+      )
+    values (#{id,jdbcType=BIGINT}, #{devId,jdbcType=INTEGER}, #{collectdt,jdbcType=TIMESTAMP}, 
+      #{isfire,jdbcType=INTEGER}, #{isfault,jdbcType=INTEGER}, #{isopen,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Cannon">
+        insert into t_cannon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="devId != null">
+                dev_id,
+            </if>
+            <if test="collectdt != null">
+                collectdt,
+            </if>
+            <if test="isfire != null">
+                isfire,
+            </if>
+            <if test="isfault != null">
+                isfault,
+            </if>
+            <if test="isopen != null">
+                isopen,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="devId != null">
+                #{devId,jdbcType=INTEGER},
+            </if>
+            <if test="collectdt != null">
+                #{collectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isfire != null">
+                #{isfire,jdbcType=INTEGER},
+            </if>
+            <if test="isfault != null">
+                #{isfault,jdbcType=INTEGER},
+            </if>
+            <if test="isopen != null">
+                #{isopen,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Cannon">
+        update t_cannon
+        <set>
+            <if test="devId != null">
+                dev_id = #{devId,jdbcType=INTEGER},
+            </if>
+            <if test="collectdt != null">
+                collectdt = #{collectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isfire != null">
+                isfire = #{isfire,jdbcType=INTEGER},
+            </if>
+            <if test="isfault != null">
+                isfault = #{isfault,jdbcType=INTEGER},
+            </if>
+            <if test="isopen != null">
+                isopen = #{isopen,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Cannon">
+    update t_cannon
+    set dev_id = #{devId,jdbcType=INTEGER},
+      collectdt = #{collectdt,jdbcType=TIMESTAMP},
+      isfire = #{isfire,jdbcType=INTEGER},
+      isfault = #{isfault,jdbcType=INTEGER},
+      isopen = #{isopen,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

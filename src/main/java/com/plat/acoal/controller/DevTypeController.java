@@ -1,5 +1,4 @@
 package com.plat.acoal.controller;
-
 //@RestController
 //@Log4j2
 //@RequestMapping("/devtype")
