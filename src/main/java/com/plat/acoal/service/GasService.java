@@ -34,5 +34,5 @@ public interface GasService {
      * @param devInfo
      * @return
      */
-    List<DevInfo> selectCoList(DevInfo devInfo);
+    List<DevInfo> selectCoList(DevInfo devInfo,Integer currentPage,Integer ageSize);
 }

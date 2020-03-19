@@ -6,15 +6,19 @@ import com.plat.acoal.model.DustModel;
 import com.plat.acoal.service.impl.DustServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @Log4j2
 @RequestMapping(value = "/dust",produces = "application/json;charset=UTF-8")
@@ -101,13 +105,27 @@ public class DustController {
      * @return
      */
     @GetMapping("/dustList")
-    public String getCoList(DevInfo devInfo, HttpSession session) {
+    public String getCoList(DevInfo devInfo, HttpSession session, @RequestParam Map<String,String> condition) {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
             icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
+        Integer currentPage = 1;
+        Integer pageSize = 1;
+
+        if (condition.containsKey("currentPage")) {
+//            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
+            condition.remove("currentPage");
+            condition.remove("pageSize");
+        } else {
+            currentPage = null;
+            pageSize=null;
+        }
+
         devInfo.setType(4);
-        List<DevInfo> listinfo = dustServiceImpl.selectDustList(devInfo);
+        List<DevInfo> listinfo = dustServiceImpl.selectDustList(devInfo,currentPage,pageSize);
         int count=0;
         for (DevInfo item:listinfo
         ) {

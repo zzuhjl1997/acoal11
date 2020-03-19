@@ -55,6 +55,8 @@ public class DevInfo {
     private Integer alarm;
 
     private Integer is_auto;
+    private Integer pressureid;
+    private Integer flowid;
 
 
 }

@@ -32,6 +32,7 @@ public class DevServiceImpl implements DevService {
         if(currentPage != null){
             PageHelper.startPage(currentPage,1);
         }
+
         return dm.selectDevActiveModelByCondition(condition);
     }
     @Override
@@ -65,5 +66,15 @@ public class DevServiceImpl implements DevService {
     @Override
     public List<DevInfo> selectDevNowByCondition(Map<String, String> condition) {
         return dm.selectDevNowByCondition(condition);
+    }
+
+    @Override
+    public List<DevInfo> selectHydrantList(Map<String, String> condition, Integer currentPage, Integer pageSize) {
+        if(currentPage!=null){
+
+            PageHelper.startPage(currentPage,pageSize=1);
+
+        }
+        return dm.selectHydrantList(condition);
     }
 }

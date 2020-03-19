@@ -14,4 +14,7 @@ public class PressureFlowModel {
     private Date dcollectdt;
     private int devid;
     private Integer hydrantId;
+    private Integer pressureid;
+    private Integer flowid;
+
 }

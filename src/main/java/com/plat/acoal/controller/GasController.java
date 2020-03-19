@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -200,7 +201,7 @@ public class GasController {
      * @return
      */
     @GetMapping("/ch4List")
-    public String getMonitorList(DevInfo devInfo, HttpSession session, Map<String,String> condition) {
+    public String getMonitorList(DevInfo devInfo, HttpSession session,@RequestParam Map<String,String> condition) {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
             icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
@@ -217,7 +218,7 @@ public class GasController {
             currentPage = null;
             pageSize=null;
         }
-        devInfo.setType(6);
+
         ResultData resultData = new ResultData();
         List<DevInfo> listinfo = gasServiceImpl.selectCh4List(devInfo,currentPage,pageSize);
         int count=0;
@@ -237,13 +238,29 @@ public class GasController {
      * @return
      */
     @GetMapping("/coList")
-    public String getCoList(DevInfo devInfo, HttpSession session) {
+    public String getCoList(DevInfo devInfo, HttpSession session,@RequestParam Map<String,String> condition) {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
             icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
-        devInfo.setType(5);
-        List<DevInfo> listinfo = gasServiceImpl.selectCoList(devInfo);
+        Integer type=null;
+        if (condition.containsKey("type")){
+            type=StringUtils.isBlank(condition.get("type"))?1 : Integer.valueOf(condition.get("type"));
+        }
+        Integer currentPage = 1;
+        Integer pageSize = 1;
+
+        if (condition.containsKey("currentPage")) {
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
+            condition.remove("currentPage");
+            condition.remove("pageSize");
+        } else {
+            currentPage = null;
+            pageSize=null;
+        }
+        devInfo.setType(type);
+        List<DevInfo> listinfo = gasServiceImpl.selectCoList(devInfo,currentPage,pageSize);
         int count=0;
         for (DevInfo item:listinfo
         ) {

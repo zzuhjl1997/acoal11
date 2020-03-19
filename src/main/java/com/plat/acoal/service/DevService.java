@@ -28,4 +28,6 @@ public interface DevService {
     List<DevInfo> selectDevByCondition(Map<String, String> condition);
 
     List<DevInfo> selectDevNowByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectHydrantList(Map<String, String> condition, Integer currentPage, Integer pageSize);
 }

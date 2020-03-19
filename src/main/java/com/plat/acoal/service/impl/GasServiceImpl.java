@@ -1,4 +1,5 @@
 package com.plat.acoal.service.impl;
+import com.github.pagehelper.PageHelper;
 import com.plat.acoal.dao.GasMapper;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.GasModel;
@@ -28,10 +29,16 @@ public class GasServiceImpl implements GasService {
     }
     @Override
     public List<DevInfo> selectCh4List(DevInfo devInfo,Integer currentPage,Integer ageSize) {
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,1);
+        }
         return gasMapper.selectCh4List(devInfo);
     }
     @Override
-    public List<DevInfo> selectCoList(DevInfo devInfo) {
+    public List<DevInfo> selectCoList(DevInfo devInfo,Integer currentPage,Integer ageSize) {
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,1);
+        }
         return gasMapper.selectCoList(devInfo);
     }
 }

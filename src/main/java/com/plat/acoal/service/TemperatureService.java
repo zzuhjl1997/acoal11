@@ -32,5 +32,5 @@ public interface TemperatureService {
      * @return
      */
 
-    List<DevInfo> selectFtList(DevInfo devInfo);
+    List<DevInfo> selectFtList(DevInfo devInfo,Integer currentPage,Integer pageSize);
 }

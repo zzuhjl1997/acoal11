@@ -1,4 +1,5 @@
 package com.plat.acoal.service.impl;
+import com.github.pagehelper.PageHelper;
 import com.plat.acoal.dao.DeptMapper;
 import com.plat.acoal.dao.DustMapper;
 import com.plat.acoal.model.DevInfo;
@@ -20,7 +21,10 @@ public class DustServiceImpl implements DustService {
         return dustMapper.selectInfoByHour(dustModel);
     }
     @Override
-    public List<DevInfo> selectDustList(DevInfo devInfo) {
+    public List<DevInfo> selectDustList(DevInfo devInfo,Integer currentPage,Integer ageSize) {
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,1);
+        }
         return dustMapper.selectDustList(devInfo);
     }
 }

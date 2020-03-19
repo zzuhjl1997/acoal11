@@ -55,7 +55,7 @@
     LIMIT 24
   </select>
   <!--ch4检测列表 -->
-  <select id="selectCh4List" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo">
+  <select id="selectCh4List" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo" >
     SELECT DISTINCT
     *
     FROM

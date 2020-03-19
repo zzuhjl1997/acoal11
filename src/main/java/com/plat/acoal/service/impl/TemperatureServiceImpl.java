@@ -1,5 +1,6 @@
 package com.plat.acoal.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.plat.acoal.dao.TemperatureMapper;
 import com.plat.acoal.entity.Temperature;
 import com.plat.acoal.model.DevInfo;
@@ -25,7 +26,11 @@ public class TemperatureServiceImpl implements TemperatureService {
     }
 
     @Override
-    public List<DevInfo> selectFtList(DevInfo devInfo) {
+    public List<DevInfo> selectFtList(DevInfo devInfo,Integer currentPage,Integer pageSize) {
+        System.out.println(currentPage+"当前页");
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,1);
+        }
         return temperatureMapper.selectFtList(devInfo);
     }
 

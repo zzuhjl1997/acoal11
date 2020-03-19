@@ -168,3 +168,33 @@ com.plat.acoal.controller.PressureFlowController#getDayFlow(PressureFlowModel, H
 2020-03-18 15:52:53.091 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-03-18 16:24:33.416 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-03-18 16:41:58.453 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 10:40:02.490 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 10:40:02.761 [WARN ] org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.logException - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required Integer parameter 'type' is not present]
+2020-03-19 10:41:40.154 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 10:41:40.217 [WARN ] org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.logException - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required Integer parameter 'type' is not present]
+2020-03-19 10:44:49.846 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 10:48:37.692 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 10:49:11.707 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 14:27:03.209 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 15:46:13.464 [WARN ] org.springframework.context.support.AbstractApplicationContext.__refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'devContorller' method 
+com.plat.acoal.controller.DevContorller#getfanlist(Map, HttpSession)
+to {GET /dev/devlist, produces [application/json;charset=UTF-8]}: There is already 'devContorller' bean method
+com.plat.acoal.controller.DevContorller#getdevlist(Map, HttpSession) mapped.
+2020-03-19 15:47:09.320 [WARN ] org.springframework.context.support.AbstractApplicationContext.__refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'devContorller' method 
+com.plat.acoal.controller.DevContorller#getdevlist(Map, HttpSession)
+to {GET /dev/devlist, produces [application/json;charset=UTF-8]}: There is already 'devContorller' bean method
+com.plat.acoal.controller.DevContorller#getfanlist(Map, HttpSession) mapped.
+2020-03-19 15:47:47.255 [WARN ] org.springframework.context.support.AbstractApplicationContext.__refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'devContorller' method 
+com.plat.acoal.controller.DevContorller#getdevlist(Map, HttpSession)
+to {GET /dev/devlist, produces [application/json;charset=UTF-8]}: There is already 'devContorller' bean method
+com.plat.acoal.controller.DevContorller#getfanlist(Map, HttpSession) mapped.
+2020-03-19 15:55:12.208 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 15:56:33.771 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 16:03:42.548 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 16:07:31.364 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 16:58:44.900 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 17:18:36.654 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 17:23:55.703 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 17:24:11.161 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 17:32:12.588 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-03-19 17:32:35.393 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.

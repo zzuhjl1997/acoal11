@@ -27,4 +27,6 @@ public interface DevMapper {
     List<DevInfo> selectDevInfoByCus(Map<String, String> condition);
     List<DevInfo> selectDevByCondition(Map<String, String> condition);
     List<DevInfo> selectDevNowByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectHydrantList(Map<String, String> condition);
 }

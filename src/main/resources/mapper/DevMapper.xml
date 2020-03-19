@@ -376,6 +376,7 @@
         <if test="region != null">AND region = #{region}</if>
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
     </select>
+    <!--这是查风机的吧。。这写的什么鬼-->
     <select id="selectDevInfoByCus" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
         SELECT
         id,
@@ -390,34 +391,54 @@
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and type=#{type}</if>
     </select>
+    <!--查询实时co数据列表  为什么取名是selectdev???? -->
     <select id="selectDevByCondition" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
 
         SELECT
         td.`name` as name,
-        trco.gCO as gco,
+        tco.gCO as gco,
         td.`status` as `status`
         FROM
-        `t_realco` trco
+        `t_co` tco
         INNER JOIN t_dev td
         WHERE
         1 = 1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and type=#{type}</if>
     </select>
+    <!--表都用错了？？-->
     <select id="selectDevNowByCondition" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
-     SELECT
-	AVG( trp.tpressure ) AS tpressure,
-	td.`name` AS name,
-	tr.`name` AS region
-    FROM
-	t_realpressure trp
-	INNER JOIN t_dev td ON trp.dev_id = td.id
-	INNER JOIN t_region tr ON td.region = tr.id
+        SELECT
+        AVG( trp.tpressure ) AS tpressure,
+        td.`name` AS name,
+        tr.`name` AS region
+        FROM
+        t_realpressure trp
+        INNER JOIN t_dev td ON trp.dev_id = td.id
+        INNER JOIN t_region tr ON td.region = tr.id
         WHERE 1=1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and td.type=#{type}</if>
         <if test="region!=null">and td.region=#{type}</if>
-    GROUP BY
-	td.region
+        GROUP BY
+        td.region
+    </select>
+    <!--查询消防栓设备检测列表-->
+    <select id="selectHydrantList" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
+        SELECT
+        td.id AS devid,
+        tdt.`name` AS typename,
+        td.NAME AS name,
+        td.site AS site,
+        th.pressureid AS pressureid,
+        th.flowid AS flowid
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_hydrantid_relation th ON td.id = th.hydrantid
+        WHERE
+        1 = 1
+        <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and td.type=#{type}</if>
     </select>
 </mapper>

@@ -26,7 +26,6 @@ public class AlarmController {
         if (condition.containsKey("currentPage")) {
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             currentPage = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
-
             condition.remove("currentPage");
         } else {
             currentPage = null;
