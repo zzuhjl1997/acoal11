@@ -2,6 +2,8 @@ package com.plat.acoal.bean;
 import com.plat.acoal.entity.Dev;
 import lombok.Data;
 import java.util.List;
+import java.util.Map;
+
 @Data
 public class ResultData {
     private int code=0;
@@ -29,4 +31,5 @@ public class ResultData {
     private int[] arridata2;
     private int[] arridata3;
     private Dev dev;
+    private Map<String,String> param =null;
 }

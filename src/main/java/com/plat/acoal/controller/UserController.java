@@ -1,5 +1,6 @@
 package com.plat.acoal.controller;
 import com.alibaba.fastjson.JSON;
+import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.OperationLog;
 import com.plat.acoal.entity.User;
 import com.plat.acoal.model.UserCustomer;
@@ -12,10 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*
  *@RestController
@@ -29,15 +27,31 @@ public class UserController {
     public UserServiceImpl usi;
     @Autowired
     public OperationLogServiceImpl osi;
-    @RequestMapping("search")
+    @RequestMapping("/search")
     public String selectAllUserCus(@RequestParam Map<String,String> condition) {
         int sequence=0;
 //        User user = new User();
+        Map<String,String> param=new HashMap<String, String>();
         String cusername=null;
         if(condition.containsKey("cusername")){
             cusername= StringUtils.isBlank(condition.get("cusername")) ?  null : condition.get("cusername");
         }
-        List<UserCustomer> list = usi.selectAllUserCus(condition);
+        Integer currentPage = 1;
+        Integer pageSize = 1;
+
+        if (condition.containsKey("currentPage")) {
+//            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
+            condition.remove("currentPage");
+            condition.remove("pageSize");
+        } else {
+            currentPage = null;
+            pageSize=null;
+        }
+
+
+        List<UserCustomer> list = usi.selectAllUserCus(condition,currentPage,pageSize);
         List<UserCustomer> list_re = new ArrayList<UserCustomer>();
         for (UserCustomer uc:list
              ) {
@@ -45,18 +59,14 @@ public class UserController {
             uc.setSequence(sequence);
             list_re.add(uc);
         }
-        return JSON.toJSONString(list_re);
+        param.put("tatal",String.valueOf(sequence));
+        ResultData resultData=new ResultData();
+        resultData.setData(list_re);
+        resultData.setParam(param);
+
+        return JSON.toJSONString(resultData);
     }
 
-//    @RequestMapping("/search")
-//    public String selectUserByName(String cusername) {
-//        List<UserCustomer> usercus_re = usi.selectUserByName(cusername);
-//        for (UserCustomer uc : usercus_re
-//        ) {
-//            uc.setRemark("");
-//        }
-//        return JSON.toJSONString(usercus_re);
-//    }
     /**
      * hjl
      * 添加用户并进行日志记录

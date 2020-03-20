@@ -15,10 +15,10 @@ public interface UserService {
 
     int deleteUserById(Integer id);
 
-    List<UserCustomer> selectAllUserCus(Map<String,String> condition);
+    List<UserCustomer> selectAllUserCus(Map<String,String> condition,Integer currentPage,Integer pageSize);
 
     int addUser(User user);
     int updateUser(User user);
 
-    JsonResult selectUserByUserName(String username, String password);
+//    JsonResult selectUserByUserName(String username, String password);
 }

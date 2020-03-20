@@ -1,5 +1,6 @@
 package com.plat.acoal.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.plat.acoal.dao.UserMapper;
 import com.plat.acoal.entity.User;
 import com.plat.acoal.model.UserCustomer;
@@ -49,14 +50,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserCustomer> selectAllUserCus(Map<String,String> condition) {
-        List<UserCustomer> lstucus=userMapper.selectAllUserCus(condition);
-        List<UserCustomer> lstusercus=new ArrayList<UserCustomer>();
-        for (UserCustomer item:lstucus) {
-           item.setRemark("");;
-            lstusercus.add(item);
+    public List<UserCustomer> selectAllUserCus(Map<String,String> condition,Integer currentPage,Integer pageSize) {
+        System.out.println(currentPage+"当前页");
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,1);
         }
-        return lstusercus;
+        return userMapper.selectAllUserCus(condition);
     }
 
     @Override
