@@ -8,12 +8,15 @@ import com.plat.acoal.service.impl.OperationLogServiceImpl;
 import com.plat.acoal.service.impl.UserServiceImpl;
 import com.plat.acoal.utils.JsonResult;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 /*
  *@RestController
  *reestful风格的Controller的注解，用之替代Controller;相当于@Controller+@ResponseBody
@@ -26,11 +29,15 @@ public class UserController {
     public UserServiceImpl usi;
     @Autowired
     public OperationLogServiceImpl osi;
-    @GetMapping("")
-    public String selectAllUserCus() {
+    @RequestMapping("search")
+    public String selectAllUserCus(@RequestParam Map<String,String> condition) {
         int sequence=0;
-        User user = new User();
-        List<UserCustomer> list = usi.selectAllUserCus(user);
+//        User user = new User();
+        String cusername=null;
+        if(condition.containsKey("cusername")){
+            cusername= StringUtils.isBlank(condition.get("cusername")) ?  null : condition.get("cusername");
+        }
+        List<UserCustomer> list = usi.selectAllUserCus(condition);
         List<UserCustomer> list_re = new ArrayList<UserCustomer>();
         for (UserCustomer uc:list
              ) {
@@ -40,24 +47,16 @@ public class UserController {
         }
         return JSON.toJSONString(list_re);
     }
-    /*
-     *@GetMapping
-     *相当于@RequestMapping(value = "",method = RequestMethod.GET)
-     */
- /*   @GetMapping("/{id}")
-    public String selectUserById(@PathVariable("id") Integer id) {
-        User user = usi.selectUserById(id);
-        return JSON.toJSONString(user);
-    }*/
-    @GetMapping("/search")
-    public String selectUserByName(String cusername) {
-        List<UserCustomer> usercus_re = usi.selectUserByName(cusername);
-        for (UserCustomer uc : usercus_re
-        ) {
-            uc.setRemark("");
-        }
-        return JSON.toJSONString(usercus_re);
-    }
+
+//    @RequestMapping("/search")
+//    public String selectUserByName(String cusername) {
+//        List<UserCustomer> usercus_re = usi.selectUserByName(cusername);
+//        for (UserCustomer uc : usercus_re
+//        ) {
+//            uc.setRemark("");
+//        }
+//        return JSON.toJSONString(usercus_re);
+//    }
     /**
      * hjl
      * 添加用户并进行日志记录
@@ -66,7 +65,7 @@ public class UserController {
      * @param request
      * @return json
      */
-    @PostMapping("/add")
+    @RequestMapping("/add")
     public String addUser(User user, HttpServletRequest request) {
 //        User user_s= (User) request.getSession().getAttribute("");
 //        int userid=user.getIuserid();
@@ -94,7 +93,7 @@ public class UserController {
         }
         return JSON.toJSONString(jr);
     }
-    @PostMapping("/update")
+    @RequestMapping("/update")
     public String updateUser(User user, HttpServletRequest request) {
         int i = usi.updateUser(user);
         JsonResult jr = new JsonResult();
@@ -129,7 +128,7 @@ public class UserController {
      * 变体还有/user/{id}/child等，殊途同归
      * 获取该参数的注解为@PathVariable(value="XX")，其中XX要和地址{XX}中的XX相同
      */
-    @PostMapping("/delete")
+    @RequestMapping("/delete")
     public String deleteUserById(Integer id, HttpServletRequest request) {
         int i = usi.deleteUserById(id);
         JsonResult jr = new JsonResult();

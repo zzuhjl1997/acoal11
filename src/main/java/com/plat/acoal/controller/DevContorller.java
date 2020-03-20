@@ -16,10 +16,8 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -38,7 +36,7 @@ public class DevContorller {
     public DevServiceImpl devServiceImpl;
     @Autowired
     private RegionServiceImpl regionServiceImpl;
-    @GetMapping("/dim")
+     @RequestMapping("/dim")
     public String selectDevInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
@@ -52,14 +50,14 @@ public class DevContorller {
         }
         return JSON.toJSONString(dsi.selectDevInfoModelByCondtition(currentPage, condition));
     }
-    @GetMapping("/name")
+     @RequestMapping("/name")
     public String selectNameByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
         return JSON.toJSONString(dsi.selectNameByCondition(condition));
     }
-    @GetMapping("/type")
+     @RequestMapping("/type")
     public String selectTypeByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerid = user.getIcustomerid();
@@ -67,7 +65,8 @@ public class DevContorller {
         */
         return JSON.toJSONString(dsi.selectTypeByCondition(condition));
     }
-    @GetMapping("/dam")
+     @RequestMapping("/dam")
+   
     public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
@@ -85,7 +84,7 @@ public class DevContorller {
     /**
      * 查询消防炮状态列表
      */
-    @GetMapping("/fire")
+     @RequestMapping("/fire")
     public String getFireList(Dev dev, HttpServletRequest request) {
 //
 //        String devid = "3";
@@ -110,7 +109,7 @@ public class DevContorller {
     /**
      * 查询消防炮状态
      */
-    @GetMapping("/nowFire")
+     @RequestMapping("/nowFire")
     public String getFireStatus(DevInfo devInfo, HttpServletRequest request) {
         String devid = "8";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -139,7 +138,7 @@ public class DevContorller {
      * @param request
      * @return
      */
-    @GetMapping("/newstatus")
+     @RequestMapping("/newstatus")
     public String getStatus(@RequestParam Map<String, String> condition, Dev dev, HttpServletRequest request) {
         String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -161,7 +160,7 @@ public class DevContorller {
     /**
      * 获取监测点列表  树状图
      */
-    @GetMapping("/devlist")
+     @RequestMapping("/devlist")
     private String getdevlist(@RequestParam Map<String, String> condition, HttpSession session) {
        /* User user = (User)session.getAttribute("user");
         Integer icustomerid = user.getIcustomerid();*/
@@ -196,7 +195,7 @@ public class DevContorller {
      *
      * @param
      */
-    @GetMapping("/fanlist")
+     @RequestMapping("/fanlist")
     private String getfanlist(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer customerId = 2;
         Integer count = null;
@@ -214,7 +213,7 @@ public class DevContorller {
      * 在线/总设备=设备在线率
      * List(Map<String,Integer>)
      */
-    @GetMapping("/onlinerate")
+     @RequestMapping("/onlinerate")
     private String onlinerate(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer customerId = 2;
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
@@ -303,34 +302,69 @@ public class DevContorller {
     /**
      * 获取大屏实时数据 三个表格 三个坐标轴
      */
-    @GetMapping("/realtimedata")
+    @RequestMapping("/realtimedata")
     private String realtimedata(@RequestParam Map<String, String> condition, HttpSession session){
         Integer customerId = 2;
+        if(condition.containsKey("customerId")){
+            customerId=StringUtils.isBlank(condition.get("customerId"))? 1:Integer.valueOf(condition.get("customerId"));
+        }
         //获取CO,CH4,粉尘实时数据
         int pos=0;
-        String[] press_devname=null;
-        double[] press_value=null;
-        String[] tem_devname=null;
-        double[] tem_value=null;
-        String[] flow_devname=null;
-        double[] flow_value=null;
+        String[] press_region=new String[4];
+        double[] press_value=new double[4];
+        String[] tem_region=new String[4];
+        double[] tem_value=new double[4];
+        String[] flow_region=new String[4];
+        double[] flow_value=new double[4];
         condition.put("type","5");
-        List<DevInfo> list_co=devServiceImpl.selectDevByCondition(condition);
+        List<DevInfo> list_co=devServiceImpl.selectCoByCondition(condition);
         condition.put("type","6");
-        List<DevInfo> list_ch4=devServiceImpl.selectDevByCondition(condition);
+        List<DevInfo> list_ch4=devServiceImpl.selectCh4ByCondition(condition);
         condition.put("type","4");
-        List<DevInfo> list_dust=devServiceImpl.selectDevByCondition(condition);
-        //获取某区域水压温度流量
+        List<DevInfo> list_dust=devServiceImpl.selectDustByCondition(condition);
+        //获取区域水压温度流量
         //获取水压
         condition.put("type","7");
-        condition.put("region","1");
-        List<DevInfo> list_press=devServiceImpl.selectDevNowByCondition(condition);
-        for (DevInfo devInfo:list_press
+        List<DevInfo> list_press=devServiceImpl.selectPressNowByCondition(condition);
+//        System.out.println("dstsuigfise"+list_press);
+        pos=0;
+        for (DevInfo item:list_press
              ) {
-            press_devname[pos]=devInfo.getDevname();
-            press_value[pos]=devInfo.getTpressure();
+            press_region[pos]=item.getRegionname();
+            press_value[pos]=item.getTpressure();
             pos ++;
         }
-       return JSON.toJSONString(list_press, SerializerFeature.DisableCircularReferenceDetect);
+        //获取区域水流数据
+        condition.put("type","8");
+        List<DevInfo> list_flow=devServiceImpl.selectFlowNowByCondition(condition);
+        System.out.println("dstsuigfise"+list_flow);
+        pos=0;
+        for (DevInfo item:list_flow
+        ) {
+            flow_region[pos]=item.getRegionname();
+            flow_value[pos]=item.getTpressure();
+            pos ++;
+        }
+        //获取区域温度
+        condition.put("type","2");
+        List<DevInfo> list_tem=devServiceImpl.selectTemNowByCondition(condition);
+        for (DevInfo item:list_flow
+        ) {
+            tem_region[pos]=item.getRegionname();
+            tem_value[pos]=item.getTpressure();
+            pos ++;
+        }
+
+
+
+        ResultData resultData=new ResultData();
+        resultData.setData(list_ch4);
+        resultData.setDatalst2(list_co);
+        resultData.setDatalst3(list_dust);
+        resultData.setArrsdata1(press_region);
+        resultData.setArrddata1(press_value);
+        resultData.setArrsdatax1(flow_region);
+        resultData.setArrddata2(flow_value);
+        return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
     }
 }

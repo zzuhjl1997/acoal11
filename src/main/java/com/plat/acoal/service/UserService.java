@@ -5,6 +5,7 @@ import com.plat.acoal.model.UserCustomer;
 import com.plat.acoal.utils.JsonResult;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -14,7 +15,7 @@ public interface UserService {
 
     int deleteUserById(Integer id);
 
-    List<UserCustomer> selectAllUserCus(User user);
+    List<UserCustomer> selectAllUserCus(Map<String,String> condition);
 
     int addUser(User user);
     int updateUser(User user);

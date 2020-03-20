@@ -29,4 +29,14 @@ public interface DevMapper {
     List<DevInfo> selectDevNowByCondition(Map<String, String> condition);
 
     List<DevInfo> selectHydrantList(Map<String, String> condition);
+
+    List<DevInfo> selectCh4ByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectDustByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectPressNowByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectFlowNowByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectTemNowByCondition(Map<String, String> condition);
 }

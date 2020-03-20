@@ -25,9 +25,19 @@ public interface DevService {
 
     List<DevInfo> selectDevInfoByCondition(Map<String, String> condition);
 
-    List<DevInfo> selectDevByCondition(Map<String, String> condition);
+    List<DevInfo> selectCoByCondition(Map<String, String> condition);
 
     List<DevInfo> selectDevNowByCondition(Map<String, String> condition);
 
     List<DevInfo> selectHydrantList(Map<String, String> condition, Integer currentPage, Integer pageSize);
+
+    List<DevInfo> selectCh4ByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectDustByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectPressNowByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectFlowNowByCondition(Map<String, String> condition);
+
+    List<DevInfo> selectTemNowByCondition(Map<String, String> condition);
 }

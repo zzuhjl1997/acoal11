@@ -60,7 +60,7 @@ public class DevServiceImpl implements DevService {
         return dm.selectDevInfoByCus(condition);
     }
     @Override
-    public List<DevInfo> selectDevByCondition(Map<String, String> condition) {
+    public List<DevInfo> selectCoByCondition(Map<String, String> condition) {
         return dm.selectDevByCondition(condition);
     }
     @Override
@@ -76,5 +76,30 @@ public class DevServiceImpl implements DevService {
 
         }
         return dm.selectHydrantList(condition);
+    }
+
+    @Override
+    public List<DevInfo> selectCh4ByCondition(Map<String, String> condition) {
+        return dm.selectCh4ByCondition(condition);
+    }
+
+    @Override
+    public List<DevInfo> selectDustByCondition(Map<String, String> condition) {
+        return dm.selectDustByCondition(condition);
+    }
+
+    @Override
+    public List<DevInfo> selectPressNowByCondition(Map<String, String> condition) {
+        return dm.selectPressNowByCondition(condition);
+    }
+
+    @Override
+    public List<DevInfo> selectFlowNowByCondition(Map<String, String> condition) {
+        return dm.selectFlowNowByCondition(condition);
+    }
+
+    @Override
+    public List<DevInfo> selectTemNowByCondition(Map<String, String> condition) {
+        return dm.selectTemNowByCondition(condition);
     }
 }

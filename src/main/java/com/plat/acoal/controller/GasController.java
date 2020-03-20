@@ -32,7 +32,7 @@ public class GasController {
      * @param
      * @return
      */
-    @GetMapping(value = "/newCh4", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/newCh4", produces = "application/json;charset=UTF-8")
     public String selectNewFt(GasModel gasModel, HttpServletRequest request) {
         String devid = "2";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -53,7 +53,7 @@ public class GasController {
      * @param
      * @return
      */
-    @GetMapping(value = "/newCo", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/newCo", produces = "application/json;charset=UTF-8")
     public String getNewCo(GasModel gasModel, HttpServletRequest request) {
         String devid = "7";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -74,7 +74,7 @@ public class GasController {
      * @param gasModel
      * @return
      */
-    @GetMapping("/dayCh4")
+    @RequestMapping("/dayCh4")
     public String getDayFt(GasModel gasModel, HttpServletRequest request) {
         String devid = "7";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -137,7 +137,7 @@ public class GasController {
      * @param gasModel
      * @return
      */
-    @GetMapping("/dayCo")
+    @RequestMapping("/dayCo")
     public String getDayCo(GasModel gasModel, HttpServletRequest request) {
         String devid = "7";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -200,7 +200,7 @@ public class GasController {
      * @param session
      * @return
      */
-    @GetMapping("/ch4List")
+    @RequestMapping("/ch4List")
     public String getMonitorList(DevInfo devInfo, HttpSession session,@RequestParam Map<String,String> condition) {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
@@ -237,7 +237,7 @@ public class GasController {
      * @param session
      * @return
      */
-    @GetMapping("/coList")
+    @RequestMapping("/coList")
     public String getCoList(DevInfo devInfo, HttpSession session,@RequestParam Map<String,String> condition) {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){

@@ -15,10 +15,7 @@ import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,7 +42,7 @@ public class PressureFlowController {
      * @param
      * @return
      */
-    @GetMapping("/newPress")
+    @RequestMapping("/newPress")
     public String getNewPress(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
         //获取消防栓Id
         String hid = "102";
@@ -75,7 +72,7 @@ public class PressureFlowController {
      * @param
      * @return
      */
-    @GetMapping("/newFlow")
+    @RequestMapping("/newFlow")
     public String getNewFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
 //        String devid = "3";
 //        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -89,6 +86,7 @@ public class PressureFlowController {
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防栓Id查找设备Id
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        //获取消防栓状态
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
         }
@@ -117,7 +115,7 @@ public class PressureFlowController {
     /**
      * 消防栓监控列表
      */
-    @GetMapping("/hydrantList")
+    @RequestMapping("/hydrantList")
     private String hydrantList(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer icustomerid = null;
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
@@ -162,6 +160,7 @@ public class PressureFlowController {
                 pressureFlowModel.setFlowid(item.getFlowid());
                 listf = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
                 item.setTflow(listf.get(0).getTflow());
+
             }
         }
         return JSON.toJSONString(listhy);
@@ -174,7 +173,7 @@ public class PressureFlowController {
      * @param pressureFlowModel
      * @return
      */
-    @GetMapping("/dayPress")
+    @RequestMapping("/dayPress")
     public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
 //            String devid = "3";
 //            if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -241,7 +240,7 @@ public class PressureFlowController {
      * @param pressureFlowModel
      * @return
      */
-    @GetMapping("/dayFlow")
+    @RequestMapping("/dayFlow")
     public String getDayFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
 //        String devid = "3";
 //        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {

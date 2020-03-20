@@ -19,7 +19,7 @@ import java.util.List;
 public class OperationLogController {
     @Autowired
     public OperationLogServiceImpl osi;
-    @GetMapping("")
+    @RequestMapping("")
     public String selectLogs(OperationIAO operationIAO) {
       List<OperationIAO> list=osi.selectLogs(operationIAO);
        // List<Customer> list = csi.selectAllCustomers(customer);

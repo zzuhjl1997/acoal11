@@ -18,6 +18,7 @@ public class DevInfo {
     private Integer icustomerid;
 
     private Integer region;
+    private String regionname;
 
     private String site;
 

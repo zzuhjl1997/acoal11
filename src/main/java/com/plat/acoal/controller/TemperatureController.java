@@ -32,7 +32,7 @@ public class TemperatureController {
      * @param
      * @return
      */
-    @GetMapping("/newFt")
+    @RequestMapping("/newFt")
     public String selectNewFt(TemperatureInfo temperatureInfo, HttpServletRequest request) {
         String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -57,7 +57,7 @@ public class TemperatureController {
      * @param temperatureInfo
      * @return
      */
-    @GetMapping("/monitordayFt")
+    @RequestMapping("/monitordayFt")
     public String getDayFt(TemperatureInfo temperatureInfo, HttpServletRequest request) {
         String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -107,7 +107,7 @@ public class TemperatureController {
      * @param request
      * @return
      */
-    @GetMapping("/ftList")
+    @RequestMapping("/ftList")
     public String getCoList(DevInfo devInfo, HttpServletRequest request, HttpSession session,@RequestParam Map<String,String> condition) throws ParseException {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){

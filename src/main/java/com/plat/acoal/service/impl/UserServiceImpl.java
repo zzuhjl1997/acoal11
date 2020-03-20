@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -48,8 +49,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserCustomer> selectAllUserCus(User user) {
-        List<UserCustomer> lstucus=userMapper.selectAllUserCus(user);
+    public List<UserCustomer> selectAllUserCus(Map<String,String> condition) {
+        List<UserCustomer> lstucus=userMapper.selectAllUserCus(condition);
         List<UserCustomer> lstusercus=new ArrayList<UserCustomer>();
         for (UserCustomer item:lstucus) {
            item.setRemark("");;

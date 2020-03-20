@@ -401,6 +401,7 @@
         FROM
         `t_co` tco
         INNER JOIN t_dev td
+        ON td.id = tco.dev_id
         WHERE
         1 = 1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
@@ -431,7 +432,8 @@
         td.NAME AS name,
         td.site AS site,
         th.pressureid AS pressureid,
-        th.flowid AS flowid
+        th.flowid AS flowid,
+        td.status AS status
         FROM
         t_dev td
         INNER JOIN t_dev_type tdt ON td.type = tdt.id
@@ -440,5 +442,84 @@
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and td.type=#{type}</if>
+    </select>
+    <!-- 大屏 CH4列表-->
+    <select id="selectCh4ByCondition" resultType="com.plat.acoal.model.DevInfo">
+        SELECT
+        td.`name` AS name,
+        tg.gCH4 AS gCH4,
+        td.`status` AS `status`
+        FROM
+        `t_gas` tg
+        INNER JOIN t_dev td ON td.id = tg.dev_id
+        WHERE
+        1 = 1
+        <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and type=#{type}</if>
+    </select>
+    <select id="selectDustByCondition" resultType="com.plat.acoal.model.DevInfo">
+        SELECT
+        td.`name` AS name,
+        tdu.fDust AS fDust,
+        td.`status` AS `status`
+        FROM
+        `t_dust` tdu
+        INNER JOIN t_dev td ON td.id = tdu.dev_id
+        where 1 = 1
+        <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and type=#{type}</if>
+    </select>
+    <select id="selectPressNowByCondition" resultType="com.plat.acoal.model.DevInfo">
+        SELECT
+        AVG( tp.tpressure ) AS tpressure,
+        td.`name` AS name,
+        tr.`name` AS regionname
+        FROM
+        t_pressure tp
+        INNER JOIN t_dev td ON tp.dev_id = td.id
+        INNER JOIN t_region tr ON td.region = tr.id
+        WHERE
+        1 = 1
+        <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and td.type=#{type}</if>
+        <if test="region!=null">and td.region=#{type}</if>
+        GROUP BY
+        region
+    </select>
+    <select id="selectFlowNowByCondition" resultType="com.plat.acoal.model.DevInfo">
+        SELECT
+        AVG( tf.tFlow ) AS tFlow,
+        td.`name` AS NAME,
+        tr.`name` AS regionname
+        FROM
+        t_flow tf
+        INNER JOIN t_dev td ON tf.dev_id = td.id
+        INNER JOIN t_region tr ON td.region = tr.id
+        WHERE
+        1 = 1
+        <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and td.type=#{type}</if>
+        <if test="region!=null">and td.region=#{type}</if>
+        GROUP BY
+        region
+
+
+    </select>
+    <select id="selectTemNowByCondition" resultType="com.plat.acoal.model.DevInfo">
+        SELECT
+        AVG( tt.fT ) AS fT,
+        td.`name` AS name,
+        tr.`name` AS regionname
+        FROM
+        t_temperature tt
+        INNER JOIN t_dev td ON tt.dev_id = td.id
+        INNER JOIN t_region tr ON td.region = tr.id
+        WHERE
+        1 = 1
+        <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and td.type=#{type}</if>
+        <if test="region!=null">and td.region=#{type}</if>
+        GROUP BY
+        region
     </select>
 </mapper>
