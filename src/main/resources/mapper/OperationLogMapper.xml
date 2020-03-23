@@ -23,23 +23,25 @@
 
     <select id="selectLogs" parameterType="com.plat.acoal.model.OperationIAO"
             resultType="com.plat.acoal.model.OperationIAO">
-    SELECT
-	  tu.cUserName AS username,
-	  top.operationDate AS operationdate,
-	  top.tUrlName AS turlname,
-	  top.`status` AS `status`
-      FROM
-	  t_operation_log top
-	  INNER JOIN t_user tu ON tu.iUserID = top.operationUserID
-      WHERE
-	  1 = 1
-	  <if test="dcollectstart!=null">
-        AND top.operationDate BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}
-      </if>
-     <if test="dcollectend!=null">
-        AND #{dcollectend,jdbcType=TIMESTAMP}</if>
-	    AND tu.cUserName = #{username,jdbcType=VARCHAR}
-  </select>
+        SELECT
+        tu.cUserName AS username,
+        top.operationDate AS operationdate,
+        top.tUrlName AS turlname,
+        top.`status` AS `status`
+        FROM
+        t_operation_log top
+        INNER JOIN t_user tu ON tu.iUserID = top.operationUserID
+        WHERE
+        1 = 1
+        <if test="dcollectstart!=null">
+            AND top.operationDate BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}
+        </if>
+        <if test="dcollectend!=null">
+            AND #{dcollectend,jdbcType=TIMESTAMP}
+        </if>
+        <if test="username!=null">AND tu.cUserName like #{username,jdbcType=VARCHAR}</if>
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_operation_log
     where id = #{id,jdbcType=INTEGER}

@@ -21,9 +21,9 @@ public class DustServiceImpl implements DustService {
         return dustMapper.selectInfoByHour(dustModel);
     }
     @Override
-    public List<DevInfo> selectDustList(DevInfo devInfo,Integer currentPage,Integer ageSize) {
-        if(currentPage != null){
-            PageHelper.startPage(currentPage,1);
+    public List<DevInfo> selectDustList(DevInfo devInfo,Integer currentPage,Integer pageSize) {
+        if(currentPage != null&&pageSize!=null){
+            PageHelper.startPage(currentPage,pageSize);
         }
         return dustMapper.selectDustList(devInfo);
     }

@@ -1,4 +1,5 @@
 package com.plat.acoal.controller;
+
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ import java.util.Map;
 public class GasController {
     @Autowired
     public GasServiceImpl gasServiceImpl;
+
     /**
      * 查询最新Ch4
      *
@@ -47,6 +50,7 @@ public class GasController {
         }
         return JSON.toJSONString(newGas);
     }
+
     /**
      * 查询最新Co
      *
@@ -68,6 +72,7 @@ public class GasController {
         }
         return JSON.toJSONString(newGas);
     }
+
     /**
      * 查询某天的ch4
      *
@@ -126,11 +131,12 @@ public class GasController {
             pos++;
         }
         resultData.setArrddata1(fGch4Arr);
-        resultData.setArrddata2(fGcoArr);
-        resultData.setArrddata3(fGo2Arr);
+//        resultData.setArrddata2(fGcoArr);
+//        resultData.setArrddata3(fGo2Arr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
     }
+
     /**
      * 查询某天的co
      *
@@ -188,23 +194,25 @@ public class GasController {
             }
             pos++;
         }
-        resultData.setArrddata1(fGch4Arr);
+//        resultData.setArrddata1(fGch4Arr);
         resultData.setArrddata2(fGcoArr);
-        resultData.setArrddata3(fGo2Arr);
+//        resultData.setArrddata3(fGo2Arr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
     }
+
     /**
      * ch4监控列表
+     *
      * @param devInfo
      * @param session
      * @return
      */
     @RequestMapping("/ch4List")
-    public String getMonitorList(DevInfo devInfo, HttpSession session,@RequestParam Map<String,String> condition) {
-        Integer icustomerid=null;
-        if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
-            icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
+    public String getMonitorList(DevInfo devInfo, HttpSession session, @RequestParam Map<String, String> condition) {
+        Integer icustomerid = null;
+        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
         Integer currentPage = 1;
         Integer pageSize = 1;
@@ -216,36 +224,43 @@ public class GasController {
             condition.remove("pageSize");
         } else {
             currentPage = null;
-            pageSize=null;
+            pageSize = null;
         }
-
+        String devname = null;
+        if (devname != null) {
+            devInfo.setName(devname);
+        }
         ResultData resultData = new ResultData();
-        List<DevInfo> listinfo = gasServiceImpl.selectCh4List(devInfo,currentPage,pageSize);
-        int count=0;
-        for (DevInfo item:listinfo
+        List<DevInfo> listinfo = gasServiceImpl.selectCh4List(devInfo, currentPage, pageSize);
+        int count = 0;
+        for (DevInfo item : listinfo
         ) {
-            count ++;
+            count++;
             item.setCount(count);
-            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 
         }
-        return JSON.toJSONString(listinfo);
+        resultData.setPagecount(count);
+        resultData.setData(listinfo);
+        return JSON.toJSONString(resultData);
     }
+
     /**
      * co监控列表
+     *
      * @param devInfo
      * @param session
      * @return
      */
     @RequestMapping("/coList")
-    public String getCoList(DevInfo devInfo, HttpSession session,@RequestParam Map<String,String> condition) {
-        Integer icustomerid=null;
-        if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
-            icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
+    public String getCoList(DevInfo devInfo, HttpSession session, @RequestParam Map<String, String> condition) {
+        Integer icustomerid = null;
+        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
-        Integer type=null;
-        if (condition.containsKey("type")){
-            type=StringUtils.isBlank(condition.get("type"))?1 : Integer.valueOf(condition.get("type"));
+        Integer type = null;
+        if (condition.containsKey("type")) {
+            type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
         }
         Integer currentPage = 1;
         Integer pageSize = 1;
@@ -257,18 +272,25 @@ public class GasController {
             condition.remove("pageSize");
         } else {
             currentPage = null;
-            pageSize=null;
+            pageSize = null;
+        }
+        String devname = null;
+        if (devname != null) {
+            devInfo.setName(devname);
         }
         devInfo.setType(type);
-        List<DevInfo> listinfo = gasServiceImpl.selectCoList(devInfo,currentPage,pageSize);
-        int count=0;
-        for (DevInfo item:listinfo
+        List<DevInfo> listinfo = gasServiceImpl.selectCoList(devInfo, currentPage, pageSize);
+        int count = 0;
+        for (DevInfo item : listinfo
         ) {
-            count ++;
+            count++;
             item.setCount(count);
-            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 
         }
-        return JSON.toJSONString(listinfo);
+        ResultData resultData = new ResultData();
+        resultData.setPagecount(count);
+        resultData.setData(listinfo);
+        return JSON.toJSONString(resultData);
     }
 }

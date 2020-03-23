@@ -16,5 +16,6 @@ public class PressureFlowModel {
     private Integer hydrantId;
     private Integer pressureid;
     private Integer flowid;
+    private  Integer sequence;
 
 }

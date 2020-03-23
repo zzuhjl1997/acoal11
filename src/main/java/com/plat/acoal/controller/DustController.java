@@ -33,7 +33,7 @@ public class DustController {
      */
     @GetMapping(value = "/newDust", produces = "application/json;charset=UTF-8")
     public String selectNewFt(DustModel dustModel, HttpServletRequest request) {
-        String devid = "3";
+        String devid = "74";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -96,6 +96,7 @@ public class DustController {
             pos++;
         }
         resultData.setArrddata1(fDustArr);
+        resultData.setArrsdatax1(arrhours);
         return JSON.toJSONString(resultData);
     }
     /**
@@ -123,7 +124,10 @@ public class DustController {
             currentPage = null;
             pageSize=null;
         }
-
+        String devname=null;
+        if(devname!=null){
+            devInfo.setName(devname);
+        }
         devInfo.setType(4);
         List<DevInfo> listinfo = dustServiceImpl.selectDustList(devInfo,currentPage,pageSize);
         int count=0;
@@ -134,6 +138,9 @@ public class DustController {
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
 
         }
-        return JSON.toJSONString(listinfo);
+        ResultData resultData=new ResultData();
+        resultData.setPagecount(count);
+        resultData.setData(listinfo);
+        return JSON.toJSONString(resultData);
     }
 }

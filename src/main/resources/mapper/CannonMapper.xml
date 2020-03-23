@@ -33,7 +33,8 @@
         td.`status` AS `status`,
         tca.isfault AS isfault,
         tca.isfire AS isfire,
-        tca.isopen AS isopen
+        tca.isopen AS isopen,
+        td.online AS online
         FROM
         t_dev td
         INNER JOIN t_dev_type tdt ON td.type = tdt.id
@@ -41,7 +42,8 @@
         WHERE 1=1
         <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
-        <if test="status!=null">AND td.`status` = #{status,jdbcType=INTEGER}</if>
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="is_auto!=null">AND td.`is_auto` = #{is_auto,jdbcType=INTEGER}</if>
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
         ) a
     </select>

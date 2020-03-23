@@ -1,5 +1,6 @@
 package com.plat.acoal.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.plat.acoal.dao.CannonMapper;
 import com.plat.acoal.model.CannonInfo;
 import com.plat.acoal.model.DevInfo;
@@ -14,12 +15,16 @@ public class CannonServiceImpl implements CannonService {
     @Autowired
     private CannonMapper cam;
     @Override
-    public List<DevInfo> selectCannonList(Map<String, String> condition) {
+    public List<DevInfo> selectCannonList(Map<String, String> condition,Integer currentPage,Integer pageSize) {
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,1);
+        }
         return cam.selectCannonList(condition);
     }
 
     @Override
-    public List<CannonInfo> selectNewCannonById(Map<String, String> condition) {
+    public List<CannonInfo> selectNewCannonById(Map<String,String> condition) {
+
         return cam.selectNewCannonById(condition);
     }
 }

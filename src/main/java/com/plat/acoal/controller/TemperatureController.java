@@ -126,18 +126,32 @@ public class TemperatureController {
             currentPage = null;
             pageSize=null;
         }
+        String devname=null;
+        if(devname!=null){
+            devInfo.setName(devname);
+        }
+        if (condition.containsKey("devname")){
 
+            devname=StringUtils.isBlank(condition.get("devname")) ? null:condition.get("devname");
+        }
+        Map<String,String> param=new HashMap<String, String>();
 
         devInfo.setType(2);
+
         List<DevInfo> listinfo = temperatureServiceImpl.selectFtList(devInfo,currentPage,pageSize);
-        int count=0;
+        int sequence=0;
+
         for (DevInfo item:listinfo) {
-            count ++;
-            item.setCount(count);
+            sequence ++;
+            item.setCount(sequence);
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("更新时间"+DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("对象"+item);
         }
-        return JSON.toJSONString(listinfo);
+//        param.put("tatal",String.valueOf(count));
+        ResultData resultData=new ResultData();
+        resultData.setPagecount(sequence);
+        resultData.setData(listinfo);
+        return JSON.toJSONString(resultData);
     }
 }

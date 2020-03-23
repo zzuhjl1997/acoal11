@@ -55,7 +55,7 @@ public class PressureFlowController {
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
-            System.out.println(pressureFlowModel.getTflow()+"aWRDWSgfaes");
+            System.out.println(pressureFlowModel.getTflow() + "aWRDWSgfaes");
         }
         List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
         for (PressureFlowModel d : newPress
@@ -91,7 +91,7 @@ public class PressureFlowController {
             pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
         }
         List<PressureFlowModel> newFlow = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
-        System.out.println(newFlow+"adwdqw");
+        System.out.println(newFlow + "adwdqw");
         String[] arrtime = new String[4];
         double[] flow = {0.0, 0.0, 0.0, 0.0};
         int pos = 0;
@@ -144,12 +144,20 @@ public class PressureFlowController {
         List<PressureFlowModel> listf = new ArrayList<PressureFlowModel>();
         PressureFlowModel pressureFlowModel = new PressureFlowModel();
         //查询消防栓设备列表
+        String devname=null;
+        if(devname!=null){
+            condition.put("name",devname);
+        }
         List<DevInfo> listhy = devServiceImpl.selectHydrantList(condition, currentPage, pageSize);
+        Integer count = 0;
         for (DevInfo item : listhy
         ) {
+            count++;
+            item.setCount(count);
             //查询消防栓对应的实时数据
             pressureFlowModel.setPressureid(item.getPressureid());
             if (listp.size() != 0) {
+
                 listp = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
 
                 System.out.println(listp);
@@ -162,8 +170,12 @@ public class PressureFlowController {
                 item.setTflow(listf.get(0).getTflow());
 
             }
+
         }
-        return JSON.toJSONString(listhy);
+        ResultData resultData = new ResultData();
+        resultData.setPagecount(count);
+        resultData.setData(listhy);
+        return JSON.toJSONString(resultData);
     }
 
 
@@ -186,7 +198,9 @@ public class PressureFlowController {
         }
         //根据消防栓Id查找设备Id
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
-        pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+        if (hydrantidRelation_re != null) {
+            pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+        }
         String startdate = "", enddate = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dfhour = new SimpleDateFormat("HH:mm");
@@ -254,8 +268,9 @@ public class PressureFlowController {
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防栓Id查找设备Id
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
-        pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
-        String startdate = "", enddate = "";
+        if (hydrantidRelation_re != null) {
+            pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+        }        String startdate = "", enddate = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dfhour = new SimpleDateFormat("HH:mm");
         Date date = new Date();
@@ -281,6 +296,7 @@ public class PressureFlowController {
         int pos = 0;
         pressureFlowModel.setDcollectstart(startdate);
         pressureFlowModel.setDcollectend(enddate);
+
         List<PressureFlowModel> newDust = pressureFlowServiceImpl.selectFByHour(pressureFlowModel);
         ResultData resultData = new ResultData();
         for (PressureFlowModel item : newDust) {

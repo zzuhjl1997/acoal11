@@ -20,5 +20,5 @@ public interface DustService {
      */
     List<DustModel> selectInfoByHour (DustModel dustModel);
 
-    List<DevInfo> selectDustList(DevInfo devInfo,Integer currentPage,Integer ageSize);
+    List<DevInfo> selectDustList(DevInfo devInfo,Integer currentPage,Integer pageSize);
 }

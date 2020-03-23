@@ -28,16 +28,16 @@ public class GasServiceImpl implements GasService {
         return gasMapper.selectCoByHour(gasModel);
     }
     @Override
-    public List<DevInfo> selectCh4List(DevInfo devInfo,Integer currentPage,Integer ageSize) {
-        if(currentPage != null){
-            PageHelper.startPage(currentPage,1);
+    public List<DevInfo> selectCh4List(DevInfo devInfo,Integer currentPage,Integer pageSize) {
+        if(currentPage != null&&pageSize!=null){
+            PageHelper.startPage(currentPage,pageSize);
         }
         return gasMapper.selectCh4List(devInfo);
     }
     @Override
-    public List<DevInfo> selectCoList(DevInfo devInfo,Integer currentPage,Integer ageSize) {
-        if(currentPage != null){
-            PageHelper.startPage(currentPage,1);
+    public List<DevInfo> selectCoList(DevInfo devInfo,Integer currentPage,Integer pageSize) {
+        if(currentPage != null&&pageSize!=null){
+            PageHelper.startPage(currentPage,pageSize);
         }
         return gasMapper.selectCoList(devInfo);
     }

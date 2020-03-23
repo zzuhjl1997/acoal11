@@ -48,8 +48,7 @@
         tu.mobile as phone,
         tr.cDspName as userrole,
         tc.cCustomerName as customername,
-        td.DeptName as department,
-        tu.memo as remark
+        td.DeptName as department
         FROM
         t_user tu
         INNER JOIN t_userrole tr ON tu.iPopedom = tr.iPopedom
@@ -57,7 +56,7 @@
         INNER JOIN t_dept td ON td.iDeptID = tu.iDeptID
         WHERE 1=1
         <if test="cusername!=null">
-            and tu.cUserName=#{cusername,jdbcType=VARCHAR}
+            and tu.cUserName like #{cusername,jdbcType=VARCHAR}
         </if>
     </select>
 

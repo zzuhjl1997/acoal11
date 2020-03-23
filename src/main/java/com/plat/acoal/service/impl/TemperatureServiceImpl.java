@@ -28,8 +28,8 @@ public class TemperatureServiceImpl implements TemperatureService {
     @Override
     public List<DevInfo> selectFtList(DevInfo devInfo,Integer currentPage,Integer pageSize) {
         System.out.println(currentPage+"当前页");
-        if(currentPage != null){
-            PageHelper.startPage(currentPage,1);
+        if(currentPage != null&&pageSize!=null){
+            PageHelper.startPage(currentPage,pageSize);
         }
         return temperatureMapper.selectFtList(devInfo);
     }

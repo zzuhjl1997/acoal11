@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CannonService {
-    List<DevInfo> selectCannonList(Map<String,String> condition);
+    List<DevInfo> selectCannonList(Map<String,String> condition,Integer currentPage,Integer pageSize);
 
     List<CannonInfo> selectNewCannonById(Map<String, String> condition);
 }

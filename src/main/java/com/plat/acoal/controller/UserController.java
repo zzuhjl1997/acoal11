@@ -56,13 +56,14 @@ public class UserController {
         for (UserCustomer uc:list
              ) {
             sequence ++;
-            uc.setSequence(sequence);
+            uc.setCount(sequence);
             list_re.add(uc);
         }
-        param.put("tatal",String.valueOf(sequence));
+//        param.put("tatal",String.valueOf(sequence));
         ResultData resultData=new ResultData();
+        resultData.setPagecount(sequence);
         resultData.setData(list_re);
-        resultData.setParam(param);
+//        resultData.setParam(param);
 
         return JSON.toJSONString(resultData);
     }

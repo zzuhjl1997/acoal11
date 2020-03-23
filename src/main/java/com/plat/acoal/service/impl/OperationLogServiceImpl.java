@@ -20,7 +20,7 @@ public class OperationLogServiceImpl implements OperationLogService {
     }
 
     @Override
-    public List<OperationIAO> selectLogs(OperationIAO operationIAO) {
+    public List<OperationIAO> selectLogs(OperationIAO operationIAO,Integer currentPage,Integer pageSize) {
         return operationLogMapper.selectLogs(operationIAO);
     }
 

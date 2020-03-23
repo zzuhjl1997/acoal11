@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface OperationLogService {
     int addLogs(OperationLog operationLog);
-    List<OperationIAO> selectLogs(OperationIAO operationIAO);
+    List<OperationIAO> selectLogs(OperationIAO operationIAO,Integer currentPage,Integer pageSize);
 }

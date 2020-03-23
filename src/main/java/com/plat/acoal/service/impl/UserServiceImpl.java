@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserCustomer> selectAllUserCus(Map<String,String> condition,Integer currentPage,Integer pageSize) {
         System.out.println(currentPage+"当前页");
-        if(currentPage != null){
-            PageHelper.startPage(currentPage,1);
+        if(currentPage != null&&pageSize!=null){
+            PageHelper.startPage(currentPage,pageSize);
         }
         return userMapper.selectAllUserCus(condition);
     }

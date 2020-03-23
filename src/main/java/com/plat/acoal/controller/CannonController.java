@@ -8,6 +8,7 @@ import com.plat.acoal.model.TemperatureInfo;
 import com.plat.acoal.service.impl.CannonServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +42,25 @@ public class CannonController {
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
+        Integer currentPage = 1;
+        Integer pageSize = 1;
+
+        if (condition.containsKey("currentPage")) {
+//            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
+            condition.remove("currentPage");
+            condition.remove("pageSize");
+        } else {
+            currentPage = null;
+            pageSize=null;
+        }
+        String devname=null;
+        if(devname!=null){
+            condition.put("name",devname);
+        }
         condition.put("type","3");
-        List<DevInfo> lstinfo = cannonServiceImpl.selectCannonList(condition);
+        List<DevInfo> lstinfo = cannonServiceImpl.selectCannonList(condition,currentPage,pageSize);
         int count=0;
         for (DevInfo item:lstinfo
         ) {
@@ -52,7 +70,11 @@ public class CannonController {
             System.out.println("更新时间"+DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("对象"+item);
         }
-        return JSON.toJSONString(lstinfo);
+
+        ResultData resultData = new ResultData();
+        resultData.setPagecount(count);
+        resultData.setData(lstinfo);
+        return JSON.toJSONString(resultData);
     }
     /**
      * 查看消防炮实时数据
