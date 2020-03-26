@@ -31,7 +31,7 @@ public class DustController {
      * @param
      * @return
      */
-    @GetMapping(value = "/newDust", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/newDust", produces = "application/json;charset=UTF-8")
     public String selectNewFt(DustModel dustModel, HttpServletRequest request) {
         String devid = "74";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -52,7 +52,7 @@ public class DustController {
      * @param dustModel
      * @return
      */
-    @GetMapping("/monitordayDust")
+    @RequestMapping("/monitordayDust")
     public String getDayFt(DustModel dustModel, HttpServletRequest request) {
         String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
@@ -105,7 +105,7 @@ public class DustController {
      * @param session
      * @return
      */
-    @GetMapping("/dustList")
+    @RequestMapping("/dustList")
     public String getCoList(DevInfo devInfo, HttpSession session, @RequestParam Map<String,String> condition) {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
@@ -129,12 +129,15 @@ public class DustController {
             devInfo.setName(devname);
         }
         devInfo.setType(4);
+        //查询烟尘的条数
+       int count=0;
+       count=dustServiceImpl.selectDustCount(condition);
         List<DevInfo> listinfo = dustServiceImpl.selectDustList(devInfo,currentPage,pageSize);
-        int count=0;
+        int sequence=0;
         for (DevInfo item:listinfo
         ) {
-            count ++;
-            item.setCount(count);
+            sequence ++;
+            item.setCount(sequence);
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
 
         }

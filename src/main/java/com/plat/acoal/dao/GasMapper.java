@@ -3,6 +3,8 @@ import com.plat.acoal.entity.Gas;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.GasModel;
 import java.util.List;
+import java.util.Map;
+
 public interface GasMapper {
     int deleteByPrimaryKey(Long id);
     int insert(Gas record);
@@ -17,4 +19,8 @@ public interface GasMapper {
     List<GasModel> selectCoByHour(GasModel gasModel);
     List<GasModel> selectNewCh4ById(GasModel gasModel);
     List<GasModel> selectNewCoById(GasModel gasModel);
+
+    int selectCh4Count(Map<String, String> condition);
+
+    int selectCoCount(Map<String, String> condition);
 }

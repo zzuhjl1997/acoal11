@@ -140,7 +140,9 @@ public class TemperatureController {
 
         List<DevInfo> listinfo = temperatureServiceImpl.selectFtList(devInfo,currentPage,pageSize);
         int sequence=0;
-
+       //获取数据总条数
+        int count=0;
+        count=temperatureServiceImpl.selectFtCount(condition);
         for (DevInfo item:listinfo) {
             sequence ++;
             item.setCount(sequence);

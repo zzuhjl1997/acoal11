@@ -64,6 +64,38 @@
         collectdt
         LIMIT 1
     </select>
+    <select id="selectCannonCount" resultType="java.lang.Integer" parameterType="map">
+
+        SELECT DISTINCT
+        count(*)
+        FROM
+        (
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS NAME,
+        td.site AS site,
+        td.update_time AS updateTime,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tca.isfault AS isfault,
+        tca.isfire AS isfire,
+        tca.isopen AS isopen,
+        td.online AS online
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_cannon tca ON td.id = tca.dev_id
+        WHERE 1=1
+        <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
+        <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="is_auto!=null">AND td.`is_auto` = #{is_auto,jdbcType=INTEGER}</if>
+        <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+        ) a
+
+
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_cannon
     where id = #{id,jdbcType=BIGINT}

@@ -25,37 +25,41 @@ import java.util.Map;
 
 @RestController
 @Log4j2
-@RequestMapping("/operationLog")
+@RequestMapping(value = "/operationLog",produces = "application/json;Charset=UTF-8")
 public class OperationLogController {
     @Autowired
     public OperationLogServiceImpl osi;
 
     @RequestMapping("")
-    public String selectLogs(OperationIAO operationIAO, @RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectLogs(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer icustomerid = null;
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
-        Integer currentPage = 1;
+        String startdate = null;
+        String enddate = null;
         Integer pageSize = 1;
+        Integer currentPage = 1;
         Integer sequence = 0;
-//        Integer tatal=0;
-        String username=null;
-        if(username!=null){
-           operationIAO.setUsername(username);
-        }
+        Integer count = 0;
+
         Map<String, String> param = new HashMap<String, String>();
         if (condition.containsKey("currentPage")) {
-//            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
+            startdate = StringUtils.isBlank(condition.get("startdate")) ? null : (condition.get("startdate"));
+            enddate = StringUtils.isBlank(condition.get("enddate")) ? null : (condition.get("enddate"));
+
             condition.remove("currentPage");
             condition.remove("pageSize");
         } else {
             currentPage = null;
             pageSize = null;
+            startdate = null;
+            enddate = null;
         }
-        List<OperationIAO> list = osi.selectLogs(operationIAO, currentPage, pageSize);
+        count = osi.selectLogsCount(condition);
+        List<OperationIAO> list = osi.selectLogs(condition, currentPage, pageSize);
         List<OperationIAO> list_re = new ArrayList<OperationIAO>();
         for (OperationIAO item : list) {
             sequence++;

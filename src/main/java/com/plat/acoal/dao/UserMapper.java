@@ -15,4 +15,6 @@ public interface UserMapper {
     List<User> selectAllUser();
     List<UserCustomer> selectAllUserCus(Map<String,String> condition);
     User selectUserByUserName(String username);
+
+    int selectAllUserCount(Map<String, String> condition);
 }

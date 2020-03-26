@@ -44,7 +44,10 @@
     <select id="selectAllUserCus" resultType="com.plat.acoal.model.UserCustomer" parameterType="map">
         SELECT
         tu.id as id,
+        tc.iCustomerID as icustomerid,
         tu.cUserName as username ,
+        td .iDeptID as ideptid,
+        tr.ipopedom as ipopedom,
         tu.mobile as phone,
         tr.cDspName as userrole,
         tc.cCustomerName as customername,
@@ -75,6 +78,22 @@
         <if test="cusername!=null">
             and cUserName=#{cusername,jdbcType=VARCHAR}
         </if>
+    </select>
+    <select id="selectAllUserCount" resultType="java.lang.Integer" parameterType="map">
+        SELECT
+        count( * )
+        FROM
+        t_user tu
+        INNER JOIN t_userrole tr ON tu.iPopedom = tr.iPopedom
+        INNER JOIN t_customer tc ON tu.iCustomerID = tc.iCustomerID
+        INNER JOIN t_dept td ON td.iDeptID = tu.iDeptID
+        WHERE
+        1 = 1
+        <if test="cusername!=null">
+            and tu.cUserName like #{cusername,jdbcType=VARCHAR}
+        </if>
+
+
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

@@ -27,4 +27,9 @@ public class CannonServiceImpl implements CannonService {
 
         return cam.selectNewCannonById(condition);
     }
+
+    @Override
+    public int selectCannonCount(Map<String, String> condition) {
+        return cam.selectCannonCount(condition);
+    }
 }

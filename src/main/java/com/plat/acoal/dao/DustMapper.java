@@ -3,6 +3,8 @@ import com.plat.acoal.entity.Dust;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.DustModel;
 import java.util.List;
+import java.util.Map;
+
 public interface DustMapper {
     int deleteByPrimaryKey(Long id);
     int insert(Dust record);
@@ -14,4 +16,6 @@ public interface DustMapper {
     List<DustModel> selectInfoByHour(DustModel dustModel);
     List<Dust> selectDustByRegionId(Integer id);
     List<DevInfo> selectDustList(DevInfo devInfo);
+
+    int selectDustCount(Map<String, String> condition);
 }

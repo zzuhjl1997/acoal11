@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class TemperatureServiceImpl implements TemperatureService {
     @Autowired
@@ -33,5 +35,11 @@ public class TemperatureServiceImpl implements TemperatureService {
         }
         return temperatureMapper.selectFtList(devInfo);
     }
+
+    @Override
+    public int selectFtCount(Map<String, String> condition) {
+        return temperatureMapper.selectFtCount(condition);
+    }
+
 
 }

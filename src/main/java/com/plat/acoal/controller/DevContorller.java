@@ -190,6 +190,30 @@ public class DevContorller {
         }
         return JSON.toJSONString(listrg_re, SerializerFeature.DisableCircularReferenceDetect);
     }
+
+    /**
+     * 获取设备总数
+     */
+    @RequestMapping("/devcount")
+    private String getdevcount(@RequestParam Map<String, String> condition, HttpSession session) {
+
+        Integer icustomerid = null;
+        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
+        }
+        Integer type = null;
+        if (condition.containsKey("type")) {
+            type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
+        }
+        Integer count = null;
+
+        count = devServiceImpl.selectCountByType(condition);
+        ResultData resultData = new ResultData();
+        resultData.setCount(count);
+        return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+
     /**
      * 获取风机的列表 或者其他设备的列表
      *
@@ -198,6 +222,14 @@ public class DevContorller {
      @RequestMapping("/fanlist")
     private String getfanlist(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer customerId = 2;
+         Integer icustomerid = null;
+         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
+         }
+         Integer type = null;
+         if (condition.containsKey("type")) {
+             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
+         }
         Integer count = null;
         List<DevInfo> list = devServiceImpl.selectDevInfoByCondition(condition);
         count = devServiceImpl.selectCountByType(condition);

@@ -102,4 +102,9 @@ public class DevServiceImpl implements DevService {
     public List<DevInfo> selectTemNowByCondition(Map<String, String> condition) {
         return dm.selectTemNowByCondition(condition);
     }
+
+    @Override
+    public Integer selectHydrantCount(Map<String, String> condition) {
+        return dm.selectHydrantCount(condition);
+    }
 }

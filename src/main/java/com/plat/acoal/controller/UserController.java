@@ -1,6 +1,7 @@
 package com.plat.acoal.controller;
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
+import com.plat.acoal.entity.Dept;
 import com.plat.acoal.entity.OperationLog;
 import com.plat.acoal.entity.User;
 import com.plat.acoal.model.UserCustomer;
@@ -50,8 +51,10 @@ public class UserController {
             pageSize=null;
         }
 
-
+        int count=0;
         List<UserCustomer> list = usi.selectAllUserCus(condition,currentPage,pageSize);
+        count=usi.selectAllUserCount(condition);
+//        count=usi.selectAllUserCount(condition);
         List<UserCustomer> list_re = new ArrayList<UserCustomer>();
         for (UserCustomer uc:list
              ) {
@@ -61,7 +64,7 @@ public class UserController {
         }
 //        param.put("tatal",String.valueOf(sequence));
         ResultData resultData=new ResultData();
-        resultData.setPagecount(sequence);
+        resultData.setPagecount(count);
         resultData.setData(list_re);
 //        resultData.setParam(param);
 
@@ -118,6 +121,7 @@ public class UserController {
         operationLog.setTurl(uri);
         operationLog.setTurlname("修改用户");
         operationLog.setStatus(0);
+        jr.setStatus(100);
         if (i > 0) {
             operationLog.setStatus(1);
             jr.setStatus(200);
@@ -139,7 +143,7 @@ public class UserController {
      * 变体还有/user/{id}/child等，殊途同归
      * 获取该参数的注解为@PathVariable(value="XX")，其中XX要和地址{XX}中的XX相同
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public String deleteUserById(Integer id, HttpServletRequest request) {
         int i = usi.deleteUserById(id);
         JsonResult jr = new JsonResult();
@@ -165,6 +169,8 @@ public class UserController {
         int j = osi.addLogs(operationLog);
         return JSON.toJSONString(jr);
     }
+
+
     /**
      * 用户登录
      * @param username

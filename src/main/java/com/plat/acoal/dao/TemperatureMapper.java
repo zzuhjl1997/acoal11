@@ -3,6 +3,8 @@ import com.plat.acoal.entity.Temperature;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.TemperatureInfo;
 import java.util.List;
+import java.util.Map;
+
 public interface TemperatureMapper {
     int deleteByPrimaryKey(Integer id);
     int insert(Temperature record);
@@ -16,4 +18,6 @@ public interface TemperatureMapper {
 //    List<Temperature> selectFtByMinute(TemperatureInfo temperatureInfo);
     List<Temperature> selectFtByHour(TemperatureInfo temperatureInfo);
     List<DevInfo> selectFtList(DevInfo devInfo);
+
+    int selectFtCount(Map<String, String> condition);
 }

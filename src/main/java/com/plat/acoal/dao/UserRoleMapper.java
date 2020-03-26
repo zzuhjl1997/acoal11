@@ -1,5 +1,8 @@
 package com.plat.acoal.dao;
 import com.plat.acoal.entity.UserRole;
+
+import java.util.List;
+
 public interface UserRoleMapper {
     int deleteByPrimaryKey(Integer id);
     int insert(UserRole record);
@@ -7,4 +10,6 @@ public interface UserRoleMapper {
     UserRole selectByPrimaryKey(Integer id);
     int updateByPrimaryKeySelective(UserRole record);
     int updateByPrimaryKey(UserRole record);
+
+    List<UserRole> selectAllRoles();
 }

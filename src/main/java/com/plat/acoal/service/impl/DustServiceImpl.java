@@ -8,6 +8,8 @@ import com.plat.acoal.service.DustService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class DustServiceImpl implements DustService {
     @Autowired
@@ -26,5 +28,10 @@ public class DustServiceImpl implements DustService {
             PageHelper.startPage(currentPage,pageSize);
         }
         return dustMapper.selectDustList(devInfo);
+    }
+
+    @Override
+    public int selectDustCount(Map<String, String> condition) {
+        return dustMapper.selectDustCount(condition);
     }
 }

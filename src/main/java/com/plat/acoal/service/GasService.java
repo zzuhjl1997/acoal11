@@ -4,6 +4,7 @@ import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.GasModel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GasService {
     /**
@@ -35,4 +36,8 @@ public interface GasService {
      * @return
      */
     List<DevInfo> selectCoList(DevInfo devInfo,Integer currentPage,Integer pageSize);
+
+    int selectCh4Count(Map<String, String> condition);
+
+    int selectCoCount(Map<String, String> condition);
 }

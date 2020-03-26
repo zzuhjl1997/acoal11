@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
         if(currentPage != null&&pageSize!=null){
             PageHelper.startPage(currentPage,pageSize);
         }
+
         return userMapper.selectAllUserCus(condition);
     }
 
@@ -67,6 +68,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateUser(User user) {
         return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public int selectAllUserCount(Map<String, String> condition) {
+
+        return userMapper.selectAllUserCount(condition);
     }
 
     /**

@@ -5,6 +5,7 @@ import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.TemperatureInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TemperatureService {
     /**
@@ -33,4 +34,6 @@ public interface TemperatureService {
      */
 
     List<DevInfo> selectFtList(DevInfo devInfo,Integer currentPage,Integer pageSize);
+
+    int selectFtCount(Map<String, String> condition);
 }

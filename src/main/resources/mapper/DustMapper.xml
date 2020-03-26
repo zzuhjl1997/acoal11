@@ -95,8 +95,39 @@
 
 
   </select>
+    <select id="selectDustCount" resultType="java.lang.Integer">
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+      SELECT DISTINCT
+      count(*)
+      FROM
+      (
+      SELECT
+      tdt.`name` AS typename,
+      td.`name` AS NAME,
+      td.site AS site,
+      td.code AS code,
+      td.update_time AS updateTime,
+      td.ip AS ip,
+      td.`status` AS `status`,
+      tdu.fDust as fdust
+      FROM
+      t_dev td
+      INNER JOIN t_dev_type tdt ON td.type = tdt.id
+      INNER JOIN t_dust tdu ON td.id = tdu.dev_id
+      WHERE 1=1
+      <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
+      <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
+      <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+      <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+      ) a
+
+
+
+
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_dust
     where id = #{id,jdbcType=BIGINT}
   </delete>

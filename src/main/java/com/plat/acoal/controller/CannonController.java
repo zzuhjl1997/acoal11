@@ -36,7 +36,7 @@ public class CannonController {
      * @param session
      * @return
      */
-    @GetMapping("/cannonlist")
+    @RequestMapping("/cannonlist")
     public String Cannonlist(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer icustomerid = null;
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
@@ -60,11 +60,14 @@ public class CannonController {
             condition.put("name",devname);
         }
         condition.put("type","3");
+
         List<DevInfo> lstinfo = cannonServiceImpl.selectCannonList(condition,currentPage,pageSize);
         int count=0;
+        count=cannonServiceImpl.selectCannonCount(condition);
+        int sequence=0;
         for (DevInfo item:lstinfo
         ) {
-            count ++;
+            sequence ++;
             item.setCount(count);
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("更新时间"+DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));

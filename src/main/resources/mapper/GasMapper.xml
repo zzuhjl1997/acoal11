@@ -155,6 +155,66 @@
         LIMIT 3
 
     </select>
+    <select id="selectCh4Count" resultType="java.lang.Integer">
+        SELECT DISTINCT
+        count(*)
+        FROM
+        (SELECT
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site as site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        td.update_time as updatetime,
+        tg.gCH4 AS gch4
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_gas tg ON td.id = tg.dev_id
+        WHERE 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        ) a
+
+
+
+
+    </select>
+    <select id="selectCoCount" resultType="java.lang.Integer">
+        SELECT DISTINCT
+        count(*)
+        FROM
+        (
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        td.update_time AS updatetime,
+        tc.gCO AS gCO
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_co tc ON td.id = tc.dev_id
+        WHERE 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        ) a
+
+
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_gas
     where id = #{id,jdbcType=BIGINT}

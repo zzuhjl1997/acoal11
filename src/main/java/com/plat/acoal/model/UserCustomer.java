@@ -10,8 +10,16 @@ public class UserCustomer {
     private String phone;
     private String userrole;
     private String customername;
+    private String icustomerid;
     private String department;
     private String remark;
+    private Integer pageCount;
+    private Integer ideptid;
+    private Integer userroleid;
+    private Integer ipopedom;
+
+
+
 
 
 }

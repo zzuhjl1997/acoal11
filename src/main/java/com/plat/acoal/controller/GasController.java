@@ -232,11 +232,14 @@ public class GasController {
         }
         ResultData resultData = new ResultData();
         List<DevInfo> listinfo = gasServiceImpl.selectCh4List(devInfo, currentPage, pageSize);
+        int sequence = 0;
         int count = 0;
+        count=gasServiceImpl.selectCh4Count(condition);
+
         for (DevInfo item : listinfo
         ) {
-            count++;
-            item.setCount(count);
+            sequence++;
+            item.setCount(sequence);
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 
         }
@@ -281,16 +284,27 @@ public class GasController {
         devInfo.setType(type);
         List<DevInfo> listinfo = gasServiceImpl.selectCoList(devInfo, currentPage, pageSize);
         int count = 0;
+          count=gasServiceImpl.selectCoCount(condition);
+        int sequence = 0;
         for (DevInfo item : listinfo
         ) {
-            count++;
-            item.setCount(count);
+            sequence++;
+            item.setCount(sequence);
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
-
         }
         ResultData resultData = new ResultData();
         resultData.setPagecount(count);
         resultData.setData(listinfo);
         return JSON.toJSONString(resultData);
     }
+    /**
+     *
+     */
+
+
+
+
+
+
+
 }

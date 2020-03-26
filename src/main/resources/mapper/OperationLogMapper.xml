@@ -21,13 +21,31 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="selectLogs" parameterType="com.plat.acoal.model.OperationIAO"
+    <select id="selectLogs" parameterType="map"
             resultType="com.plat.acoal.model.OperationIAO">
         SELECT
         tu.cUserName AS username,
         top.operationDate AS operationdate,
         top.tUrlName AS turlname,
         top.`status` AS `status`
+        FROM
+        t_operation_log top
+        INNER JOIN t_user tu ON tu.iUserID = top.operationUserID
+        WHERE
+        1 = 1
+        <if test="dcollectstart!=null">
+            AND top.operationDate BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}
+        </if>
+        <if test="dcollectend!=null">
+            AND #{dcollectend,jdbcType=TIMESTAMP}
+        </if>
+        <if test="username!=null">AND tu.cUserName like #{username,jdbcType=VARCHAR}</if>
+
+    </select>
+    <select id="selectLogsCount" resultType="java.lang.Integer">
+
+        SELECT
+        count(*)
         FROM
         t_operation_log top
         INNER JOIN t_user tu ON tu.iUserID = top.operationUserID

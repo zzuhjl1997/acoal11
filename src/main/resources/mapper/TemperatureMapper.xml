@@ -125,6 +125,31 @@
 
         ) a
     </select>
+    <select id="selectFtCount" resultType="java.lang.Integer">
+        SELECT DISTINCT
+        count(*)
+        FROM
+        (
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS name,
+        td.site AS site,
+        td.update_time AS updateTime,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tt.fT AS ft
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_temperature tt ON td.id = tt.dev_id
+        WHERE 1=1
+        <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
+        <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
+        <if test="status!=null">AND td.`status` = #{status,jdbcType=INTEGER}</if>
+        <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+
+        ) a
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_temperature

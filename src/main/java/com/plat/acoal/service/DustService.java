@@ -4,6 +4,7 @@ import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.DustModel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DustService {
     /**
@@ -21,4 +22,6 @@ public interface DustService {
     List<DustModel> selectInfoByHour (DustModel dustModel);
 
     List<DevInfo> selectDustList(DevInfo devInfo,Integer currentPage,Integer pageSize);
+
+    int selectDustCount(Map<String, String> condition);
 }

@@ -149,7 +149,10 @@ public class PressureFlowController {
             condition.put("name",devname);
         }
         List<DevInfo> listhy = devServiceImpl.selectHydrantList(condition, currentPage, pageSize);
+        Integer pagecount = 0;
         Integer count = 0;
+        //获取查询的条数
+        pagecount=devServiceImpl.selectHydrantCount(condition);
         for (DevInfo item : listhy
         ) {
             count++;
@@ -173,7 +176,7 @@ public class PressureFlowController {
 
         }
         ResultData resultData = new ResultData();
-        resultData.setPagecount(count);
+        resultData.setPagecount(pagecount);
         resultData.setData(listhy);
         return JSON.toJSONString(resultData);
     }

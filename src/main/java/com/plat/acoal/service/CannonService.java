@@ -10,4 +10,6 @@ public interface CannonService {
     List<DevInfo> selectCannonList(Map<String,String> condition,Integer currentPage,Integer pageSize);
 
     List<CannonInfo> selectNewCannonById(Map<String, String> condition);
+
+    int selectCannonCount(Map<String, String> condition);
 }

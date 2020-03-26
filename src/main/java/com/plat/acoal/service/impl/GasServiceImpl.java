@@ -7,6 +7,8 @@ import com.plat.acoal.service.GasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class GasServiceImpl implements GasService {
     @Autowired
@@ -40,5 +42,15 @@ public class GasServiceImpl implements GasService {
             PageHelper.startPage(currentPage,pageSize);
         }
         return gasMapper.selectCoList(devInfo);
+    }
+
+    @Override
+    public int selectCh4Count(Map<String, String> condition) {
+        return gasMapper.selectCh4Count(condition);
+    }
+
+    @Override
+    public int selectCoCount(Map<String, String> condition) {
+        return gasMapper.selectCoCount(condition);
     }
 }

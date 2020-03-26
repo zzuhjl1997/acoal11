@@ -23,4 +23,6 @@ public interface CannonMapper {
     List<DevInfo> selectCannonList(Map<String, String> condition);
 
     List<CannonInfo> selectNewCannonById(Map<String, String> condition);
+
+    int selectCannonCount(Map<String, String> condition);
 }

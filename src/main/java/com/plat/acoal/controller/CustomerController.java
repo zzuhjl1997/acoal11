@@ -1,5 +1,6 @@
 package com.plat.acoal.controller;
 import com.alibaba.fastjson.JSON;
+import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.Customer;
 import com.plat.acoal.service.CustomerService;
 import com.plat.acoal.service.impl.CustomerServiceImpl;
@@ -11,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 @RestController
 @Log4j2
-@RequestMapping("/customer")
+@RequestMapping(value = "/customer",produces = "application/json;charset=UTF-8")
 public class CustomerController {
     @Autowired
     public CustomerServiceImpl csi;
-    @GetMapping("")
+    @RequestMapping("")
     public String selectAllCustomer(Customer customer) {
         // User user=new User();
         // Customer customer=new Customer();
@@ -23,6 +24,8 @@ public class CustomerController {
         //request.getRequestURI();
         List<Customer> list = csi.selectAllCustomers(customer);
         //在这@auwired   operationlog
-        return JSON.toJSONString(list);
+        ResultData resultData=new ResultData();
+        resultData.setData(list);
+        return JSON.toJSONString(resultData);
     }
 }

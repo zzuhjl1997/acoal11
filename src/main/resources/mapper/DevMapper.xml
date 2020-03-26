@@ -522,4 +522,16 @@
         GROUP BY
         region
     </select>
+    <select id="selectHydrantCount" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_hydrantid_relation th ON td.id = th.hydrantid
+        WHERE
+        1 = 1
+        <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
+        <if test="type!=null">and td.type=#{type}</if>
+    </select>
 </mapper>
