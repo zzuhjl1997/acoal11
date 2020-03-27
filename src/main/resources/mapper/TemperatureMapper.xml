@@ -106,10 +106,11 @@
         FROM
         (
         SELECT
+        td.id as devid,
         tdt.`name` AS typename,
         td.`name` AS name,
         td.site AS site,
-        td.update_time AS updateTime,
+        tt.dCollectDT AS updateTime,
         td.ip AS ip,
         td.`status` AS `status`,
         tt.fT AS ft

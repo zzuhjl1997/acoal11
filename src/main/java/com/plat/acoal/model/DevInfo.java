@@ -59,6 +59,7 @@ public class DevInfo {
     private Integer pressureid;
     private Integer flowid;
     private Integer online;
+    private Integer devid;
 
 
 }

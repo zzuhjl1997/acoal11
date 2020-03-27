@@ -153,7 +153,7 @@ public class DevContorller {
             sum = devServiceImpl.selectCountByType(condition);
         }
         ResultData resultData = new ResultData();
-        resultData.setDev(dev);
+        resultData.setDev(newDev);
         resultData.setCount(sum);
         return JSON.toJSONString(resultData);
     }

@@ -3,6 +3,8 @@ import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.DustModel;
+import com.plat.acoal.service.DevService;
+import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.DustServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
@@ -25,6 +27,8 @@ import java.util.Map;
 public class DustController {
     @Autowired
     public DustServiceImpl dustServiceImpl;
+    @Autowired
+    public DevServiceImpl devServiceImpl;
     /**
      * 查询最新烟尘浓度
      *
@@ -129,6 +133,10 @@ public class DustController {
             devInfo.setName(devname);
         }
         devInfo.setType(4);
+        condition.put("type","4");
+        //查询烟尘设备数
+        int devcount=0;
+        devcount=devServiceImpl.selectCountByType(condition);
         //查询烟尘的条数
        int count=0;
        count=dustServiceImpl.selectDustCount(condition);
@@ -143,6 +151,7 @@ public class DustController {
         }
         ResultData resultData=new ResultData();
         resultData.setPagecount(count);
+        resultData.setDevcount(devcount);
         resultData.setData(listinfo);
         return JSON.toJSONString(resultData);
     }

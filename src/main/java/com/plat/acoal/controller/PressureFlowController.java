@@ -117,16 +117,20 @@ public class PressureFlowController {
      */
     @RequestMapping("/hydrantList")
     private String hydrantList(@RequestParam Map<String, String> condition, HttpSession session) {
-        Integer icustomerid = null;
+        Integer icustomerid = 2;
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
+        condition.put("icustomerid",icustomerid.toString());
+
         Integer currentPage = 1;
         Integer pageSize = 1;
-        Integer type = null;
+        Integer type = 10;
         if (condition.containsKey("type")) {
             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
+
         }
+
 
         if (condition.containsKey("currentPage")) {
 //            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
@@ -148,6 +152,12 @@ public class PressureFlowController {
         if(devname!=null){
             condition.put("name",devname);
         }
+        if(type!=null){
+            condition.put("type",type.toString());
+        }
+        //查询数量
+        int devcount=0;
+        devcount=devServiceImpl.selectCountByType(condition);
         List<DevInfo> listhy = devServiceImpl.selectHydrantList(condition, currentPage, pageSize);
         Integer pagecount = 0;
         Integer count = 0;
@@ -178,6 +188,7 @@ public class PressureFlowController {
         ResultData resultData = new ResultData();
         resultData.setPagecount(pagecount);
         resultData.setData(listhy);
+        resultData.setDevcount(devcount);
         return JSON.toJSONString(resultData);
     }
 

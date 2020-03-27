@@ -10,6 +10,7 @@ public class ResultData {
     private String msg="";
     private int count=0;
     private int pageno=0;
+    private int devcount=0;
     private int pagecount=0;
     private List data=null;
     private List datalst2=null;

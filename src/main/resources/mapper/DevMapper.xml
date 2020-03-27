@@ -362,7 +362,9 @@
         t_dev
         WHERE 1=1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+<!--
         <if test="status != null">AND status = #{status}</if>
+-->
         <if test="type!=null">AND type = #{type}</if>
     </select>
     <select id="selectDevInfoByCon" resultType="com.plat.acoal.entity.Dev" parameterType="com.plat.acoal.entity.Dev">

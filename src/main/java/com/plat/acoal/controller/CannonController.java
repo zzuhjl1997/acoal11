@@ -6,6 +6,7 @@ import com.plat.acoal.model.CannonInfo;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.TemperatureInfo;
 import com.plat.acoal.service.impl.CannonServiceImpl;
+import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +29,8 @@ import java.util.Map;
 public class CannonController {
     @Autowired
     private CannonServiceImpl cannonServiceImpl;
+    @Autowired
+    private DevServiceImpl devServiceImpl;
 
     /**
      * 查询消防炮实时数据列表
@@ -59,8 +62,12 @@ public class CannonController {
         if(devname!=null){
             condition.put("name",devname);
         }
+        if(icustomerid!=null){
+            condition.put("icustomerid",icustomerid.toString());
+        }
         condition.put("type","3");
-
+        int devcount=0;
+        devcount=devServiceImpl.selectCountByType(condition);
         List<DevInfo> lstinfo = cannonServiceImpl.selectCannonList(condition,currentPage,pageSize);
         int count=0;
         count=cannonServiceImpl.selectCannonCount(condition);
@@ -77,6 +84,7 @@ public class CannonController {
         ResultData resultData = new ResultData();
         resultData.setPagecount(count);
         resultData.setData(lstinfo);
+        resultData.setDevcount(devcount);
         return JSON.toJSONString(resultData);
     }
     /**

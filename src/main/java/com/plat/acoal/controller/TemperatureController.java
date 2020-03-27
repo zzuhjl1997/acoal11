@@ -4,6 +4,7 @@ import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.Temperature;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.TemperatureInfo;
+import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.TemperatureServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +27,8 @@ import java.util.*;
 public class TemperatureController {
     @Autowired
     public TemperatureServiceImpl temperatureServiceImpl;
+    @Autowired
+    public DevServiceImpl devServiceImpl;
     /**
      * 查询最新温度
      *
@@ -112,6 +115,8 @@ public class TemperatureController {
         Integer icustomerid=null;
         if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
             icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
+//           condition.put("icustomerid",icustomerid.toString());
+
         }
         Integer currentPage = 1;
         Integer pageSize = 1;
@@ -137,7 +142,13 @@ public class TemperatureController {
         Map<String,String> param=new HashMap<String, String>();
 
         devInfo.setType(2);
+        devInfo.setIcustomerid(icustomerid);
 
+        condition.put("type","2");
+        condition.put("icustomerid","2");
+
+        //查询设备总数
+        int devcount=devServiceImpl.selectCountByType(condition);
         List<DevInfo> listinfo = temperatureServiceImpl.selectFtList(devInfo,currentPage,pageSize);
         int sequence=0;
        //获取数据总条数
@@ -147,13 +158,17 @@ public class TemperatureController {
             sequence ++;
             item.setCount(sequence);
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+
             System.out.println("更新时间"+DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
-            System.out.println("对象"+item);
+            System.out.println("更新时间"+item.getUpdateTime());
+
+//            System.out.println("对象"+item);
         }
 //        param.put("tatal",String.valueOf(count));
         ResultData resultData=new ResultData();
-        resultData.setPagecount(sequence);
+        resultData.setPagecount(count);
         resultData.setData(listinfo);
+        resultData.setDevcount(devcount);
         return JSON.toJSONString(resultData);
     }
 }

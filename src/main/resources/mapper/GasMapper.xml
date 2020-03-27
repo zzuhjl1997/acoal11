@@ -182,8 +182,6 @@
         ) a
 
 
-
-
     </select>
     <select id="selectCoCount" resultType="java.lang.Integer">
         SELECT DISTINCT
@@ -213,7 +211,117 @@
         ) a
 
 
-
+    </select>
+    <select id="selectGasList" resultType="com.plat.acoal.model.GasModel" parameterType="map">
+       SELECT
+        td.id AS devid,
+        td.type AS type,
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tc.dCollectDT AS updateTime,
+        tc.gCO AS val
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_co tc ON td.id = tc.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+				UNION
+        SELECT
+        td.id AS devid,
+        td.type AS type,
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tg.dCollectDT AS updateTime,
+        tg.gCH4 AS val
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_gas tg ON td.id = tg.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="selectGasCount" resultType="java.lang.Integer" parameterType="map">
+SELECT
+	count( * )
+FROM
+	(
+	SELECT
+		td.id AS devid,
+		td.type AS type,
+		tdt.`name` AS typename,
+		td.`name` AS devname,
+		td.site AS site,
+		td.ip AS ip,
+		td.`status` AS `status`,
+		tc.dCollectDT AS updateTime,
+		tc.gCO AS val
+	FROM
+		t_dev td
+		INNER JOIN t_dev_type tdt ON td.type = tdt.id
+		INNER JOIN t_co tc ON td.id = tc.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+		 UNION
+	SELECT
+		td.id AS devid,
+		td.type AS type,
+		tdt.`name` AS typename,
+		td.`name` AS devname,
+		td.site AS site,
+		td.ip AS ip,
+		td.`status` AS `status`,
+		tg.dCollectDT AS updateTime,
+		tg.gCH4 AS val
+	FROM
+		t_dev td
+		INNER JOIN t_dev_type tdt ON td.type = tdt.id
+		INNER JOIN t_gas tg ON td.id = tg.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+	) a
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_gas

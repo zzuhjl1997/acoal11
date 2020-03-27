@@ -23,4 +23,8 @@ public interface GasMapper {
     int selectCh4Count(Map<String, String> condition);
 
     int selectCoCount(Map<String, String> condition);
+
+    List<GasModel> selectGasList(Map<String, String> condition);
+
+    int selectGasCount(Map<String, String> condition);
 }

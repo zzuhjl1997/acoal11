@@ -8,6 +8,7 @@ import com.plat.acoal.entity.User;
 import com.plat.acoal.model.OperationIAO;
 import com.plat.acoal.service.OperationLogService;
 import com.plat.acoal.service.impl.OperationLogServiceImpl;
+import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,6 @@ public class OperationLogController {
             pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
             startdate = StringUtils.isBlank(condition.get("startdate")) ? null : (condition.get("startdate"));
             enddate = StringUtils.isBlank(condition.get("enddate")) ? null : (condition.get("enddate"));
-
             condition.remove("currentPage");
             condition.remove("pageSize");
         } else {
@@ -64,12 +64,13 @@ public class OperationLogController {
         for (OperationIAO item : list) {
             sequence++;
             item.setCount(sequence);
+            item.setDate_re(DateUtil.dateToString(item.getOperationdate(),"yyyy-MM-dd HH:mm:ss"));
             list_re.add(item);
         }
 //        param.put("tatal", String.valueOf(sequence));
         ResultData resultData = new ResultData();
         resultData.setData(list_re);
-        resultData.setPagecount(sequence);
+        resultData.setPagecount(count);
         return JSON.toJSONString(resultData);
     }
 }

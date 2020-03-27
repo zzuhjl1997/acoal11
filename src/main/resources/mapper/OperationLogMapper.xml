@@ -26,8 +26,7 @@
         SELECT
         tu.cUserName AS username,
         top.operationDate AS operationdate,
-        top.tUrlName AS turlname,
-        top.`status` AS `status`
+        top.tUrlName AS turlname
         FROM
         t_operation_log top
         INNER JOIN t_user tu ON tu.iUserID = top.operationUserID

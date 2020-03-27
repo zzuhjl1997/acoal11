@@ -53,4 +53,17 @@ public class GasServiceImpl implements GasService {
     public int selectCoCount(Map<String, String> condition) {
         return gasMapper.selectCoCount(condition);
     }
+
+    @Override
+    public List<GasModel> selectGasList(Map<String, String> condition, Integer pageSize, Integer currentPage) {
+        if(currentPage != null&&pageSize!=null){
+            PageHelper.startPage(currentPage,pageSize);
+        }
+        return gasMapper.selectGasList(condition);
+    }
+
+    @Override
+    public int selectGasCount(Map<String, String> condition) {
+        return gasMapper.selectGasCount(condition);
+    }
 }

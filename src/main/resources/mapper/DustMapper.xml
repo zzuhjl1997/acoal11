@@ -72,11 +72,12 @@
     FROM
     (
     SELECT
+    td.id as devid,
     tdt.`name` AS typename,
     td.`name` AS NAME,
     td.site AS site,
     td.code AS code,
-    td.update_time AS updateTime,
+    tdu.dCollectDT AS updateTime,
     td.ip AS ip,
     td.`status` AS `status`,
     tdu.fDust as fdust

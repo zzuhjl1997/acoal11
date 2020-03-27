@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.GasModel;
+import com.plat.acoal.service.impl.CannonServiceImpl;
+import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.GasServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -28,6 +31,8 @@ import java.util.Map;
 public class GasController {
     @Autowired
     public GasServiceImpl gasServiceImpl;
+    @Autowired
+    public DevServiceImpl devServiceImpl;
 
     /**
      * 查询最新Ch4
@@ -265,6 +270,7 @@ public class GasController {
         if (condition.containsKey("type")) {
             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
         }
+
         Integer currentPage = 1;
         Integer pageSize = 1;
 
@@ -298,10 +304,58 @@ public class GasController {
         return JSON.toJSONString(resultData);
     }
     /**
+     *气体监控列表
      *
      */
 
+    @RequestMapping(value = "/gaslist")
+    private String getGasList(@RequestParam Map<String,String> condition,HttpSession session){
+        Integer icustomerid = null;
+        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
+            condition.put("icustomerid",icustomerid.toString());
+        }
 
+        Integer currentPage = 1;
+        Integer pageSize = 1;
+        if (condition.containsKey("currentPage")) {
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
+            condition.remove("currentPage");
+            condition.remove("pageSize");
+        } else {
+            currentPage = null;
+            pageSize = null;
+        }
+
+        List<GasModel> allgas=gasServiceImpl.selectGasList(condition,pageSize,currentPage);
+        for (GasModel gasModel : allgas) {
+            gasModel.setLasttime(DateUtil.dateToString(gasModel.getUpdatetime(),"yyyy-MM-dd HH:mm:ss"));
+
+        }
+        //查询所有数量以及设备数量
+
+        int count=0;
+        int sequence=0;
+        int devcocount=0;
+        int devch4count=0;
+        int devcount=0;
+        count=gasServiceImpl.selectGasCount(condition);
+        condition.remove("type");
+        condition.put("type","5");
+        devcocount=devServiceImpl.selectCountByType(condition);
+        condition.put("type","6");
+        devcocount=devServiceImpl.selectCountByType(condition);
+
+        devcount=devcocount+devch4count;
+
+        System.out.println(allgas);
+        ResultData resultData=new ResultData();
+        resultData.setData(allgas);
+        resultData.setPagecount(count);
+        resultData.setDevcount(devcount);
+        return  JSON.toJSONString(resultData);
+    }
 
 
 
