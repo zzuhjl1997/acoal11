@@ -23,15 +23,15 @@
     fDust AS fdust,
     dev_id AS devid
     FROM
-    t_dust
+    t_dust_history
     WHERE
     1 = 1
     <if test="devid!=null">
       AND dev_id= #{devid,jdbcType=BIGINT}
     </if>
     ORDER BY
-    dCollectDT DESC
-    LIMIT 1
+    dCollectDT
+    LIMIT 3
   </select>
   <!--获取一天的数据-->
   <select id="selectInfoByHour" resultType="com.plat.acoal.model.DustModel" parameterType="com.plat.acoal.model.DustModel">

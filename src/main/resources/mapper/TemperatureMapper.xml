@@ -21,7 +21,7 @@
             parameterType="com.plat.acoal.model.TemperatureInfo">
         select
         dCollectDT,fT,dev_id as devid
-        from t_temperature
+        from t_temperature_history
         where 1=1
         <if test="devid!=null">
             AND dev_id = #{devid,jdbcType=INTEGER}

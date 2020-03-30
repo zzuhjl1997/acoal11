@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.GasModel;
+import com.plat.acoal.model.TemperatureInfo;
 import com.plat.acoal.service.impl.CannonServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.GasServiceImpl;
@@ -41,19 +42,31 @@ public class GasController {
      * @return
      */
     @RequestMapping(value = "/newCh4", produces = "application/json;charset=UTF-8")
-    public String selectNewFt(GasModel gasModel, HttpServletRequest request) {
+    public String selectNewCh4(GasModel gasModel, HttpServletRequest request) {
         String devid = "2";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
+        String newdate=null;
+        double[] newVal=new double[3];
         gasModel.setDevid(Integer.parseInt(devid));
         List<GasModel> newGas = gasServiceImpl.selectNewCh4ById(gasModel);
+        int pos=0;
         for (GasModel g : newGas
         ) {
-            Date dt = g.getDcollectdt();
-            g.setDcollectdt_re(DateUtil.dateToString(dt));
+//            Date dt = g.getDcollectdt();
+//            g.setDcollectdt_re(DateUtil.dateToString(dt));
+            if(g!=null){
+                newVal[pos]=g.getGch4();
+            }
         }
-        return JSON.toJSONString(newGas);
+        if(newGas!=null){
+            newdate=selectLastOne(newGas);
+        }
+
+        ResultData resultData=new ResultData();
+        resultData.setDate(newdate);
+        return JSON.toJSONString(resultData);
     }
 
     /**
@@ -70,12 +83,20 @@ public class GasController {
         }
         gasModel.setDevid(Integer.parseInt(devid));
         List<GasModel> newGas = gasServiceImpl.selectNewCoById(gasModel);
+        String newdate=null;
+        double[] newVal=new double[3];
+        int pos=0;
         for (GasModel g : newGas
         ) {
-            Date dt = g.getDcollectdt();
-            g.setDcollectdt_re(DateUtil.dateToString(dt));
+            if(g!=null){
+                newVal[pos]=g.getGco();
+            }
         }
-        return JSON.toJSONString(newGas);
+        newdate=selectLastOne(newGas);
+        ResultData resultData=new ResultData();
+        resultData.setDate(newdate);
+        resultData.setArrddata1(newVal);
+        return JSON.toJSONString(resultData);
     }
 
     /**
@@ -85,24 +106,20 @@ public class GasController {
      * @return
      */
     @RequestMapping("/dayCh4")
-    public String getDayFt(GasModel gasModel, HttpServletRequest request) {
+    public String getDayFt(GasModel gasModel, HttpServletRequest request,@RequestParam Map<String,String> condition) {
         String devid = "7";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
-        String startdate = "", enddate = "";
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat dfhour = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        startdate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 00:00:00";
-        enddate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 23:59:59";
-        if (request.getParameter("startdate") != null && !"".equals(request.getParameter("startdate"))) {
-            startdate = request.getParameter("startdate");
-            startdate += " 00:00:00";
-        }
-        if (request.getParameter("enddate") != null && !"".equals(request.getParameter("enddate"))) {
-            enddate = request.getParameter("enddate");
-            enddate += " 23:59:59";
+        Date date1 = new Date();
+        String startdate=null;
+        String enddate=null;
+        if (condition.containsKey("date")) {
+            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 23:59:59");
+        }else {
+            startdate = DateUtil.dateToString(date1,"yyyy-MM-dd")+" 00:00:00";
+            enddate = DateUtil.dateToString(date1,"yyyy-MM-dd")+ " 23:59:59";
         }
         double[] fGch4Arr = new double[24];
         double[] fGcoArr = new double[24];
@@ -123,24 +140,46 @@ public class GasController {
         ResultData resultData = new ResultData();
         for (GasModel item : newGas) {
             Date dt = item.getDcollectdt();
-            arrhours[pos] = dfhour.format(dt);
+            arrhours[pos] = DateUtil.dateToString(dt,"HH:mm");
             if (item.getGch4() != null && pos < 24) {
                 fGch4Arr[pos] = item.getGch4();
-            }
-            if (item.getGco() != null && pos < 24) {
-                fGcoArr[pos] = item.getGch4();
-            }
-            if (item.getGo2() != null && pos < 24) {
-                fGo2Arr[pos] = item.getGo2();
             }
             pos++;
         }
         resultData.setArrddata1(fGch4Arr);
-//        resultData.setArrddata2(fGcoArr);
-//        resultData.setArrddata3(fGo2Arr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
     }
+
+
+    public String selectLastOne(List<GasModel> list) {
+        GasModel gasModel = new GasModel();
+        String newdate=null;
+        Long dates[] = new Long[list.size()];
+        for (int i = 0; i <list.size(); i++) {
+            // 把date类型的时间对象转换为long类型，时间越往后，long的值就越大，
+            // 所以就依靠这个原理来判断距离现在最近的时间
+            dates[i] = list.get(i).getDcollectdt().getTime();
+        }
+        Long maxIndex = dates[0];// 定义最大值为该数组的第一个数
+        for (int j = 0; j < dates.length; j++) {
+            if (maxIndex < dates[j]) {
+                maxIndex = dates[j];
+                // 找到了这个j
+                newdate=(DateUtil.dateToString(list.get(j).getDcollectdt()));
+            }
+        }
+        return newdate;
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * 查询某天的co
@@ -149,24 +188,20 @@ public class GasController {
      * @return
      */
     @RequestMapping("/dayCo")
-    public String getDayCo(GasModel gasModel, HttpServletRequest request) {
+    public String getDayCo(GasModel gasModel, HttpServletRequest request,@RequestParam Map<String,String> condition) {
         String devid = "7";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
-        String startdate = "", enddate = "";
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat dfhour = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        startdate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 00:00:00";
-        enddate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 23:59:59";
-        if (request.getParameter("startdate") != null && !"".equals(request.getParameter("startdate"))) {
-            startdate = request.getParameter("startdate");
-            startdate += " 00:00:00";
-        }
-        if (request.getParameter("enddate") != null && !"".equals(request.getParameter("enddate"))) {
-            enddate = request.getParameter("enddate");
-            enddate += " 23:59:59";
+        Date date1 = new Date();
+        String startdate=null;
+        String enddate=null;
+        if (condition.containsKey("date")) {
+            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 23:59:59");
+        }else {
+            startdate = DateUtil.dateToString(date1,"yyyy-MM-dd")+" 00:00:00";
+            enddate = DateUtil.dateToString(date1,"yyyy-MM-dd")+ " 23:59:59";
         }
         double[] fGch4Arr = new double[24];
         double[] fGcoArr = new double[24];
@@ -187,7 +222,7 @@ public class GasController {
         ResultData resultData = new ResultData();
         for (GasModel item : newGas) {
             Date dt = item.getDcollectdt();
-            arrhours[pos] = dfhour.format(dt);
+            arrhours[pos] = DateUtil.dateToString(dt,"HH:mm");
             if (item.getGch4() != null && pos < 24) {
                 fGch4Arr[pos] = item.getGch4();
             }
@@ -334,7 +369,6 @@ public class GasController {
 
         }
         //查询所有数量以及设备数量
-
         int count=0;
         int sequence=0;
         int devcocount=0;
@@ -356,9 +390,4 @@ public class GasController {
         resultData.setDevcount(devcount);
         return  JSON.toJSONString(resultData);
     }
-
-
-
-
-
 }

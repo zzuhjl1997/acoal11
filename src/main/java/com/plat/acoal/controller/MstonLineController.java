@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Log4j2
@@ -21,5 +24,18 @@ public class MstonLineController {
         List<MstonLine>  list=mstonLineServiceImpl.selectAllOnline();
 
         return JSON.toJSONString(list);
+    }
+    @RequestMapping("/gastype")
+    private String getgastype(){
+        List<Map<String,String>> listgtype=new ArrayList<Map<String, String>>();
+        Map<String,String> parama=new HashMap<String, String>();
+        Map<String,String> parama2=new HashMap<String, String>();
+        parama.put("id","5");
+        parama.put("type","CO");
+        parama2.put("id","6");
+        parama2.put("type","CH4");
+        listgtype.add(parama);
+        listgtype.add(parama2);
+        return JSON.toJSONString(listgtype);
     }
 }

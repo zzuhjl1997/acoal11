@@ -32,11 +32,11 @@
         INNER JOIN t_user tu ON tu.iUserID = top.operationUserID
         WHERE
         1 = 1
-        <if test="dcollectstart!=null">
-            AND top.operationDate BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}
+        <if test="startdate!=null">
+            AND top.operationDate BETWEEN #{startdate,jdbcType=TIMESTAMP}
         </if>
-        <if test="dcollectend!=null">
-            AND #{dcollectend,jdbcType=TIMESTAMP}
+        <if test="enddate!=null">
+            AND #{enddate,jdbcType=TIMESTAMP}
         </if>
         <if test="username!=null">AND tu.cUserName like #{username,jdbcType=VARCHAR}</if>
 
@@ -50,11 +50,11 @@
         INNER JOIN t_user tu ON tu.iUserID = top.operationUserID
         WHERE
         1 = 1
-        <if test="dcollectstart!=null">
-            AND top.operationDate BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}
+        <if test="startdate!=null">
+            AND top.operationDate BETWEEN #{startdate,jdbcType=TIMESTAMP}
         </if>
-        <if test="dcollectend!=null">
-            AND #{dcollectend,jdbcType=TIMESTAMP}
+        <if test="enddate!=null">
+            AND #{enddate,jdbcType=TIMESTAMP}
         </if>
         <if test="username!=null">AND tu.cUserName like #{username,jdbcType=VARCHAR}</if>
 

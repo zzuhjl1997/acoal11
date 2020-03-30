@@ -29,7 +29,7 @@
         </if>
         ORDER BY
         dCollectDT DESC
-        LIMIT 3
+        LIMIT 1
     </select>
 
     <select id="selectPByHour" resultType="com.plat.acoal.model.PressureFlowModel"

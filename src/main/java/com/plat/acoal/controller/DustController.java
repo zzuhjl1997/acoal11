@@ -1,8 +1,10 @@
 package com.plat.acoal.controller;
+
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.DustModel;
+import com.plat.acoal.model.GasModel;
 import com.plat.acoal.service.DevService;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.DustServiceImpl;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -23,33 +26,75 @@ import java.util.Map;
 
 @RestController
 @Log4j2
-@RequestMapping(value = "/dust",produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/dust", produces = "application/json;charset=UTF-8")
 public class DustController {
     @Autowired
     public DustServiceImpl dustServiceImpl;
     @Autowired
     public DevServiceImpl devServiceImpl;
+
     /**
      * 查询最新烟尘浓度
      *
      * @param
      * @return
      */
-    @RequestMapping(value = "/newDust", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/newDust")
     public String selectNewFt(DustModel dustModel, HttpServletRequest request) {
-        String devid = "74";
+        String devid = "1";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
-        dustModel.setDevid(Integer.parseInt(devid));
+        if (devid != null) {
+            dustModel.setDevid(Integer.parseInt(devid));
+        }
         List<DustModel> newDust = dustServiceImpl.selectNewInfoById(dustModel);
+
+        double[] newVal = new double[3];
+        int pos = 0;
         for (DustModel d : newDust
         ) {
-            Date dt = d.getDcollectdt();
-            d.setDcollectdt_re(DateUtil.dateToString(dt));
+            if (d != null) {
+                newVal[pos] = d.getFdust();
+            }else {
+                newVal[pos] = 0.0;
+            }
+            System.out.println("最新时间");
+            pos ++;
         }
-        return JSON.toJSONString(newDust);
+//        newdate = selectLastOne(newDust);
+        String newdate = null;
+        if (newDust.size() > 0) {
+            newdate = selectLastOne(newDust);
+            System.out.println("最新时间"+newdate +"changsu"+newDust.size());
+        }
+        ResultData resultData = new ResultData();
+        resultData.setDate(newdate);
+        resultData.setArrddata1(newVal);
+        return JSON.toJSONString(resultData);
     }
+
+    public String selectLastOne(List<DustModel> list) {
+        DustModel dustModel = new DustModel();
+        String newdate=null;
+        Long dates[] = new Long[list.size()];
+        for (int i = 0; i <list.size(); i++) {
+            // 把date类型的时间对象转换为long类型，时间越往后，long的值就越大，
+            // 所以就依靠这个原理来判断距离现在最近的时间
+            dates[i] = list.get(i).getDcollectdt().getTime();
+        }
+        Long maxIndex = dates[0];// 定义最大值为该数组的第一个数
+        for (int j = 0; j < dates.length; j++) {
+            if (maxIndex < dates[j]) {
+                maxIndex = dates[j];
+                // 找到了这个j
+                newdate=(DateUtil.dateToString(list.get(j).getDcollectdt()));
+            }
+        }
+        return newdate;
+    }
+
+
     /**
      * 查询一天的浓度
      *
@@ -57,24 +102,20 @@ public class DustController {
      * @return
      */
     @RequestMapping("/monitordayDust")
-    public String getDayFt(DustModel dustModel, HttpServletRequest request) {
+    public String getDayFt(DustModel dustModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
         String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
-        String startdate = "", enddate = "";
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat dfhour = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        startdate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 00:00:00";
-        enddate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 23:59:59";
-        if (request.getParameter("startdate") != null && !"".equals(request.getParameter("startdate"))) {
-            startdate = request.getParameter("startdate");
-            startdate += " 00:00:00";
-        }
-        if (request.getParameter("enddate") != null && !"".equals(request.getParameter("enddate"))) {
-            enddate = request.getParameter("enddate");
-            enddate += " 23:59:59";
+        Date date1 = new Date();
+        String startdate = null;
+        String enddate = null;
+        if (condition.containsKey("date")) {
+            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 23:59:59");
+        } else {
+            startdate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 00:00:00";
+            enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
         }
         double[] fDustArr = new double[24];
         String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
@@ -93,7 +134,7 @@ public class DustController {
         ResultData resultData = new ResultData();
         for (DustModel item : newDust) {
             Date dt = item.getDcollectdt();
-            arrhours[pos] = dfhour.format(dt);
+            arrhours[pos] = DateUtil.dateToString(dt, "HH");
             if (item.getFdust() != null && pos < 24) {
                 fDustArr[pos] = item.getFdust();
             }
@@ -103,17 +144,19 @@ public class DustController {
         resultData.setArrsdatax1(arrhours);
         return JSON.toJSONString(resultData);
     }
+
     /**
      * 烟尘监控列表
+     *
      * @param devInfo
      * @param session
      * @return
      */
     @RequestMapping("/dustList")
-    public String getCoList(DevInfo devInfo, HttpSession session, @RequestParam Map<String,String> condition) {
-        Integer icustomerid=null;
-        if(session.getAttribute("icustomerid")!=null&&!"".equals(session.getAttribute("icustomerid"))){
-            icustomerid=Integer.parseInt(session.getAttribute("icustomerid").toString());
+    public String getCoList(DevInfo devInfo, HttpSession session, @RequestParam Map<String, String> condition) {
+        Integer icustomerid = null;
+        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
         Integer currentPage = 1;
         Integer pageSize = 1;
@@ -126,30 +169,30 @@ public class DustController {
             condition.remove("pageSize");
         } else {
             currentPage = null;
-            pageSize=null;
+            pageSize = null;
         }
-        String devname=null;
-        if(devname!=null){
+        String devname = null;
+        if (devname != null) {
             devInfo.setName(devname);
         }
         devInfo.setType(4);
-        condition.put("type","4");
+        condition.put("type", "4");
         //查询烟尘设备数
-        int devcount=0;
-        devcount=devServiceImpl.selectCountByType(condition);
+        int devcount = 0;
+        devcount = devServiceImpl.selectCountByType(condition);
         //查询烟尘的条数
-       int count=0;
-       count=dustServiceImpl.selectDustCount(condition);
-        List<DevInfo> listinfo = dustServiceImpl.selectDustList(devInfo,currentPage,pageSize);
-        int sequence=0;
-        for (DevInfo item:listinfo
+        int count = 0;
+        count = dustServiceImpl.selectDustCount(condition);
+        List<DevInfo> listinfo = dustServiceImpl.selectDustList(devInfo, currentPage, pageSize);
+        int sequence = 0;
+        for (DevInfo item : listinfo
         ) {
-            sequence ++;
+            sequence++;
             item.setCount(sequence);
-            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+            item.setLastTime(DateUtil.dateToString(item.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 
         }
-        ResultData resultData=new ResultData();
+        ResultData resultData = new ResultData();
         resultData.setPagecount(count);
         resultData.setDevcount(devcount);
         resultData.setData(listinfo);

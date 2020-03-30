@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.*;
 import com.plat.acoal.model.DevInfo;
+import com.plat.acoal.model.DustModel;
 import com.plat.acoal.model.PressureFlowModel;
 import com.plat.acoal.model.RegionModel;
 import com.plat.acoal.service.impl.DevServiceImpl;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
 
 @RestController
 @Log4j2
@@ -86,10 +88,26 @@ public class PressureFlowController {
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防栓Id查找设备Id
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        //查询实时水压
+        if (hydrantidRelation_re != null) {
+            pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+        }
+        String newdate = null;
+        List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
+        for (PressureFlowModel d : newPress
+        ) {
+            Date dt = d.getDcollectdt();
+            newdate = DateUtil.dateToString(dt);
+        }
+
+
         //获取消防栓状态
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
         }
+
+
+        //查询实时流量
         List<PressureFlowModel> newFlow = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
         System.out.println(newFlow + "adwdqw");
         String[] arrtime = new String[4];
@@ -106,11 +124,37 @@ public class PressureFlowController {
                 pos++;
             }
         }
+
+
         ResultData resultData = new ResultData();
         resultData.setArrsdata1(arrtime);
+        resultData.setDate(newdate);
+        resultData.setDatalst3(newPress);
         resultData.setArrddata3(flow);
+
         return JSON.toJSONString(resultData);
     }
+
+    public String selectLastOne(List<PressureFlowModel> list) {
+        PressureFlowModel pressureFlowModel = new PressureFlowModel();
+        String newdate = null;
+        Long dates[] = new Long[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            // 把date类型的时间对象转换为long类型，时间越往后，long的值就越大，
+            // 所以就依靠这个原理来判断距离现在最近的时间
+            dates[i] = list.get(i).getDcollectdt().getTime();
+        }
+        Long maxIndex = dates[0];// 定义最大值为该数组的第一个数
+        for (int j = 0; j < dates.length; j++) {
+            if (maxIndex < dates[j]) {
+                maxIndex = dates[j];
+                // 找到了这个j
+                newdate = (DateUtil.dateToString(list.get(j).getDcollectdt()));
+            }
+        }
+        return newdate;
+    }
+
 
     /**
      * 消防栓监控列表
@@ -121,7 +165,7 @@ public class PressureFlowController {
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
-        condition.put("icustomerid",icustomerid.toString());
+        condition.put("icustomerid", icustomerid.toString());
 
         Integer currentPage = 1;
         Integer pageSize = 1;
@@ -130,8 +174,6 @@ public class PressureFlowController {
             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
 
         }
-
-
         if (condition.containsKey("currentPage")) {
 //            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
@@ -148,21 +190,21 @@ public class PressureFlowController {
         List<PressureFlowModel> listf = new ArrayList<PressureFlowModel>();
         PressureFlowModel pressureFlowModel = new PressureFlowModel();
         //查询消防栓设备列表
-        String devname=null;
-        if(devname!=null){
-            condition.put("name",devname);
+        String devname = null;
+        if (devname != null) {
+            condition.put("name", devname);
         }
-        if(type!=null){
-            condition.put("type",type.toString());
+        if (type != null) {
+            condition.put("type", type.toString());
         }
         //查询数量
-        int devcount=0;
-        devcount=devServiceImpl.selectCountByType(condition);
+        int devcount = 0;
+        devcount = devServiceImpl.selectCountByType(condition);
         List<DevInfo> listhy = devServiceImpl.selectHydrantList(condition, currentPage, pageSize);
         Integer pagecount = 0;
         Integer count = 0;
         //获取查询的条数
-        pagecount=devServiceImpl.selectHydrantCount(condition);
+        pagecount = devServiceImpl.selectHydrantCount(condition);
         for (DevInfo item : listhy
         ) {
             count++;
@@ -284,7 +326,8 @@ public class PressureFlowController {
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
-        }        String startdate = "", enddate = "";
+        }
+        String startdate = "", enddate = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dfhour = new SimpleDateFormat("HH:mm");
         Date date = new Date();
@@ -331,4 +374,68 @@ public class PressureFlowController {
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
     }
+    /**
+     * 查询实时水压水流信息
+     */
+    @RequestMapping("/pflist")
+    private String getpflist(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String,String> condition){
+        //先查询一天的水流
+        String hid = "1";
+        if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
+            hid = request.getParameter("hid");
+        }
+        HydrantidRelation hydrantidRelation = new HydrantidRelation();
+        //根据消防栓Id查找设备Id
+        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        if (hydrantidRelation_re != null) {
+            pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
+        }
+        Date date = new Date();
+        String startdate = "", enddate = "";
+        startdate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 00:00:00";
+        enddate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 23:59:59";
+
+        double[] fLArr = new double[24];
+        String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                arrhours[i] = "0" + String.valueOf(i) + ":00";
+            } else {
+                arrhours[i] = String.valueOf(i) + ":00";
+            }
+        }
+        int pos = 0;
+        pressureFlowModel.setDcollectstart(startdate);
+        pressureFlowModel.setDcollectend(enddate);
+
+        List<PressureFlowModel> newDust = pressureFlowServiceImpl.selectFByHour(pressureFlowModel);
+        ResultData resultData = new ResultData();
+        for (PressureFlowModel item : newDust) {
+            Date dt = item.getDcollectdt();
+            arrhours[pos] = DateUtil.dateToString(dt,"HH:mm");
+
+            if (item.getTflow() != null && pos < 24) {
+                fLArr[pos] = item.getTflow();
+            }
+
+            pos++;
+        }
+        if (hydrantidRelation_re != null) {
+            pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+        }
+
+        resultData.setArrddata1(fLArr);
+        resultData.setArrsdata1(arrhours);
+        List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
+        String newdate=null;
+        if(newPress.size()>0){
+             newdate = DateUtil.dateToString(newPress.get(0).getDcollectdt(), "yyyy-MM-dd HH:mm:ss");
+        }
+        resultData.setDate(newdate);
+        resultData.setData(newPress);
+        return  JSON.toJSONString(resultData);
+    }
+
 }
+
+

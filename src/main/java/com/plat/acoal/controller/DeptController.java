@@ -27,6 +27,5 @@ public class DeptController {
             resultData.setData(list);
         }
         return JSON.toJSONString(resultData);
-
     }
 }

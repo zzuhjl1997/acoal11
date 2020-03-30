@@ -36,9 +36,10 @@ public class OperationLogController {
         Integer icustomerid = null;
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
+            condition.put("icustomerid",icustomerid.toString());
         }
-        String startdate = null;
-        String enddate = null;
+//        String startdate = null;
+//        String enddate = null;
         Integer pageSize = 1;
         Integer currentPage = 1;
         Integer sequence = 0;
@@ -48,15 +49,15 @@ public class OperationLogController {
         if (condition.containsKey("currentPage")) {
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
-            startdate = StringUtils.isBlank(condition.get("startdate")) ? null : (condition.get("startdate"));
-            enddate = StringUtils.isBlank(condition.get("enddate")) ? null : (condition.get("enddate"));
+//            startdate = StringUtils.isBlank(condition.get("startdate")) ? null : (condition.get("startdate"));
+//            enddate = StringUtils.isBlank(condition.get("enddate")) ? null : (condition.get("enddate"));
             condition.remove("currentPage");
             condition.remove("pageSize");
         } else {
             currentPage = null;
             pageSize = null;
-            startdate = null;
-            enddate = null;
+//            startdate = null;
+//            enddate = null;
         }
         count = osi.selectLogsCount(condition);
         List<OperationIAO> list = osi.selectLogs(condition, currentPage, pageSize);

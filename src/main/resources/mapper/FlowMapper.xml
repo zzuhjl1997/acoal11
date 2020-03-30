@@ -23,14 +23,14 @@
     SELECT
     dCollectDT,tFlow,dev_id as devid
     FROM
-    t_flow
+    t_flow_history
     WHERE
     1 = 1
     <if test="devid!=null">
       AND dev_id= #{devid,jdbcType=BIGINT}
     </if>
     ORDER BY
-    dCollectDT DESC
+    dCollectDT
     LIMIT 4
 
   </select>

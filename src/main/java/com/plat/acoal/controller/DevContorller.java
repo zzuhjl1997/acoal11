@@ -227,15 +227,16 @@ public class DevContorller {
              icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
          }
          Integer type = null;
-         if (condition.containsKey("type")) {
-             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
-         }
+//         if (condition.containsKey("type")) {
+//             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
+//         }
+         condition.put("type","9");
         Integer count = null;
         List<DevInfo> list = devServiceImpl.selectDevInfoByCondition(condition);
         count = devServiceImpl.selectCountByType(condition);
         ResultData resultData = new ResultData();
         resultData.setData(list);
-        resultData.setCount(count);
+        resultData.setDevcount(count);
         return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
     }
     /**
