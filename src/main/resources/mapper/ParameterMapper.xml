@@ -16,7 +16,7 @@
         <result column="addUserID" property="adduserid" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    ID, iCustomerID, isUsed, cParam, cOrder, cValue, gradeID, cReTime, iDeviceId, addDateTime, 
+    ID, iCustomerID, isUsed, cParam, cOrder, cValue, gradeID, cReTime, dev_id, addDateTime,
     updateDateTime, addUserID
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
@@ -162,8 +162,8 @@
             <if test="cretime != null">
                 cReTime = #{cretime,jdbcType=VARCHAR},
             </if>
-            <if test="ideviceid != null">
-                iDeviceId = #{ideviceid,jdbcType=INTEGER},
+            <if test="devId != null">
+                dev_id = #{devId,jdbcType=INTEGER},
             </if>
             <if test="adddatetime != null">
                 addDateTime = #{adddatetime,jdbcType=TIMESTAMP},

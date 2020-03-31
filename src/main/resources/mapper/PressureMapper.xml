@@ -24,8 +24,8 @@
         t_pressure
         WHERE
         1 = 1
-        <if test="devid!=null">
-            AND dev_id= #{devid,jdbcType=BIGINT}
+        <if test="pressureid!=null">
+            AND dev_id= #{pressureid,jdbcType=BIGINT}
         </if>
         ORDER BY
         dCollectDT DESC

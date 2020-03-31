@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 @RestController
 @Log4j2
-@RequestMapping("/param")
+@RequestMapping(value="/param",produces = "application/json;Charset=UTF-8")
 public class ParameterController {
     @Autowired
     private ParameterService parameterService;
@@ -42,13 +42,15 @@ public class ParameterController {
      * 根据父参数查看报警参数信息
      */
     @PostMapping("/list")
-    private String selectParamByCondition(String cparam,@RequestParam(value = "deviceId",required = false,defaultValue = "0") Integer deviceId, HttpServletRequest request){
+    private String selectParamByCondition(String cparam,@RequestParam(value = "devId",required = false,defaultValue = "0") Integer devId, HttpServletRequest request,HttpSession session){
         // 获取customerid
-        /*HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        Integer icustomerid = user.getIcustomerid();*/
-        int icustomerid = 2;
-        List<Parameter> list = parameterService.selectParamByCondition(cparam,icustomerid, deviceId);
+        Integer icustomerid = 2;
+//        HttpSession session = request.getSession();
+        if(session.getAttribute("user")!=null) {
+            User user = (User) session.getAttribute("user");
+            icustomerid = user.getIcustomerid();
+        }
+        List<Parameter> list = parameterService.selectParamByCondition(cparam,icustomerid, devId);
         return JSON.toJSONString(list);
     }
     /**

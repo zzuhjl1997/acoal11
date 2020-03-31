@@ -14,6 +14,7 @@ public class GasModel {
     private String devname;
     private String site;
     private String ip;
+    private String typename;
     private Date updatetime;
     private String lasttime;
     private Float gco;
@@ -24,5 +25,7 @@ public class GasModel {
     private Date dcollectdt;
     private Integer devid;
     private Integer type;
+    private Integer code;
+    private Integer online;
 //    private Predicate
 }

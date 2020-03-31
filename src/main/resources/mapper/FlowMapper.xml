@@ -26,8 +26,8 @@
     t_flow_history
     WHERE
     1 = 1
-    <if test="devid!=null">
-      AND dev_id= #{devid,jdbcType=BIGINT}
+    <if test="flowid!=null">
+      AND dev_id= #{flowid,jdbcType=BIGINT}
     </if>
     ORDER BY
     dCollectDT

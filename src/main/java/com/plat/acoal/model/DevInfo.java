@@ -38,8 +38,8 @@ public class DevInfo {
     private String lastTime;
     private Integer status;
     private double fT;
-    private double tflow;
-    private double tpressure;
+    private Double tflow;
+    private Double tpressure;
 
     private String typename;
 
@@ -52,6 +52,8 @@ public class DevInfo {
     private Float go2;
 
     private Float fdust;
+
+    private Float power;
 
     private Integer alarm;
 

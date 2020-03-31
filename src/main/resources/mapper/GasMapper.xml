@@ -220,7 +220,8 @@
         td.`name` AS devname,
         td.site AS site,
         td.ip AS ip,
-        td.`status` AS `status`,
+        td.code AS code,
+        td.`online` AS `online`,
         tc.dCollectDT AS updateTime,
         tc.gCO AS val
         FROM
@@ -246,7 +247,8 @@
         td.`name` AS devname,
         td.site AS site,
         td.ip AS ip,
-        td.`status` AS `status`,
+        td.code AS code,
+        td.`online` AS `online`,
         tg.dCollectDT AS updateTime,
         tg.gCH4 AS val
         FROM
@@ -277,7 +279,7 @@ FROM
 		td.`name` AS devname,
 		td.site AS site,
 		td.ip AS ip,
-		td.`status` AS `status`,
+		td.`online` AS `online`,
 		tc.dCollectDT AS updateTime,
 		tc.gCO AS val
 	FROM

@@ -209,23 +209,26 @@ public class PressureFlowController {
         ) {
             count++;
             item.setCount(count);
-            //查询消防栓对应的实时数据
-            pressureFlowModel.setPressureid(item.getPressureid());
-            if (listp.size() != 0) {
+            if(item!=null) {
+                //查询消防栓对应的实时数据
 
-                listp = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
 
-                System.out.println(listp);
+                    pressureFlowModel.setPressureid(item.getPressureid());
+                    listp = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
 
-                item.setTpressure(listp.get(0).getTpressure());
+                    System.out.println(listp);
+                if (listp.size() != 0) {
+                    item.setTpressure(listp.get(0).getTpressure());
+                }
+
+
+                    pressureFlowModel.setFlowid(item.getFlowid());
+                    listf = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
+                if (listf.size() != 0) {
+                    item.setTflow(listf.get(0).getTflow());
+                    item.setLastTime(DateUtil.dateToString(listf.get(0).getDcollectdt(), "yyyy-MM-dd HH:mm:ss"));
+                }
             }
-            if (listf.size() != 0) {
-                pressureFlowModel.setFlowid(item.getFlowid());
-                listf = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
-                item.setTflow(listf.get(0).getTflow());
-
-            }
-
         }
         ResultData resultData = new ResultData();
         resultData.setPagecount(pagecount);
@@ -377,7 +380,7 @@ public class PressureFlowController {
     /**
      * 查询实时水压水流信息
      */
-    @RequestMapping("/pflist")
+    @RequestMapping("/pfnow")
     private String getpflist(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String,String> condition){
         //先查询一天的水流
         String hid = "1";
