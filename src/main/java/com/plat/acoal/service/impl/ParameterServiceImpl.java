@@ -38,6 +38,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @return
      */
     public void updateParameter(Parameter parameter, Integer ischecked) {
+        System.out.println(parameter.getId()+"jagskdgas");
     // 查询当前参数表中是否有该设备,通过以下条件，如果能查到数据，应该只有一条。
         Parameter par = new Parameter();
         par.setIcustomerid(parameter.getIcustomerid());
@@ -53,11 +54,12 @@ public class ParameterServiceImpl implements ParameterService {
             parameter.setUpdatedatetime(new Date());
             parameterMapper.updateByPrimaryKeySelective(parameter);
 
-            if (ischecked == 1) {
+            if (ischecked!=null&&ischecked == 1) {
                 for (int i = 0; i < devList.size(); i++) {
                     Parameter param = new Parameter();
                     param.setIcustomerid(parameter.getIcustomerid());
                     param.setDevId(devList.get(i).getId());
+                    System.out.println("参数id："+devList.get(i).getId());
                     param.setCparam(parameter.getCparam());
                     param.setGradeid(parameter.getGradeid());
                     List<Parameter> paramList = parameterMapper.selectParamByCondition(param);
@@ -69,6 +71,7 @@ public class ParameterServiceImpl implements ParameterService {
                     } else {
                         // 插入一条新纪录
                         parameter.setId((long) 0);
+
                         parameter.setDevId(devList.get(i).getId());
                         parameter.setAdddatetime(new Date());
                         parameter.setUpdatedatetime(new Date());
@@ -80,6 +83,7 @@ public class ParameterServiceImpl implements ParameterService {
             parameter.setAdddatetime(new Date());
             parameter.setUpdatedatetime(new Date());
             parameterMapper.insertSelective(parameter);
+            System.out.println("走了else");
             if (ischecked == 1) {
                 // 所有同类型设备都设为此值
                 for (int i = 0; i < devList.size(); i++) {

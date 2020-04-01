@@ -107,4 +107,9 @@ public class DevServiceImpl implements DevService {
     public Integer selectHydrantCount(Map<String, String> condition) {
         return dm.selectHydrantCount(condition);
     }
+
+    @Override
+    public List<DevInfo> selectDevInfoByDevid(Map<String, String> condition) {
+        return dm.selectDevInfoByDevid(condition);
+    }
 }

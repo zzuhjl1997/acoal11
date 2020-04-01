@@ -150,20 +150,29 @@ public class DevContorller {
      */
     @RequestMapping("/newstatus")
     public String getStatus(@RequestParam Map<String, String> condition, Dev dev, HttpServletRequest request) {
-        String devid = "3";
+        /*String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
-        dev.setId(Integer.parseInt(devid));
-        Dev newDev = devServiceImpl.selectDevById(dev);
+        dev.setId(Integer.parseInt(devid));*/
+//        Dev newDev = devServiceImpl.selectDeviNFOById(condition);
+
+
+
+
         //获取该类设备总数
-        int sum = 0;
+    /*
         if (newDev != null) {
             int type = newDev.getType();
             sum = devServiceImpl.selectCountByType(condition);
-        }
+        }*/
+    //查询基础信息
+        int sum = 0;
+        List<DevInfo> listd=new ArrayList<DevInfo>();
+        listd=devServiceImpl.selectDevInfoByDevid(condition);
+        sum = devServiceImpl.selectCountByType(condition);
         ResultData resultData = new ResultData();
-        resultData.setDev(newDev);
+        resultData.setData(listd);
         resultData.setCount(sum);
         return JSON.toJSONString(resultData);
     }

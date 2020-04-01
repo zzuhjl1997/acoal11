@@ -1,33 +1,204 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.plat.acoal.dao.ParameterMapper">
-    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Parameter">
-        <id column="ID" property="id" jdbcType="BIGINT"/>
-        <result column="iCustomerID" property="icustomerid" jdbcType="INTEGER"/>
-        <result column="isUsed" property="isused" jdbcType="BIT"/>
-        <result column="cParam" property="cparam" jdbcType="VARCHAR"/>
-        <result column="cOrder" property="corder" jdbcType="CHAR"/>
-        <result column="cValue" property="cvalue" jdbcType="VARCHAR"/>
-        <result column="gradeID" property="gradeid" jdbcType="INTEGER"/>
-        <result column="cReTime" property="cretime" jdbcType="VARCHAR"/>
-        <result column="dev_id" property="devId" jdbcType="INTEGER"/>
-        <result column="addDateTime" property="adddatetime" jdbcType="TIMESTAMP"/>
-        <result column="updateDateTime" property="updatedatetime" jdbcType="TIMESTAMP"/>
-        <result column="addUserID" property="adduserid" jdbcType="INTEGER"/>
-    </resultMap>
-    <sql id="Base_Column_List">
-    ID, iCustomerID, isUsed, cParam, cOrder, cValue, gradeID, cReTime, dev_id, addDateTime,
-    updateDateTime, addUserID
+  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Parameter">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="iCustomerID" jdbcType="INTEGER" property="icustomerid" />
+    <result column="dev_id" jdbcType="INTEGER" property="devId" />
+    <result column="isUsed" jdbcType="BIT" property="isused" />
+    <result column="cParam" jdbcType="VARCHAR" property="cparam" />
+    <result column="cValue" jdbcType="VARCHAR" property="cvalue" />
+    <result column="gradeID" jdbcType="INTEGER" property="gradeid" />
+    <result column="cReTime" jdbcType="VARCHAR" property="cretime" />
+    <result column="iDelayTime" jdbcType="INTEGER" property="idelaytime" />
+    <result column="cOrder" jdbcType="CHAR" property="corder" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="addDateTime" jdbcType="TIMESTAMP" property="adddatetime" />
+    <result column="updateDateTime" jdbcType="TIMESTAMP" property="updatedatetime" />
+    <result column="addUserID" jdbcType="INTEGER" property="adduserid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, iCustomerID, dev_id, isUsed, cParam, cValue, gradeID, cReTime, iDelayTime, cOrder, 
+    type, addDateTime, updateDateTime, addUserID
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        select
-        <include refid="Base_Column_List"/>
-        from t_parameter
-        where ID = #{id,jdbcType=BIGINT}
-    </select>
-    <!-- 查询客户某预警参数-->
-    <select id="selectByCus" resultType="com.plat.acoal.entity.Parameter"
-            parameterType="com.plat.acoal.entity.Parameter">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_parameter
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_parameter
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.plat.acoal.entity.Parameter">
+    insert into t_parameter (ID, iCustomerID, dev_id, 
+      isUsed, cParam, cValue, 
+      gradeID, cReTime, iDelayTime, 
+      cOrder, type, addDateTime, 
+      updateDateTime, addUserID)
+    values (#{id,jdbcType=BIGINT}, #{icustomerid,jdbcType=INTEGER}, #{devId,jdbcType=INTEGER}, 
+      #{isused,jdbcType=BIT}, #{cparam,jdbcType=VARCHAR}, #{cvalue,jdbcType=VARCHAR}, 
+      #{gradeid,jdbcType=INTEGER}, #{cretime,jdbcType=VARCHAR}, #{idelaytime,jdbcType=INTEGER}, 
+      #{corder,jdbcType=CHAR}, #{type,jdbcType=INTEGER}, #{adddatetime,jdbcType=TIMESTAMP}, 
+      #{updatedatetime,jdbcType=TIMESTAMP}, #{adduserid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.plat.acoal.entity.Parameter">
+    insert into t_parameter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="icustomerid != null">
+        iCustomerID,
+      </if>
+      <if test="devId != null">
+        dev_id,
+      </if>
+      <if test="isused != null">
+        isUsed,
+      </if>
+      <if test="cparam != null">
+        cParam,
+      </if>
+      <if test="cvalue != null">
+        cValue,
+      </if>
+      <if test="gradeid != null">
+        gradeID,
+      </if>
+      <if test="cretime != null">
+        cReTime,
+      </if>
+      <if test="idelaytime != null">
+        iDelayTime,
+      </if>
+      <if test="corder != null">
+        cOrder,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="adddatetime != null">
+        addDateTime,
+      </if>
+      <if test="updatedatetime != null">
+        updateDateTime,
+      </if>
+      <if test="adduserid != null">
+        addUserID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="icustomerid != null">
+        #{icustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="devId != null">
+        #{devId,jdbcType=INTEGER},
+      </if>
+      <if test="isused != null">
+        #{isused,jdbcType=BIT},
+      </if>
+      <if test="cparam != null">
+        #{cparam,jdbcType=VARCHAR},
+      </if>
+      <if test="cvalue != null">
+        #{cvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeid != null">
+        #{gradeid,jdbcType=INTEGER},
+      </if>
+      <if test="cretime != null">
+        #{cretime,jdbcType=VARCHAR},
+      </if>
+      <if test="idelaytime != null">
+        #{idelaytime,jdbcType=INTEGER},
+      </if>
+      <if test="corder != null">
+        #{corder,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="adddatetime != null">
+        #{adddatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedatetime != null">
+        #{updatedatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adduserid != null">
+        #{adduserid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Parameter">
+    update t_parameter
+    <set>
+      <if test="icustomerid != null">
+        iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="devId != null">
+        dev_id = #{devId,jdbcType=INTEGER},
+      </if>
+      <if test="isused != null">
+        isUsed = #{isused,jdbcType=BIT},
+      </if>
+      <if test="cparam != null">
+        cParam = #{cparam,jdbcType=VARCHAR},
+      </if>
+      <if test="cvalue != null">
+        cValue = #{cvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeid != null">
+        gradeID = #{gradeid,jdbcType=INTEGER},
+      </if>
+      <if test="cretime != null">
+        cReTime = #{cretime,jdbcType=VARCHAR},
+      </if>
+      <if test="idelaytime != null">
+        iDelayTime = #{idelaytime,jdbcType=INTEGER},
+      </if>
+      <if test="corder != null">
+        cOrder = #{corder,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="adddatetime != null">
+        addDateTime = #{adddatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedatetime != null">
+        updateDateTime = #{updatedatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adduserid != null">
+        addUserID = #{adduserid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Parameter">
+    update t_parameter
+    set iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      dev_id = #{devId,jdbcType=INTEGER},
+      isUsed = #{isused,jdbcType=BIT},
+      cParam = #{cparam,jdbcType=VARCHAR},
+      cValue = #{cvalue,jdbcType=VARCHAR},
+      gradeID = #{gradeid,jdbcType=INTEGER},
+      cReTime = #{cretime,jdbcType=VARCHAR},
+      iDelayTime = #{idelaytime,jdbcType=INTEGER},
+      cOrder = #{corder,jdbcType=CHAR},
+      type = #{type,jdbcType=INTEGER},
+      addDateTime = #{adddatetime,jdbcType=TIMESTAMP},
+      updateDateTime = #{updatedatetime,jdbcType=TIMESTAMP},
+      addUserID = #{adduserid,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+ <!--    查询客户某预警参数
+    <select id="selectByCus" parameterType="com.plat.acoal.entity.Parameter" resultType="com.plat.acoal.entity.Parameter">
         SELECT
         cParam,
         cValue
@@ -40,146 +211,13 @@
         <if test="icustomerid!=null">
             AND iCustomerID = #{icustomerid,jdbcType=INTEGER}
         </if>
+    </select>-->
 
 
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from t_parameter
-    where ID = #{id,jdbcType=BIGINT}
-  </delete>
-    <insert id="insert" parameterType="com.plat.acoal.entity.Parameter">
-    insert into t_parameter (ID, iCustomerID, isUsed, 
-      cParam, cOrder, cValue, 
-      gradeID, cReTime, iDeviceId, 
-      addDateTime, updateDateTime, addUserID
-      )
-    values (#{id,jdbcType=BIGINT}, #{icustomerid,jdbcType=INTEGER}, #{isused,jdbcType=BIT}, 
-      #{cparam,jdbcType=VARCHAR}, #{corder,jdbcType=CHAR}, #{cvalue,jdbcType=VARCHAR}, 
-      #{gradeid,jdbcType=INTEGER}, #{cretime,jdbcType=VARCHAR}, #{ideviceid,jdbcType=INTEGER}, 
-      #{adddatetime,jdbcType=TIMESTAMP}, #{updatedatetime,jdbcType=TIMESTAMP}, #{adduserid,jdbcType=INTEGER}
-      )
-  </insert>
-    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Parameter">
-        insert into t_parameter
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                ID,
-            </if>
-            <if test="icustomerid != null">
-                iCustomerID,
-            </if>
-            <if test="isused != null">
-                isUsed,
-            </if>
-            <if test="cparam != null">
-                cParam,
-            </if>
-            <if test="corder != null">
-                cOrder,
-            </if>
-            <if test="cvalue != null">
-                cValue,
-            </if>
-            <if test="gradeid != null">
-                gradeID,
-            </if>
-            <if test="cretime != null">
-                cReTime,
-            </if>
-            <if test="ideviceid != null">
-                iDeviceId,
-            </if>
-            <if test="adddatetime != null">
-                addDateTime,
-            </if>
-            <if test="updatedatetime != null">
-                updateDateTime,
-            </if>
-            <if test="adduserid != null">
-                addUserID,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>
-            <if test="icustomerid != null">
-                #{icustomerid,jdbcType=INTEGER},
-            </if>
-            <if test="isused != null">
-                #{isused,jdbcType=BIT},
-            </if>
-            <if test="cparam != null">
-                #{cparam,jdbcType=VARCHAR},
-            </if>
-            <if test="corder != null">
-                #{corder,jdbcType=CHAR},
-            </if>
-            <if test="cvalue != null">
-                #{cvalue,jdbcType=VARCHAR},
-            </if>
-            <if test="gradeid != null">
-                #{gradeid,jdbcType=INTEGER},
-            </if>
-            <if test="cretime != null">
-                #{cretime,jdbcType=VARCHAR},
-            </if>
-            <if test="ideviceid != null">
-                #{ideviceid,jdbcType=INTEGER},
-            </if>
-            <if test="adddatetime != null">
-                #{adddatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatedatetime != null">
-                #{updatedatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="adduserid != null">
-                #{adduserid,jdbcType=INTEGER},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Parameter">
-        update t_parameter
-        <set>
-            <if test="icustomerid != null">
-                iCustomerID = #{icustomerid,jdbcType=INTEGER},
-            </if>
-            <if test="isused != null">
-                isUsed = #{isused,jdbcType=BIT},
-            </if>
-            <if test="cparam != null">
-                cParam = #{cparam,jdbcType=VARCHAR},
-            </if>
-            <if test="corder != null">
-                cOrder = #{corder,jdbcType=CHAR},
-            </if>
-            <if test="cvalue != null">
-                cValue = #{cvalue,jdbcType=VARCHAR},
-            </if>
-            <if test="gradeid != null">
-                gradeID = #{gradeid,jdbcType=INTEGER},
-            </if>
-            <if test="cretime != null">
-                cReTime = #{cretime,jdbcType=VARCHAR},
-            </if>
-            <if test="devId != null">
-                dev_id = #{devId,jdbcType=INTEGER},
-            </if>
-            <if test="adddatetime != null">
-                addDateTime = #{adddatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatedatetime != null">
-                updateDateTime = #{updatedatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="adduserid != null">
-                addUserID = #{adduserid,jdbcType=INTEGER},
-            </if>
-        </set>
-        where ID = #{id,jdbcType=BIGINT}
-    </update>
     <select id="selectParamByCondition" parameterType="com.plat.acoal.entity.Parameter" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List"/>
+
+        <include refid="Base_Column_List" />
         FROM
         t_parameter
         WHERE
@@ -187,6 +225,10 @@
         <if test="cparam!=null and cparam!=''">
             AND cParam = #{cparam}
         </if>
+        <if test="cparam=='Gas' ">
+        AND cParam = 'CO' OR cParam = 'Ch4'
+        </if>
+
         <if test="gradeid!=null and gradeid!=''">
             AND gradeID = #{gradeid}
         </if>
@@ -198,19 +240,4 @@
         </if>
         AND isUsed = 1
     </select>
-    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Parameter">
-    update t_parameter
-    set iCustomerID = #{icustomerid,jdbcType=INTEGER},
-      isUsed = #{isused,jdbcType=BIT},
-      cParam = #{cparam,jdbcType=VARCHAR},
-      cOrder = #{corder,jdbcType=CHAR},
-      cValue = #{cvalue,jdbcType=VARCHAR},
-      gradeID = #{gradeid,jdbcType=INTEGER},
-      cReTime = #{cretime,jdbcType=VARCHAR},
-      iDeviceId = #{ideviceid,jdbcType=INTEGER},
-      addDateTime = #{adddatetime,jdbcType=TIMESTAMP},
-      updateDateTime = #{updatedatetime,jdbcType=TIMESTAMP},
-      addUserID = #{adduserid,jdbcType=INTEGER}
-    where ID = #{id,jdbcType=BIGINT}
-  </update>
 </mapper>

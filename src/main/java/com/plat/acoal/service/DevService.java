@@ -42,4 +42,6 @@ public interface DevService {
     List<DevInfo> selectTemNowByCondition(Map<String, String> condition);
 
     Integer selectHydrantCount(Map<String, String> condition);
+
+    List<DevInfo> selectDevInfoByDevid(Map<String, String> condition);
 }

@@ -3,17 +3,18 @@ package com.plat.acoal.entity;
 import lombok.Data;
 
 import java.util.Date;
+
 @Data
 public class Parameter {
     private Long id;
 
     private Integer icustomerid;
 
+    private Integer devId;
+
     private Boolean isused;
 
     private String cparam;
-
-    private String corder;
 
     private String cvalue;
 
@@ -21,16 +22,15 @@ public class Parameter {
 
     private String cretime;
 
-    private Integer type;
+    private Integer idelaytime;
 
-    private Integer devId;
+    private String corder;
+
+    private Integer type;
 
     private Date adddatetime;
 
     private Date updatedatetime;
 
     private Integer adduserid;
-//    private Integer ideviceid;
-
-
 }

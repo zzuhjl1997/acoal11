@@ -62,6 +62,8 @@
         from t_dev
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_dev
     where id = #{id,jdbcType=INTEGER}
@@ -364,9 +366,9 @@
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
         <if test="online != null">AND online = #{online}</if>
         <if test="type!=null">AND type = #{type}</if>
-<!--
-        <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
--->
+        <!--
+                <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+        -->
     </select>
     <select id="selectDevInfoByCon" resultType="com.plat.acoal.entity.Dev" parameterType="com.plat.acoal.entity.Dev">
         SELECT
@@ -445,7 +447,8 @@
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and td.type=#{type}</if>
-        <if test="devname!=null">AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"</if>    </select>
+        <if test="devname!=null">AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"</if>
+    </select>
     <!-- 大屏 CH4列表-->
     <select id="selectCh4ByCondition" resultType="com.plat.acoal.model.DevInfo">
         SELECT
@@ -536,5 +539,20 @@
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and td.type=#{type}</if>
+    </select>
+    <select id="selectDevInfoByDevid" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
+        SELECT
+        td.id AS devid,
+        td.NAME AS name,
+        td.site AS site,
+        td.region AS region,
+        td.STATUS AS STATUS,
+        tc.cCustomerName AS customername
+        FROM
+        t_dev td
+        INNER JOIN t_customer tc ON tc.iCustomerID = td.iCustomerID
+        WHERE 1=1
+        <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
+        <if test="devid != null">AND td.id= #{devid}</if>
     </select>
 </mapper>

@@ -51,4 +51,18 @@ public class MstonLineController {
         listauto.add(parama2);
         return JSON.toJSONString(listauto);
     }
+   /* @RequestMapping("/status")
+    private String getstatus(){
+        List<Map<String,String>> listauto=new ArrayList<Map<String, String>>();
+        Map<String,String> parama=new HashMap<String, String>();
+        Map<String,String> parama2=new HashMap<String, String>();
+        parama.put("code","0");
+        parama.put("status","关闭");
+        parama2.put("code","1");
+        parama2.put("status","开启");
+        parama2.put("status","开启");
+        listauto.add(parama);
+        listauto.add(parama2);
+        return JSON.toJSONString(listauto);
+    }*/
 }
