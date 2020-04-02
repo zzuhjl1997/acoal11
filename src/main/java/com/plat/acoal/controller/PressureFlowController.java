@@ -5,12 +5,10 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.pagehelper.PageHelper;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.*;
-import com.plat.acoal.model.DevInfo;
-import com.plat.acoal.model.DustModel;
-import com.plat.acoal.model.PressureFlowModel;
-import com.plat.acoal.model.RegionModel;
+import com.plat.acoal.model.*;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.HydrantidRelationServiceImpl;
+import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.service.impl.PressureFlowServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
@@ -37,7 +35,8 @@ public class PressureFlowController {
     public DevServiceImpl devServiceImpl;
     @Autowired
     public HydrantidRelationServiceImpl hydrantidRelationServiceImpl;
-
+    @Autowired
+    public ParameterServiceImpl parameterServiceImpl;
     /**
      * 查询最新水压
      *
@@ -245,7 +244,7 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/dayPress")
-    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
+    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request,Map<String,String> condition) {
 //            String devid = "3";
 //            if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
 //                devid = request.getParameter("devid");
@@ -302,6 +301,23 @@ public class PressureFlowController {
             }
             pos++;
         }
+
+
+        condition.put("devid",pressureFlowModel.getPressureid().toString());
+        System.out.println("devid:"+condition.get("devid"));
+        condition.put("cparam","P");
+        List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
+        List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
+        listp = parameterServiceImpl.selectParamInfoByCondition(condition);
+        if(listp.size()>0){
+            listp_re=listp;
+        }else {
+            condition.put("devid","0");
+            System.out.println("devid:"+condition.get("devid"));
+            condition.put("cparam","P");
+            listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
+        }
+        resultData.setData(listp_re);
         resultData.setArrddata1(fPArr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
@@ -314,7 +330,7 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/dayFlow")
-    public String getDayFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
+    public String getDayFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request,Map<String,String> condition) {
 //        String devid = "3";
 //        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
 //            devid = request.getParameter("devid");
@@ -328,7 +344,7 @@ public class PressureFlowController {
         //根据消防栓Id查找设备Id
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
         if (hydrantidRelation_re != null) {
-            pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+            pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
         }
         String startdate = "", enddate = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -373,6 +389,27 @@ public class PressureFlowController {
             }
             pos++;
         }
+        if (hydrantidRelation_re != null) {
+            condition.put("devid",hydrantidRelation_re.getFlowid().toString());
+        }else {
+            condition.put("devid","0");
+        }
+
+        System.out.println("devid:"+condition.get("devid"));
+        condition.put("cparam","F");
+        List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
+        List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
+        listp = parameterServiceImpl.selectParamInfoByCondition(condition);
+        if(listp.size()>0){
+            listp_re=listp;
+        }else {
+            condition.put("devid","0");
+            System.out.println("devid:"+condition.get("devid"));
+            condition.put("cparam","F");
+            listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
+        }
+        resultData.setData(listp_re);
+
         resultData.setArrddata1(fPArr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);

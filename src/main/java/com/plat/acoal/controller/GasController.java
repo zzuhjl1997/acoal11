@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.GasModel;
+import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.model.TemperatureInfo;
 import com.plat.acoal.service.impl.CannonServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.GasServiceImpl;
+import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +36,8 @@ public class GasController {
     public GasServiceImpl gasServiceImpl;
     @Autowired
     public DevServiceImpl devServiceImpl;
-
+    @Autowired
+    public ParameterServiceImpl parameterServiceImpl;
     /**
      * 查询最新Ch4
      *
@@ -54,18 +57,21 @@ public class GasController {
         int pos=0;
         for (GasModel g : newGas
         ) {
-//            Date dt = g.getDcollectdt();
-//            g.setDcollectdt_re(DateUtil.dateToString(dt));
+
             if(g!=null){
                 newVal[pos]=g.getGch4();
             }
+            pos ++;
         }
-        if(newGas!=null){
-            newdate=selectLastOne(newGas);
-        }
+        if(newGas.size()>0){
+            newdate=(DateUtil.dateToString(newGas.get(0).getDcollectdt()));
+            System.out.println("数据长度"+newdate);
 
+        }
+//        System.out.println("数据长度"+newGas.size());
         ResultData resultData=new ResultData();
         resultData.setDate(newdate);
+        resultData.setArrddata1(newVal);
         return JSON.toJSONString(resultData);
     }
 
@@ -92,7 +98,11 @@ public class GasController {
                 newVal[pos]=g.getGco();
             }
         }
-        newdate=selectLastOne(newGas);
+        if(newGas.size()>0){
+            newdate=(DateUtil.dateToString(newGas.get(0).getDcollectdt()));
+
+        }
+
         ResultData resultData=new ResultData();
         resultData.setDate(newdate);
         resultData.setArrddata1(newVal);
@@ -146,6 +156,22 @@ public class GasController {
             }
             pos++;
         }
+
+        condition.put("devid",devid.toString());
+        System.out.println("devid:"+condition.get("devid"));
+        condition.put("cparam","CH4");
+        List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
+        List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
+        listp = parameterServiceImpl.selectParamInfoByCondition(condition);
+        if(listp.size()>0){
+            listp_re=listp;
+        }else {
+            condition.put("devid","0");
+            System.out.println("devid:"+condition.get("devid"));
+            condition.put("cparam","CH4");
+            listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
+        }
+        resultData.setData(listp_re);
         resultData.setArrddata1(fGch4Arr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
@@ -167,6 +193,7 @@ public class GasController {
                 maxIndex = dates[j];
                 // 找到了这个j
                 newdate=(DateUtil.dateToString(list.get(j).getDcollectdt()));
+//                System.out.println("最新时间"+newdate);
             }
         }
         return newdate;
@@ -234,6 +261,22 @@ public class GasController {
             }
             pos++;
         }
+
+        condition.put("devid",devid.toString());
+        System.out.println("devid:"+condition.get("devid"));
+        condition.put("cparam","CO");
+        List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
+        List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
+        listp = parameterServiceImpl.selectParamInfoByCondition(condition);
+        if(listp.size()>0){
+            listp_re=listp;
+        }else {
+            condition.put("devid","0");
+            System.out.println("devid:"+condition.get("devid"));
+            condition.put("cparam","CO");
+            listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
+        }
+        resultData.setData(listp_re);
 //        resultData.setArrddata1(fGch4Arr);
         resultData.setArrddata2(fGcoArr);
 //        resultData.setArrddata3(fGo2Arr);

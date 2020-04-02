@@ -4,12 +4,14 @@ import com.plat.acoal.dao.DevMapper;
 import com.plat.acoal.dao.ParameterMapper;
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.entity.Parameter;
+import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.service.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ParameterServiceImpl implements ParameterService {
@@ -50,7 +52,7 @@ public class ParameterServiceImpl implements ParameterService {
         List<Dev> devList = devMapper.selectDevByCustomerId(parameter.getIcustomerid(), parameter.getType());
         // 判断当前数据库中是否有该设备；如果有该设备则进行更新，如果没有则进行插入
         if (parameters.size() > 0) {
-            parameter.setId(parameters.get(0).getId());
+            parameter.setId(parameter.getId());
             parameter.setUpdatedatetime(new Date());
             parameterMapper.updateByPrimaryKeySelective(parameter);
 
@@ -133,9 +135,14 @@ public class ParameterServiceImpl implements ParameterService {
         return parameterMapper.selectParamByCondition(parameter);
     }
 
-    public List<Parameter> selectParameterByCus(Parameter parameter) {
+/*    public List<Parameter> selectParameterByCus(Parameter parameter) {
 
-        /*return parameterMapper.selectByCus(parameter);*/
+        *//*return parameterMapper.selectByCus(parameter);*//*
         return null;
+    }*/
+
+    @Override
+    public List<ParameterInfo> selectParamInfoByCondition(Map<String, String> condition) {
+        return parameterMapper.selectParamInfoByCondition(condition);
     }
 }

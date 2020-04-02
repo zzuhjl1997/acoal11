@@ -2,10 +2,13 @@ package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
+import com.plat.acoal.entity.Parameter;
 import com.plat.acoal.entity.Temperature;
 import com.plat.acoal.model.DevInfo;
+import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.model.TemperatureInfo;
 import com.plat.acoal.service.impl.DevServiceImpl;
+import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.service.impl.TemperatureServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
@@ -31,6 +34,8 @@ public class TemperatureController {
     public TemperatureServiceImpl temperatureServiceImpl;
     @Autowired
     public DevServiceImpl devServiceImpl;
+    @Autowired
+    public ParameterServiceImpl parameterServiceImpl;
 
     /**
      * 查询最新温度
@@ -63,10 +68,11 @@ public class TemperatureController {
             pos++;
         }
 //        TemperatureInfo t1 = new TemperatureInfo();
-        String newdate=null;
-        if (newFt.size()>0){
-        newdate = selectLastOne(newFt);
+        String newdate = null;
+        if (newFt.size() > 0) {
+            newdate = DateUtil.dateToString(newFt.get(0).getDcollectdt());
         }
+
         resultData.setDate(newdate);
         resultData.setArrddata1(newVal);
         return JSON.toJSONString(resultData);
@@ -75,9 +81,9 @@ public class TemperatureController {
 
     public String selectLastOne(List<TemperatureInfo> list) {
         TemperatureInfo temperatureInfo = new TemperatureInfo();
-        String newdate=null;
+        String newdate = null;
         Long dates[] = new Long[list.size()];
-        for (int i = 0; i <list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             // 把date类型的时间对象转换为long类型，时间越往后，long的值就越大，
             // 所以就依靠这个原理来判断距离现在最近的时间
             dates[i] = list.get(i).getDcollectdt().getTime();
@@ -87,7 +93,7 @@ public class TemperatureController {
             if (maxIndex < dates[j]) {
                 maxIndex = dates[j];
                 // 找到了这个j
-                newdate=(DateUtil.dateToString(list.get(j).getDcollectdt()));
+                newdate = (DateUtil.dateToString(list.get(j).getDcollectdt()));
             }
         }
         return newdate;
@@ -100,20 +106,20 @@ public class TemperatureController {
      * @return
      */
     @RequestMapping("/monitordayFt")
-    public String getDayFt(TemperatureInfo temperatureInfo, HttpServletRequest request,@RequestParam Map<String,String> condition) {
+    public String getDayFt(TemperatureInfo temperatureInfo, HttpServletRequest request, @RequestParam Map<String, String> condition) {
         String devid = "3";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
         Date date1 = new Date();
-        String startdate=null;
-        String enddate=null;
+        String startdate = null;
+        String enddate = null;
         if (condition.containsKey("date")) {
-            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 00:00:00");
-            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 23:59:59");
-        }else {
-            startdate = DateUtil.dateToString(date1,"yyyy-MM-dd")+" 00:00:00";
-            enddate = DateUtil.dateToString(date1,"yyyy-MM-dd")+ " 23:59:59";
+            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 23:59:59");
+        } else {
+            startdate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 00:00:00";
+            enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
         }
         double[] ftArr = new double[24];
         String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
@@ -125,16 +131,35 @@ public class TemperatureController {
         temperatureInfo.setDevid(Integer.parseInt(devid));
         temperatureInfo.setDcollectstart(startdate);
         temperatureInfo.setDcollectend(enddate);
-        ResultData resultData = new ResultData();
+
         List<Temperature> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
         for (Temperature item : newFt) {
             Date dt = item.getDcollectdt();
             if (item.getFt() != null && pos < 24) {
                 ftArr[pos] = item.getFt();
-                arrhours[pos] = DateUtil.dateToString(dt,"HH:mm");
+                arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
             }
             pos++;
         }
+//        ParameterInfo parameterInfo = new ParameterInfo();
+        condition.put("devid",devid.toString());
+        System.out.println("devid:"+condition.get("devid"));
+        condition.put("cparam","T");
+        List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
+        List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
+        listp = parameterServiceImpl.selectParamInfoByCondition(condition);
+        if(listp.size()>0){
+            listp_re=listp;
+        }else {
+            condition.put("devid","0");
+            System.out.println("devid:"+condition.get("devid"));
+            condition.put("cparam","T");
+            listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
+        }
+
+
+        ResultData resultData = new ResultData();
+        resultData.setData(listp_re);
         resultData.setArrddata1(ftArr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);

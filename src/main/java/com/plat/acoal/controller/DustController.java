@@ -5,9 +5,11 @@ import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.DustModel;
 import com.plat.acoal.model.GasModel;
+import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.service.DevService;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.DustServiceImpl;
+import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +35,8 @@ public class DustController {
     public DustServiceImpl dustServiceImpl;
     @Autowired
     public DevServiceImpl devServiceImpl;
-
+    @Autowired
+    public ParameterServiceImpl parameterServiceImpl;
     /**
      * 查询最新烟尘浓度
      *
@@ -65,8 +69,7 @@ public class DustController {
 //        newdate = selectLastOne(newDust);
         String newdate = null;
         if (newDust.size() > 0) {
-            newdate = selectLastOne(newDust);
-            System.out.println("最新时间"+newdate +"changsu"+newDust.size());
+            newdate=(DateUtil.dateToString(newDust.get(0).getDcollectdt()));
         }
         ResultData resultData = new ResultData();
         resultData.setDate(newdate);
@@ -140,6 +143,22 @@ public class DustController {
             }
             pos++;
         }
+
+        condition.put("devid",devid.toString());
+        System.out.println("devid:"+condition.get("devid"));
+        condition.put("cparam","D");
+        List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
+        List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
+        listp = parameterServiceImpl.selectParamInfoByCondition(condition);
+        if(listp.size()>0){
+            listp_re=listp;
+        }else {
+            condition.put("devid","0");
+            System.out.println("devid:"+condition.get("devid"));
+            condition.put("cparam","D");
+            listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
+        }
+        resultData.setData(listp_re);
         resultData.setArrddata1(fDustArr);
         resultData.setArrsdatax1(arrhours);
         return JSON.toJSONString(resultData);
