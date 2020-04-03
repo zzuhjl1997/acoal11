@@ -74,7 +74,7 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/newFlow")
-    public String getNewFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
+    public String getNewFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request,Map<String,String> condition) {
 //        String devid = "3";
 //        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
 //            devid = request.getParameter("devid");
@@ -85,6 +85,16 @@ public class PressureFlowController {
             hid = request.getParameter("hid");
         }
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
+        //根据消防阀门id查询消防阀门开启状态
+        int isopen=0;
+        condition.put("devid",hid.toString());
+        List<DevInfo> lst=devServiceImpl.selectDevInfoByDevid(condition);
+        if(lst.size()>0){
+            for (DevInfo devInfo : lst) {
+                if (devInfo!=null)
+                  isopen=devInfo.getStatus();
+            }
+        }
         //根据消防栓Id查找设备Id
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
         //查询实时水压
@@ -126,6 +136,7 @@ public class PressureFlowController {
 
 
         ResultData resultData = new ResultData();
+        resultData.setDevstatus(isopen);
         resultData.setArrsdata1(arrtime);
         resultData.setDate(newdate);
         resultData.setDatalst3(newPress);

@@ -32,6 +32,7 @@ public class ResultData {
     private int[] arridata2;
     private int[] arridata3;
     private Dev dev;
+    private Integer devstatus;
     private Map<String,String> param =null;
     private String Date;
 }
