@@ -4,14 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.*;
-import com.plat.acoal.model.AlarmInfo;
-import com.plat.acoal.model.DevInfo;
-import com.plat.acoal.model.DevInfoModel;
-import com.plat.acoal.model.RegionModel;
+import com.plat.acoal.model.*;
 import com.plat.acoal.service.RegionService;
 import com.plat.acoal.service.impl.AlarmServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.RegionServiceImpl;
+import com.plat.acoal.utils.DateUtil;
 import com.plat.acoal.utils.NumberUtil;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -255,6 +254,8 @@ public class DevContorller {
         List<DevInfo> list = devServiceImpl.selectDevInfoByCondition(condition);
         count = devServiceImpl.selectCountByType(condition);
         ResultData resultData = new ResultData();
+        if(list.size()>0){
+        resultData.setDate(DateUtil.dateToString(list.get(0).getUpdateTime()));}
         resultData.setData(list);
         resultData.setDevcount(count);
         return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
@@ -277,92 +278,91 @@ public class DevContorller {
         Map<String, String> param_dust = new HashMap<String, String>();
         Map<String, String> param_press = new HashMap<String, String>();
         Map<String, String> param_flow = new HashMap<String, String>();
+        DecimalFormat df=new DecimalFormat("0.00");
         //红外线温度
         Integer count_tem = null;
         Integer count_tem_online = null;
-        double tem_online = 0.0;
+        String tem_online = "0.00";
         condition.put("type", "2");
         count_tem = devServiceImpl.selectCountByType(condition);
         condition.put("online", "1");
         count_tem_online = devServiceImpl.selectCountByType(condition);
-        tem_online = count_tem_online / count_tem;
-        param_tem.put("tem_online", String.valueOf(NumberUtil.DecimalToPercent(tem_online)));
-        list.add(param_tem);
-        condition.put("online", "null");
+        tem_online = df.format((float)count_tem_online / count_tem);
+
+        condition.remove("online");
         //co
         Integer count_co = null;
         Integer count_co_online = null;
-        double co_online = 0.0;
+        String co_online = "0.00";
         condition.put("type", "5");
         count_co = devServiceImpl.selectCountByType(condition);
         condition.put("online", "1");
         count_co_online = devServiceImpl.selectCountByType(condition);
         if (count_co_online != null) {
-            co_online = count_co_online / count_co;
-            param_co.put("co_online", String.valueOf(NumberUtil.DecimalToPercent(co_online)));
+            co_online = df.format((float)count_co_online / count_co);
         }
-        list.add(param_co);
-        condition.put("status", "null");
+
         //ch4
         Integer count_ch4 = null;
         Integer count_ch4_online = null;
-        double ch4_online = 0.0;
-        condition.put("online", "null");
-        condition.put("type", "6");
+        String ch4_online = "0.00";
 
+        condition.remove("online");
+        condition.put("type", "6");
         count_ch4 = devServiceImpl.selectCountByType(condition);
-        condition.put("status", "1");
+        condition.put("online", "1");
         count_ch4_online = devServiceImpl.selectCountByType(condition);
         if (count_ch4_online != 0) {
-            ch4_online = count_ch4_online / count_ch4;
+            ch4_online = df.format((float)count_ch4_online / count_ch4);
         }
-        param_ch4.put("ch4_online", String.valueOf(NumberUtil.DecimalToPercent(ch4_online)));
-        list.add(param_ch4);
-        condition.put("status", "null");
+        condition.remove("online");
         //粉尘
         Integer count_dust = null;
         Integer count_dust_online = null;
-        double dust_online = 0.0;
-        condition.put("status", "null");
+        String dust_online = "0.00";
+        condition.remove("online");
         condition.put("type", "4");
         count_dust = devServiceImpl.selectCountByType(condition);
-        condition.put("status", "1");
+        condition.put("online", "1");
         count_dust_online = devServiceImpl.selectCountByType(condition);
         if (count_dust_online != 0) {
-            dust_online = count_dust_online / count_dust;
+            dust_online = df.format((float)count_dust_online / count_dust);
         }
-        param_dust.put("dust_online", String.valueOf(NumberUtil.DecimalToPercent(dust_online)));
         list.add(param_dust);
-        condition.put("status", "null");
+        condition.remove("online");
         //水压
         Integer count_press = null;
         Integer count_press_online = null;
-        double press_online = 0.0;
+        String press_online = "0.00";
         condition.put("type", "7");
         count_press = devServiceImpl.selectCountByType(condition);
-        condition.put("status", "1");
+        condition.put("online", "1");
         count_press_online = devServiceImpl.selectCountByType(condition);
         if (count_press_online != null) {
-            dust_online = count_press_online / count_press;
+            dust_online = df.format((float)count_press_online / count_press);
         }
-        param_press.put("press_online", String.valueOf(NumberUtil.DecimalToPercent(press_online)));
-        list.add(param_press);
-        condition.put("status", "null");
         //流量
         Integer count_flow = null;
         Integer count_flow_online = null;
-        double flow_online = 0.0;
+        String flow_online = "0.00";
         condition.put("type", "8");
         count_flow = devServiceImpl.selectCountByType(condition);
         condition.put("online", "1");
         count_flow_online = devServiceImpl.selectCountByType(condition);
         if (count_flow_online != 0) {
-            flow_online = count_flow_online / count_flow;
+            flow_online = df.format((float)count_flow_online / count_flow);
         }
-        param_flow.put("flow_online", String.valueOf(NumberUtil.DecimalToPercent(flow_online)));
+        OnlineRate onlineRate=new OnlineRate();
+        onlineRate.setTemonline(tem_online);
+        onlineRate.setCoonline(co_online);
+        onlineRate.setCh4online(ch4_online);
+        onlineRate.setDustonline(dust_online);
+        onlineRate.setPressonline(press_online);
+        onlineRate.setFlowonline(flow_online);
+
         list.add(param_flow);
 //        resultData.setCount(count);
-        return JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
+        return JSON.toJSONString(onlineRate, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     /**

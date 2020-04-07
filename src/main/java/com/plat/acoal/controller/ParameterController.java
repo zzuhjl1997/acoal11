@@ -68,7 +68,7 @@ public class ParameterController {
     private String updateParameter(Parameter parameter, Integer ischecked, HttpServletRequest request) {
         // 获取customerid
         //Optional.ofNullable()
-        Integer icustomerid = null;
+        Integer icustomerid = 2;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         Integer userid=null;

@@ -46,7 +46,7 @@
         <property name="error_max">10</property>
 
         <!-- 控制台显示的日志最低级别 -->
-        <property name="console_print_level">debug</property>
+        <property name="console_print_level">warn</property>
 
     </Properties>
 
