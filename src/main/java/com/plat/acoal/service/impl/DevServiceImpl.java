@@ -112,4 +112,14 @@ public class DevServiceImpl implements DevService {
     public List<DevInfo> selectDevInfoByDevid(Map<String, String> condition) {
         return dm.selectDevInfoByDevid(condition);
     }
+
+    @Override
+    public List<DevInfo> selectFanInfo(Map<String, String> condition) {
+        return dm.selectFanInfo(condition);
+    }
+
+    @Override
+    public List<DevActiveInfo> selectCountOpen(Map<String, String> condition) {
+        return dm.selectCountOpen(condition);
+    }
 }

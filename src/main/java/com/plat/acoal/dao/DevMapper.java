@@ -43,4 +43,8 @@ public interface DevMapper {
     Integer selectHydrantCount(Map<String, String> condition);
 
     List<DevInfo> selectDevInfoByDevid(Map<String, String> condition);
+
+    List<DevInfo> selectFanInfo(Map<String, String> condition);
+
+    List<DevActiveInfo> selectCountOpen(Map<String, String> condition);
 }

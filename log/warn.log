@@ -504,3 +504,10 @@ Field error in object 'user' on field 'ipopedom': rejected value [wq]; codes [ty
 2020-04-07 14:55:04.300 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-04-07 15:10:36.172 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-04-07 15:10:53.248 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-08 16:47:55.809 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-08 16:59:02.153 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-08 17:09:54.701 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-08 17:29:29.895 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-08 17:29:41.993 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-08 17:31:41.511 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-08 17:35:59.382 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.

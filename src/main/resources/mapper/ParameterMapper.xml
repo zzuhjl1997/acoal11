@@ -222,11 +222,14 @@
         t_parameter
         WHERE
         1=1
-        <if test="cparam!=null and cparam!=''">
+        <if test="cparam!=null and cparam!=''and cparam!='Gas' and cparam!='PF'">
             AND cParam = #{cparam}
         </if>
         <if test="cparam=='Gas' ">
             AND cParam = 'CO' OR cParam = 'Ch4'
+        </if>
+        <if test="cparam=='PF' ">
+            AND cParam = 'P' OR cParam = 'F'
         </if>
 
         <if test="gradeid!=null and gradeid!=''">

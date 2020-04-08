@@ -397,7 +397,7 @@
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and type=#{type}</if>
         ORDER BY
-        update_time DESC
+        update_time
     </select>
     <!--查询实时co数据列表  为什么取名是selectdev???? -->
     <select id="selectDevByCondition" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
@@ -557,5 +557,31 @@
         WHERE 1=1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="devid != null">AND td.id= #{devid}</if>
+    </select>
+    <select id="selectFanInfo" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
+        SELECT
+        power,
+        rotate,
+        is_auto,
+        STATUS
+        FROM
+        t_dev
+        WHERE 1=1
+        <if test="devid != null">AND id= #{devid}</if>
+    </select>
+    <select id="selectCountOpen" resultType="com.plat.acoal.model.DevActiveInfo" parameterType="map">
+        SELECT
+        DATE_FORMAT( open_time, '%Y-%m-%d %H:00:00' ) AS time,
+        count( * ) AS num
+        FROM
+        t_dev_active
+        WHERE 1=1
+        <if test="devid != null">AND dev_id = #{devid}</if>
+        <if test="starttime!=null">AND open_time BETWEEN #{starttime}</if>
+        <if test="endtime!=null">AND #{endtime}</if>
+        GROUP BY
+        time
+
+
     </select>
 </mapper>

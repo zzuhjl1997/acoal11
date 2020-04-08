@@ -172,4 +172,20 @@ public class DateUtil {
         return true;
     }
 
+    /**
+     * 将毫秒转成时分秒
+     * @param time
+     * @return
+     */
+
+    public static String millisecondToTime(Long time){
+        long day=time/(24*60*60*1000);
+        long hour=(time/(60*60*1000)-day*24);
+        long min=((time/(60*1000))-day*24*60-hour*60);
+        long s=(time/1000-day*24*60*60-hour*60*60-min*60);
+        String times=""+day+"天"+hour+"小时"+min+"分"+s+"秒";
+        System.out.println(times);
+        return  times;
+    }
+
 }

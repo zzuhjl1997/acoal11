@@ -63,6 +63,9 @@ public class DevInfo {
     private Integer flowid;
     private Integer online;
     private Integer devid;
+    private Integer rotate;
+    //总时间
+    private String sumtime;
 
 
 }

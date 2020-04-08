@@ -255,7 +255,7 @@ public class DevContorller {
         count = devServiceImpl.selectCountByType(condition);
         ResultData resultData = new ResultData();
         if(list.size()>0){
-        resultData.setDate(DateUtil.dateToString(list.get(0).getUpdateTime()));}
+        resultData.setDate(DateUtil.dateToString(list.get(list.size()-1).getUpdateTime()));}
         resultData.setData(list);
         resultData.setDevcount(count);
         return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);

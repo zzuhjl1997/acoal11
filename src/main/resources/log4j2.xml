@@ -17,6 +17,8 @@
         <!-- 日志默认输出级别 -->
         <property name="output_log_level">debug</property>
 
+
+
         <!-- 日志默认存放路径(所有级别日志) -->
         <property name="rolling_fileName">${basePath}/all.log</property>
         <!-- 日志默认压缩路径,将超过指定文件大小的日志,自动存入按"年月"建立的文件夹下面并进行压缩,作为存档 -->
@@ -47,6 +49,7 @@
 
         <!-- 控制台显示的日志最低级别 -->
         <property name="console_print_level">warn</property>
+
 
     </Properties>
 
