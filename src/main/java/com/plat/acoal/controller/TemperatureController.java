@@ -134,26 +134,30 @@ public class TemperatureController {
 
         List<Temperature> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
         for (Temperature item : newFt) {
-            Date dt = item.getDcollectdt();
-            if (item.getFt() != null && pos < 24) {
-                ftArr[pos] = item.getFt();
-                arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
+            if (item.getDcollectdt() != null) {
+                Date dt = item.getDcollectdt();
+                pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                if (item.getFt() != null && pos < 24) {
+                    ftArr[pos] = item.getFt();
+                    arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
+                }
             }
-            pos++;
+//            pos++;
         }
 //        ParameterInfo parameterInfo = new ParameterInfo();
-        condition.put("devid",devid.toString());
-        System.out.println("devid:"+condition.get("devid"));
-        condition.put("cparam","T");
+        condition.put("devid", devid.toString());
+        System.out.println("devid:" + condition.get("devid"));
+        condition.put("cparam", "T");
         List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
         List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
         listp = parameterServiceImpl.selectParamInfoByCondition(condition);
-        if(listp.size()>0){
-            listp_re=listp;
-        }else {
-            condition.put("devid","0");
-            System.out.println("devid:"+condition.get("devid"));
-            condition.put("cparam","T");
+        if (listp.size() > 0) {
+            listp_re = listp;
+        } else {
+            condition.put("devid", "0");
+            System.out.println("devid:" + condition.get("devid"));
+            condition.put("cparam", "T");
             listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
         }
 

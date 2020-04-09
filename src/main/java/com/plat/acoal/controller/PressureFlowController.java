@@ -37,6 +37,7 @@ public class PressureFlowController {
     public HydrantidRelationServiceImpl hydrantidRelationServiceImpl;
     @Autowired
     public ParameterServiceImpl parameterServiceImpl;
+
     /**
      * 查询最新水压
      *
@@ -74,7 +75,7 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/newFlow")
-    public String getNewFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request,Map<String,String> condition) {
+    public String getNewFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
 //        String devid = "3";
 //        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
 //            devid = request.getParameter("devid");
@@ -86,13 +87,13 @@ public class PressureFlowController {
         }
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防阀门id查询消防阀门开启状态
-        int isopen=0;
-        condition.put("devid",hid.toString());
-        List<DevInfo> lst=devServiceImpl.selectDevInfoByDevid(condition);
-        if(lst.size()>0){
+        int isopen = 0;
+        condition.put("devid", hid.toString());
+        List<DevInfo> lst = devServiceImpl.selectDevInfoByDevid(condition);
+        if (lst.size() > 0) {
             for (DevInfo devInfo : lst) {
-                if (devInfo!=null)
-                  isopen=devInfo.getStatus();
+                if (devInfo != null)
+                    isopen = devInfo.getStatus();
             }
         }
         //根据消防栓Id查找设备Id
@@ -119,18 +120,23 @@ public class PressureFlowController {
         //查询实时流量
         List<PressureFlowModel> newFlow = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
         System.out.println(newFlow + "adwdqw");
-        String[] arrtime = new String[4];
-        double[] flow = {0.0, 0.0, 0.0, 0.0};
+        String[] arrtime = new String[24];
+        double[] flow = new double[24];
+
+        for(int i=0;i<24;i++){
+            arrtime[i] = String.valueOf(i)+":00";
+            flow[i]=0.0;
+        }
+
         int pos = 0;
         for (PressureFlowModel d : newFlow
         ) {
             if (d != null) {
                 Date dt = d.getDcollectdt();
-
-                d.setDcollectdt_re(DateUtil.dateToString(dt));
-                arrtime[pos] = DateUtil.dateToString(dt);
+                pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                arrtime[pos] = DateUtil.dateToString(dt,"HH:00");
                 flow[pos] = d.getTflow();
-                pos++;
+//                pos++;
             }
         }
 
@@ -219,21 +225,21 @@ public class PressureFlowController {
         ) {
             count++;
             item.setCount(count);
-            if(item!=null) {
+            if (item != null) {
                 //查询消防栓对应的实时数据
 
 
-                    pressureFlowModel.setPressureid(item.getPressureid());
-                    listp = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
+                pressureFlowModel.setPressureid(item.getPressureid());
+                listp = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
 
-                    System.out.println(listp);
+                System.out.println(listp);
                 if (listp.size() != 0) {
                     item.setTpressure(listp.get(0).getTpressure());
                 }
 
 
-                    pressureFlowModel.setFlowid(item.getFlowid());
-                    listf = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
+                pressureFlowModel.setFlowid(item.getFlowid());
+                listf = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
                 if (listf.size() != 0) {
                     item.setTflow(listf.get(0).getTflow());
                     item.setLastTime(DateUtil.dateToString(listf.get(0).getDcollectdt(), "yyyy-MM-dd HH:mm:ss"));
@@ -255,13 +261,13 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/dayPress")
-    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request,Map<String,String> condition) {
+    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
 //            String devid = "3";
 //            if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
 //                devid = request.getParameter("devid");
 //            }
         //获取消防栓Id
-        String hid = "1";
+        String hid = "102";
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
             hid = request.getParameter("hid");
         }
@@ -299,33 +305,32 @@ public class PressureFlowController {
         List<PressureFlowModel> newDust = pressureFlowServiceImpl.selectPByHour(pressureFlowModel);
         ResultData resultData = new ResultData();
         for (PressureFlowModel item : newDust) {
-            Date dt = item.getDcollectdt();
-            arrhours[pos] = dfhour.format(dt);
-            if (item.getTfan() != null && pos < 24) {
-                fPArr[pos] = item.getTfan();
+            if (item.getDcollectdt() != null) {
+                Date dt = item.getDcollectdt();
+                String da = DateUtil.dateToString(dt);
+                pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                arrhours[pos] = dfhour.format(dt);
+                if (item.getTpressure() != null && pos < 24) {
+                    fPArr[pos] = item.getTpressure();
+                }
             }
-            if (item.getTflow() != null && pos < 24) {
-                fPArr[pos] = item.getTflow();
-            }
-            if (item.getTpressure() != null && pos < 24) {
-                fPArr[pos] = item.getTpressure();
-            }
-            pos++;
+//            pos++;
         }
 
-
-        condition.put("devid",pressureFlowModel.getPressureid().toString());
-        System.out.println("devid:"+condition.get("devid"));
-        condition.put("cparam","P");
+        if (pressureFlowModel.getPressureid() != null) {
+            condition.put("devid", pressureFlowModel.getPressureid().toString());
+        }
+        System.out.println("devid:" + condition.get("devid"));
+        condition.put("cparam", "P");
         List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
         List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
         listp = parameterServiceImpl.selectParamInfoByCondition(condition);
-        if(listp.size()>0){
-            listp_re=listp;
-        }else {
-            condition.put("devid","0");
-            System.out.println("devid:"+condition.get("devid"));
-            condition.put("cparam","P");
+        if (listp.size() > 0) {
+            listp_re = listp;
+        } else {
+            condition.put("devid", "0");
+            System.out.println("devid:" + condition.get("devid"));
+            condition.put("cparam", "P");
             listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
         }
         resultData.setData(listp_re);
@@ -341,13 +346,13 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/dayFlow")
-    public String getDayFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request,Map<String,String> condition) {
+    public String getDayFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
 //        String devid = "3";
 //        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
 //            devid = request.getParameter("devid");
 //        }
         //获取消防栓Id
-        String hid = "1";
+        String hid = "102";
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
             hid = request.getParameter("hid");
         }
@@ -387,36 +392,33 @@ public class PressureFlowController {
         List<PressureFlowModel> newDust = pressureFlowServiceImpl.selectFByHour(pressureFlowModel);
         ResultData resultData = new ResultData();
         for (PressureFlowModel item : newDust) {
-            Date dt = item.getDcollectdt();
-            arrhours[pos] = dfhour.format(dt);
-            if (item.getTfan() != null && pos < 24) {
-                fPArr[pos] = item.getTfan();
+            if (item.getDcollectdt() != null) {
+                Date dt = item.getDcollectdt();
+                pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                arrhours[pos] = dfhour.format(dt);
+                if (item.getTflow() != null && pos < 24) {
+                    fPArr[pos] = item.getTflow();
+                }
             }
-            if (item.getTflow() != null && pos < 24) {
-                fPArr[pos] = item.getTflow();
-            }
-            if (item.getTpressure() != null && pos < 24) {
-                fPArr[pos] = item.getTpressure();
-            }
-            pos++;
+
         }
         if (hydrantidRelation_re != null) {
-            condition.put("devid",hydrantidRelation_re.getFlowid().toString());
-        }else {
-            condition.put("devid","0");
+            condition.put("devid", hydrantidRelation_re.getFlowid().toString());
+        } else {
+            condition.put("devid", "0");
         }
 
-        System.out.println("devid:"+condition.get("devid"));
-        condition.put("cparam","F");
+        System.out.println("devid:" + condition.get("devid"));
+        condition.put("cparam", "P");
         List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
         List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
         listp = parameterServiceImpl.selectParamInfoByCondition(condition);
-        if(listp.size()>0){
-            listp_re=listp;
-        }else {
-            condition.put("devid","0");
-            System.out.println("devid:"+condition.get("devid"));
-            condition.put("cparam","F");
+        if (listp.size() > 0) {
+            listp_re = listp;
+        } else {
+            condition.put("devid", "0");
+            System.out.println("devid:" + condition.get("devid"));
+            condition.put("cparam", "F");
             listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
         }
         resultData.setData(listp_re);
@@ -425,11 +427,12 @@ public class PressureFlowController {
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
     }
+
     /**
      * 查询实时水压水流信息
      */
     @RequestMapping("/pfnow")
-    private String getpflist(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String,String> condition){
+    private String getpflist(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
         //先查询一天的水流
         String hid = "1";
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
@@ -463,7 +466,7 @@ public class PressureFlowController {
         ResultData resultData = new ResultData();
         for (PressureFlowModel item : newDust) {
             Date dt = item.getDcollectdt();
-            arrhours[pos] = DateUtil.dateToString(dt,"HH:mm");
+            arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
 
             if (item.getTflow() != null && pos < 24) {
                 fLArr[pos] = item.getTflow();
@@ -478,13 +481,13 @@ public class PressureFlowController {
         resultData.setArrddata1(fLArr);
         resultData.setArrsdata1(arrhours);
         List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
-        String newdate=null;
-        if(newPress.size()>0){
-             newdate = DateUtil.dateToString(newPress.get(0).getDcollectdt(), "yyyy-MM-dd HH:mm:ss");
+        String newdate = null;
+        if (newPress.size() > 0) {
+            newdate = DateUtil.dateToString(newPress.get(0).getDcollectdt(), "yyyy-MM-dd HH:mm:ss");
         }
         resultData.setDate(newdate);
         resultData.setData(newPress);
-        return  JSON.toJSONString(resultData);
+        return JSON.toJSONString(resultData);
     }
 
 }

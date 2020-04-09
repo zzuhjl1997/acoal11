@@ -38,6 +38,7 @@ public class GasController {
     public DevServiceImpl devServiceImpl;
     @Autowired
     public ParameterServiceImpl parameterServiceImpl;
+
     /**
      * 查询最新Ch4
      *
@@ -50,26 +51,26 @@ public class GasController {
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
-        String newdate=null;
-        double[] newVal=new double[3];
+        String newdate = null;
+        double[] newVal = new double[3];
         gasModel.setDevid(Integer.parseInt(devid));
         List<GasModel> newGas = gasServiceImpl.selectNewCh4ById(gasModel);
-        int pos=0;
+        int pos = 0;
         for (GasModel g : newGas
         ) {
 
-            if(g!=null){
-                newVal[pos]=g.getGch4();
+            if (g != null) {
+                newVal[pos] = g.getGch4();
             }
-            pos ++;
+            pos++;
         }
-        if(newGas.size()>0){
-            newdate=(DateUtil.dateToString(newGas.get(0).getDcollectdt()));
-            System.out.println("数据长度"+newdate);
+        if (newGas.size() > 0) {
+            newdate = (DateUtil.dateToString(newGas.get(0).getDcollectdt()));
+            System.out.println("数据长度" + newdate);
 
         }
 //        System.out.println("数据长度"+newGas.size());
-        ResultData resultData=new ResultData();
+        ResultData resultData = new ResultData();
         resultData.setDate(newdate);
         resultData.setArrddata1(newVal);
         return JSON.toJSONString(resultData);
@@ -89,21 +90,21 @@ public class GasController {
         }
         gasModel.setDevid(Integer.parseInt(devid));
         List<GasModel> newGas = gasServiceImpl.selectNewCoById(gasModel);
-        String newdate=null;
-        double[] newVal=new double[3];
-        int pos=0;
+        String newdate = null;
+        double[] newVal = new double[3];
+        int pos = 0;
         for (GasModel g : newGas
         ) {
-            if(g!=null){
-                newVal[pos]=g.getGco();
+            if (g != null) {
+                newVal[pos] = g.getGco();
             }
         }
-        if(newGas.size()>0){
-            newdate=(DateUtil.dateToString(newGas.get(0).getDcollectdt()));
+        if (newGas.size() > 0) {
+            newdate = (DateUtil.dateToString(newGas.get(0).getDcollectdt()));
 
         }
 
-        ResultData resultData=new ResultData();
+        ResultData resultData = new ResultData();
         resultData.setDate(newdate);
         resultData.setArrddata1(newVal);
         return JSON.toJSONString(resultData);
@@ -116,20 +117,20 @@ public class GasController {
      * @return
      */
     @RequestMapping("/dayCh4")
-    public String getDayFt(GasModel gasModel, HttpServletRequest request,@RequestParam Map<String,String> condition) {
+    public String getDayFt(GasModel gasModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
         String devid = "7";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
         Date date1 = new Date();
-        String startdate=null;
-        String enddate=null;
+        String startdate = null;
+        String enddate = null;
         if (condition.containsKey("date")) {
-            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 00:00:00");
-            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 23:59:59");
-        }else {
-            startdate = DateUtil.dateToString(date1,"yyyy-MM-dd")+" 00:00:00";
-            enddate = DateUtil.dateToString(date1,"yyyy-MM-dd")+ " 23:59:59";
+            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 23:59:59");
+        } else {
+            startdate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 00:00:00";
+            enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
         }
         double[] fGch4Arr = new double[24];
         double[] fGcoArr = new double[24];
@@ -149,26 +150,29 @@ public class GasController {
         List<GasModel> newGas = gasServiceImpl.selectCh4ByHour(gasModel);
         ResultData resultData = new ResultData();
         for (GasModel item : newGas) {
-            Date dt = item.getDcollectdt();
-            arrhours[pos] = DateUtil.dateToString(dt,"HH:mm");
-            if (item.getGch4() != null && pos < 24) {
-                fGch4Arr[pos] = item.getGch4();
+            if (item.getDcollectdt() != null) {
+                Date dt = item.getDcollectdt();
+                pos = Integer.parseInt(DateUtil.dateToString(dt, "HH").substring(11, 13));
+                arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                if (item.getGch4() != null && pos < 24) {
+                    fGch4Arr[pos] = item.getGch4();
+                }
             }
-            pos++;
+//            pos++;
         }
 
-        condition.put("devid",devid.toString());
-        System.out.println("devid:"+condition.get("devid"));
-        condition.put("cparam","CH4");
+        condition.put("devid", devid.toString());
+        System.out.println("devid:" + condition.get("devid"));
+        condition.put("cparam", "CH4");
         List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
         List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
         listp = parameterServiceImpl.selectParamInfoByCondition(condition);
-        if(listp.size()>0){
-            listp_re=listp;
-        }else {
-            condition.put("devid","0");
-            System.out.println("devid:"+condition.get("devid"));
-            condition.put("cparam","CH4");
+        if (listp.size() > 0) {
+            listp_re = listp;
+        } else {
+            condition.put("devid", "0");
+            System.out.println("devid:" + condition.get("devid"));
+            condition.put("cparam", "CH4");
             listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
         }
         resultData.setData(listp_re);
@@ -180,9 +184,9 @@ public class GasController {
 
     public String selectLastOne(List<GasModel> list) {
         GasModel gasModel = new GasModel();
-        String newdate=null;
+        String newdate = null;
         Long dates[] = new Long[list.size()];
-        for (int i = 0; i <list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             // 把date类型的时间对象转换为long类型，时间越往后，long的值就越大，
             // 所以就依靠这个原理来判断距离现在最近的时间
             dates[i] = list.get(i).getDcollectdt().getTime();
@@ -192,20 +196,12 @@ public class GasController {
             if (maxIndex < dates[j]) {
                 maxIndex = dates[j];
                 // 找到了这个j
-                newdate=(DateUtil.dateToString(list.get(j).getDcollectdt()));
+                newdate = (DateUtil.dateToString(list.get(j).getDcollectdt()));
 //                System.out.println("最新时间"+newdate);
             }
         }
         return newdate;
     }
-
-
-
-
-
-
-
-
 
 
     /**
@@ -215,20 +211,20 @@ public class GasController {
      * @return
      */
     @RequestMapping("/dayCo")
-    public String getDayCo(GasModel gasModel, HttpServletRequest request,@RequestParam Map<String,String> condition) {
+    public String getDayCo(GasModel gasModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
         String devid = "7";
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
         Date date1 = new Date();
-        String startdate=null;
-        String enddate=null;
+        String startdate = null;
+        String enddate = null;
         if (condition.containsKey("date")) {
-            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 00:00:00");
-            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date")+" 23:59:59");
-        }else {
-            startdate = DateUtil.dateToString(date1,"yyyy-MM-dd")+" 00:00:00";
-            enddate = DateUtil.dateToString(date1,"yyyy-MM-dd")+ " 23:59:59";
+            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 23:59:59");
+        } else {
+            startdate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 00:00:00";
+            enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
         }
         double[] fGch4Arr = new double[24];
         double[] fGcoArr = new double[24];
@@ -248,38 +244,35 @@ public class GasController {
         List<GasModel> newGas = gasServiceImpl.selectCoByHour(gasModel);
         ResultData resultData = new ResultData();
         for (GasModel item : newGas) {
-            Date dt = item.getDcollectdt();
-            arrhours[pos] = DateUtil.dateToString(dt,"HH:mm");
-            if (item.getGch4() != null && pos < 24) {
-                fGch4Arr[pos] = item.getGch4();
+            if (item.getDcollectdt() != null) {
+                Date dt = item.getDcollectdt();
+                pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                arrhours[pos] = DateUtil.dateToString(dt, "HH");
+
+                if (item.getGco() != null && pos < 24) {
+                    fGcoArr[pos] = item.getGch4();
+                }
+
+//                pos++;
             }
-            if (item.getGco() != null && pos < 24) {
-                fGcoArr[pos] = item.getGch4();
-            }
-            if (item.getGo2() != null && pos < 24) {
-                fGo2Arr[pos] = item.getGo2();
-            }
-            pos++;
         }
 
-        condition.put("devid",devid.toString());
-        System.out.println("devid:"+condition.get("devid"));
-        condition.put("cparam","CO");
+        condition.put("devid", devid.toString());
+        System.out.println("devid:" + condition.get("devid"));
+        condition.put("cparam", "CO");
         List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
         List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
         listp = parameterServiceImpl.selectParamInfoByCondition(condition);
-        if(listp.size()>0){
-            listp_re=listp;
-        }else {
-            condition.put("devid","0");
-            System.out.println("devid:"+condition.get("devid"));
-            condition.put("cparam","CO");
+        if (listp.size() > 0) {
+            listp_re = listp;
+        } else {
+            condition.put("devid", "0");
+            System.out.println("devid:" + condition.get("devid"));
+            condition.put("cparam", "CO");
             listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
         }
         resultData.setData(listp_re);
-//        resultData.setArrddata1(fGch4Arr);
         resultData.setArrddata2(fGcoArr);
-//        resultData.setArrddata3(fGo2Arr);
         resultData.setArrsdata1(arrhours);
         return JSON.toJSONString(resultData);
     }
@@ -317,7 +310,7 @@ public class GasController {
         List<DevInfo> listinfo = gasServiceImpl.selectCh4List(devInfo, currentPage, pageSize);
         int sequence = 0;
         int count = 0;
-        count=gasServiceImpl.selectCh4Count(condition);
+        count = gasServiceImpl.selectCh4Count(condition);
 
         for (DevInfo item : listinfo
         ) {
@@ -368,7 +361,7 @@ public class GasController {
         devInfo.setType(type);
         List<DevInfo> listinfo = gasServiceImpl.selectCoList(devInfo, currentPage, pageSize);
         int count = 0;
-          count=gasServiceImpl.selectCoCount(condition);
+        count = gasServiceImpl.selectCoCount(condition);
         int sequence = 0;
         for (DevInfo item : listinfo
         ) {
@@ -381,17 +374,17 @@ public class GasController {
         resultData.setData(listinfo);
         return JSON.toJSONString(resultData);
     }
+
     /**
-     *气体监控列表
-     *
+     * 气体监控列表
      */
 
     @RequestMapping(value = "/gaslist")
-    private String getGasList(@RequestParam Map<String,String> condition,HttpSession session){
+    private String getGasList(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer icustomerid = null;
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-            condition.put("icustomerid",icustomerid.toString());
+            condition.put("icustomerid", icustomerid.toString());
         }
 
         Integer currentPage = 1;
@@ -406,31 +399,31 @@ public class GasController {
             pageSize = null;
         }
 
-        List<GasModel> allgas=gasServiceImpl.selectGasList(condition,pageSize,currentPage);
+        List<GasModel> allgas = gasServiceImpl.selectGasList(condition, pageSize, currentPage);
         for (GasModel gasModel : allgas) {
-            gasModel.setLasttime(DateUtil.dateToString(gasModel.getUpdatetime(),"yyyy-MM-dd HH:mm:ss"));
+            gasModel.setLasttime(DateUtil.dateToString(gasModel.getUpdatetime(), "yyyy-MM-dd HH:mm:ss"));
 
         }
         //查询所有数量以及设备数量
-        int count=0;
-        int sequence=0;
-        int devcocount=0;
-        int devch4count=0;
-        int devcount=0;
-        count=gasServiceImpl.selectGasCount(condition);
+        int count = 0;
+        int sequence = 0;
+        int devcocount = 0;
+        int devch4count = 0;
+        int devcount = 0;
+        count = gasServiceImpl.selectGasCount(condition);
         condition.remove("type");
-        condition.put("type","5");
-        devcocount=devServiceImpl.selectCountByType(condition);
-        condition.put("type","6");
-        devcocount=devServiceImpl.selectCountByType(condition);
+        condition.put("type", "5");
+        devcocount = devServiceImpl.selectCountByType(condition);
+        condition.put("type", "6");
+        devcocount = devServiceImpl.selectCountByType(condition);
 
-        devcount=devcocount+devch4count;
+        devcount = devcocount + devch4count;
 
         System.out.println(allgas);
-        ResultData resultData=new ResultData();
+        ResultData resultData = new ResultData();
         resultData.setData(allgas);
         resultData.setPagecount(count);
         resultData.setDevcount(devcount);
-        return  JSON.toJSONString(resultData);
+        return JSON.toJSONString(resultData);
     }
 }

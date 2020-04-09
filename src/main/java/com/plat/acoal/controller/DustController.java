@@ -37,6 +37,7 @@ public class DustController {
     public DevServiceImpl devServiceImpl;
     @Autowired
     public ParameterServiceImpl parameterServiceImpl;
+
     /**
      * 查询最新烟尘浓度
      *
@@ -60,16 +61,16 @@ public class DustController {
         ) {
             if (d != null) {
                 newVal[pos] = d.getFdust();
-            }else {
+            } else {
                 newVal[pos] = 0.0;
             }
             System.out.println("最新时间");
-            pos ++;
+            pos++;
         }
 //        newdate = selectLastOne(newDust);
         String newdate = null;
         if (newDust.size() > 0) {
-            newdate=(DateUtil.dateToString(newDust.get(0).getDcollectdt()));
+            newdate = (DateUtil.dateToString(newDust.get(0).getDcollectdt()));
         }
         ResultData resultData = new ResultData();
         resultData.setDate(newdate);
@@ -79,9 +80,9 @@ public class DustController {
 
     public String selectLastOne(List<DustModel> list) {
         DustModel dustModel = new DustModel();
-        String newdate=null;
+        String newdate = null;
         Long dates[] = new Long[list.size()];
-        for (int i = 0; i <list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             // 把date类型的时间对象转换为long类型，时间越往后，long的值就越大，
             // 所以就依靠这个原理来判断距离现在最近的时间
             dates[i] = list.get(i).getDcollectdt().getTime();
@@ -91,7 +92,7 @@ public class DustController {
             if (maxIndex < dates[j]) {
                 maxIndex = dates[j];
                 // 找到了这个j
-                newdate=(DateUtil.dateToString(list.get(j).getDcollectdt()));
+                newdate = (DateUtil.dateToString(list.get(j).getDcollectdt()));
             }
         }
         return newdate;
@@ -136,26 +137,29 @@ public class DustController {
         List<DustModel> newDust = dustServiceImpl.selectInfoByHour(dustModel);
         ResultData resultData = new ResultData();
         for (DustModel item : newDust) {
-            Date dt = item.getDcollectdt();
-            arrhours[pos] = DateUtil.dateToString(dt, "HH");
-            if (item.getFdust() != null && pos < 24) {
-                fDustArr[pos] = item.getFdust();
+            if (item.getDcollectdt() != null) {
+                Date dt = item.getDcollectdt();
+                pos = Integer.parseInt(DateUtil.dateToString(dt, "HH").substring(11, 13));
+                arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                if (item.getFdust() != null && pos < 24) {
+                    fDustArr[pos] = item.getFdust();
+                }
+//                pos++;
             }
-            pos++;
         }
 
-        condition.put("devid",devid.toString());
-        System.out.println("devid:"+condition.get("devid"));
-        condition.put("cparam","D");
+        condition.put("devid", devid.toString());
+        System.out.println("devid:" + condition.get("devid"));
+        condition.put("cparam", "D");
         List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
         List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
         listp = parameterServiceImpl.selectParamInfoByCondition(condition);
-        if(listp.size()>0){
-            listp_re=listp;
-        }else {
-            condition.put("devid","0");
-            System.out.println("devid:"+condition.get("devid"));
-            condition.put("cparam","D");
+        if (listp.size() > 0) {
+            listp_re = listp;
+        } else {
+            condition.put("devid", "0");
+            System.out.println("devid:" + condition.get("devid"));
+            condition.put("cparam", "D");
             listp_re = parameterServiceImpl.selectParamInfoByCondition(condition);
         }
         resultData.setData(listp_re);

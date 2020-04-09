@@ -382,6 +382,14 @@ public class DevContorller {
         double[] tem_value = new double[4];
         String[] flow_region = new String[4];
         double[] flow_value = new double[4];
+
+        for(int i=1;i<5;i++){
+            press_region[i-1]=i+"号区域";
+            tem_region[i-1]=i+"号区域";
+            flow_region[i-1]=i+"号区域";
+        }
+
+
         condition.put("type", "5");
         List<DevInfo> list_co = devServiceImpl.selectCoByCondition(condition);
         condition.put("type", "6");
@@ -393,32 +401,34 @@ public class DevContorller {
         condition.put("type", "7");
         List<DevInfo> list_press = devServiceImpl.selectPressNowByCondition(condition);
 //        System.out.println("dstsuigfise"+list_press);
-        pos = 0;
+//        pos = 0;
         for (DevInfo item : list_press
         ) {
+            pos = Integer.parseInt(item.getRegionname().substring(0,1))+1;
             press_region[pos] = item.getRegionname();
             press_value[pos] = item.getTpressure();
-            pos++;
+//            pos++;
         }
         //获取区域水流数据
         condition.put("type", "8");
         List<DevInfo> list_flow = devServiceImpl.selectFlowNowByCondition(condition);
         System.out.println("dstsuigfise" + list_flow);
-        pos = 0;
         for (DevInfo item : list_flow
         ) {
+            pos = Integer.parseInt(item.getRegionname().substring(0,1))+1;
             flow_region[pos] = item.getRegionname();
             flow_value[pos] = item.getTpressure();
-            pos++;
+//            pos++;
         }
         //获取区域温度
         condition.put("type", "2");
         List<DevInfo> list_tem = devServiceImpl.selectTemNowByCondition(condition);
         for (DevInfo item : list_flow
         ) {
+            pos = Integer.parseInt(item.getRegionname().substring(0,1))+1;
             tem_region[pos] = item.getRegionname();
             tem_value[pos] = item.getTpressure();
-            pos++;
+//          pos++;
         }
 
 
@@ -426,6 +436,8 @@ public class DevContorller {
         resultData.setData(list_ch4);
         resultData.setDatalst2(list_co);
         resultData.setDatalst3(list_dust);
+        resultData.setArrsdata3(tem_region);
+        resultData.setArrddata3(tem_value);
         resultData.setArrsdata1(press_region);
         resultData.setArrddata1(press_value);
         resultData.setArrsdatax1(flow_region);

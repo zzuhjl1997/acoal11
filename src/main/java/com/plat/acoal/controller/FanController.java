@@ -87,16 +87,17 @@ public class FanController {
         //统计启动次数
         List<DevActiveInfo> list = new ArrayList<>();
         list = devServiceImpl.selectCountOpen(condition);
-     /*   for (DevActiveInfo devActiveInfo : list) {
-            String dt = devActiveInfo.getTime();
-            if (devActiveInfo.getNum() != null && pos < 24) {
-                if (String.valueOf(pos + 1).equals(dt.substring(11, 13))) {
+        for (DevActiveInfo devActiveInfo : list) {
+            if (devActiveInfo.getTime() != null) {
+                String dt = devActiveInfo.getTime();
+                pos = Integer.parseInt(dt.substring(11, 13));
+                if (devActiveInfo.getNum() != null && pos < 24) {
                     arrhours[pos] = dt.substring(11, 13) + ":00";
                     count[pos] = devActiveInfo.getNum();
                 }
             }
-            pos++;
-        }*/
+//            pos++;
+        }
         ResultData resultData = new ResultData();
         resultData.setArridata1(count);
         resultData.setArrsdata1(arrhours);

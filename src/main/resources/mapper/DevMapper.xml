@@ -405,7 +405,7 @@
         SELECT
         td.`name` as name,
         tco.gCO as gco,
-        td.`status` as `status`
+        td.`online` as `online`
         FROM
         `t_co` tco
         INNER JOIN t_dev td
@@ -457,7 +457,7 @@
         SELECT
         td.`name` AS name,
         tg.gCH4 AS gCH4,
-        td.`status` AS `status`
+        td.`online` AS `online`
         FROM
         `t_gas` tg
         INNER JOIN t_dev td ON td.id = tg.dev_id
@@ -470,7 +470,7 @@
         SELECT
         td.`name` AS name,
         tdu.fDust AS fDust,
-        td.`status` AS `status`
+        td.`online` AS `online`
         FROM
         `t_dust` tdu
         INNER JOIN t_dev td ON td.id = tdu.dev_id
@@ -499,7 +499,8 @@
         SELECT
         AVG( tf.tFlow ) AS tFlow,
         td.`name` AS NAME,
-        tr.`name` AS regionname
+        tr.`name` AS regionname,
+        tf.dCollectDT AS dcollectDT
         FROM
         t_flow tf
         INNER JOIN t_dev td ON tf.dev_id = td.id
