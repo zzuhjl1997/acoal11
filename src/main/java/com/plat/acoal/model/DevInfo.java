@@ -19,6 +19,7 @@ public class DevInfo {
 
     private Integer region;
     private String regionname;
+    private String value;
     private String customername;
 
     private String site;

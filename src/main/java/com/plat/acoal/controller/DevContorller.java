@@ -157,18 +157,16 @@ public class DevContorller {
 //        Dev newDev = devServiceImpl.selectDeviNFOById(condition);
 
 
-
-
         //获取该类设备总数
     /*
         if (newDev != null) {
             int type = newDev.getType();
             sum = devServiceImpl.selectCountByType(condition);
         }*/
-    //查询基础信息
+        //查询基础信息
         int sum = 0;
-        List<DevInfo> listd=new ArrayList<DevInfo>();
-        listd=devServiceImpl.selectDevInfoByDevid(condition);
+        List<DevInfo> listd = new ArrayList<DevInfo>();
+        listd = devServiceImpl.selectDevInfoByDevid(condition);
         sum = devServiceImpl.selectCountByType(condition);
         ResultData resultData = new ResultData();
         resultData.setData(listd);
@@ -254,8 +252,9 @@ public class DevContorller {
         List<DevInfo> list = devServiceImpl.selectDevInfoByCondition(condition);
         count = devServiceImpl.selectCountByType(condition);
         ResultData resultData = new ResultData();
-        if(list.size()>0){
-        resultData.setDate(DateUtil.dateToString(list.get(list.size()-1).getUpdateTime()));}
+        if (list.size() > 0) {
+            resultData.setDate(DateUtil.dateToString(list.get(list.size() - 1).getUpdateTime()));
+        }
         resultData.setData(list);
         resultData.setDevcount(count);
         return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
@@ -271,6 +270,11 @@ public class DevContorller {
     @RequestMapping("/onlinerate")
     private String onlinerate(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer customerId = 2;
+        Integer icustomerid = null;
+        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
+        }
+
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> param_tem = new HashMap<String, String>();
         Map<String, String> param_co = new HashMap<String, String>();
@@ -278,7 +282,7 @@ public class DevContorller {
         Map<String, String> param_dust = new HashMap<String, String>();
         Map<String, String> param_press = new HashMap<String, String>();
         Map<String, String> param_flow = new HashMap<String, String>();
-        DecimalFormat df=new DecimalFormat("0.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         //红外线温度
         Integer count_tem = null;
         Integer count_tem_online = null;
@@ -287,7 +291,7 @@ public class DevContorller {
         count_tem = devServiceImpl.selectCountByType(condition);
         condition.put("online", "1");
         count_tem_online = devServiceImpl.selectCountByType(condition);
-        tem_online = df.format((float)count_tem_online / count_tem);
+        tem_online = df.format((float) count_tem_online / count_tem);
 
         condition.remove("online");
         //co
@@ -299,7 +303,7 @@ public class DevContorller {
         condition.put("online", "1");
         count_co_online = devServiceImpl.selectCountByType(condition);
         if (count_co_online != null) {
-            co_online = df.format((float)count_co_online / count_co);
+            co_online = df.format((float) count_co_online / count_co);
         }
 
         //ch4
@@ -313,7 +317,7 @@ public class DevContorller {
         condition.put("online", "1");
         count_ch4_online = devServiceImpl.selectCountByType(condition);
         if (count_ch4_online != 0) {
-            ch4_online = df.format((float)count_ch4_online / count_ch4);
+            ch4_online = df.format((float) count_ch4_online / count_ch4);
         }
         condition.remove("online");
         //粉尘
@@ -326,7 +330,7 @@ public class DevContorller {
         condition.put("online", "1");
         count_dust_online = devServiceImpl.selectCountByType(condition);
         if (count_dust_online != 0) {
-            dust_online = df.format((float)count_dust_online / count_dust);
+            dust_online = df.format((float) count_dust_online / count_dust);
         }
         list.add(param_dust);
         condition.remove("online");
@@ -339,7 +343,7 @@ public class DevContorller {
         condition.put("online", "1");
         count_press_online = devServiceImpl.selectCountByType(condition);
         if (count_press_online != null) {
-            dust_online = df.format((float)count_press_online / count_press);
+            dust_online = df.format((float) count_press_online / count_press);
         }
         //流量
         Integer count_flow = null;
@@ -350,9 +354,9 @@ public class DevContorller {
         condition.put("online", "1");
         count_flow_online = devServiceImpl.selectCountByType(condition);
         if (count_flow_online != 0) {
-            flow_online = df.format((float)count_flow_online / count_flow);
+            flow_online = df.format((float) count_flow_online / count_flow);
         }
-        OnlineRate onlineRate=new OnlineRate();
+        OnlineRate onlineRate = new OnlineRate();
         onlineRate.setTemonline(tem_online);
         onlineRate.setCoonline(co_online);
         onlineRate.setCh4online(ch4_online);
@@ -383,10 +387,10 @@ public class DevContorller {
         String[] flow_region = new String[4];
         double[] flow_value = new double[4];
 
-        for(int i=1;i<5;i++){
-            press_region[i-1]=i+"号区域";
-            tem_region[i-1]=i+"号区域";
-            flow_region[i-1]=i+"号区域";
+        for (int i = 1; i < 5; i++) {
+            press_region[i - 1] = i + "号区域";
+            tem_region[i - 1] = i + "号区域";
+            flow_region[i - 1] = i + "号区域";
         }
 
 
@@ -404,7 +408,7 @@ public class DevContorller {
 //        pos = 0;
         for (DevInfo item : list_press
         ) {
-            pos = Integer.parseInt(item.getRegionname().substring(0,1))+1;
+            pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             press_region[pos] = item.getRegionname();
             press_value[pos] = item.getTpressure();
 //            pos++;
@@ -415,7 +419,7 @@ public class DevContorller {
         System.out.println("dstsuigfise" + list_flow);
         for (DevInfo item : list_flow
         ) {
-            pos = Integer.parseInt(item.getRegionname().substring(0,1))+1;
+            pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             flow_region[pos] = item.getRegionname();
             flow_value[pos] = item.getTpressure();
 //            pos++;
@@ -425,11 +429,12 @@ public class DevContorller {
         List<DevInfo> list_tem = devServiceImpl.selectTemNowByCondition(condition);
         for (DevInfo item : list_flow
         ) {
-            pos = Integer.parseInt(item.getRegionname().substring(0,1))+1;
+            pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             tem_region[pos] = item.getRegionname();
             tem_value[pos] = item.getTpressure();
 //          pos++;
         }
+        //获取总设备，在线设备数量，每种在线设备的数量
 
 
         ResultData resultData = new ResultData();
@@ -443,5 +448,129 @@ public class DevContorller {
         resultData.setArrsdatax1(flow_region);
         resultData.setArrddata2(flow_value);
         return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    @RequestMapping(value = "/alldevdata")
+    private String alldevdata(@RequestParam Map<String, String> condition, HttpSession session) {
+
+        Integer customerId = 2;
+        Integer icustomerid = null;
+        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
+            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
+        }
+
+        //获取总设备数量
+        int alldev = 0;
+        //获取在线设备总数量
+        int onlinedev = 0;
+        //获取各种设备数量
+        alldev = devServiceImpl.selectCountByType(condition);
+        condition.put("online", "1");
+        onlinedev = devServiceImpl.selectCountByType(condition);
+
+
+        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        Map<String, String> param_tem = new HashMap<String, String>();
+        Map<String, String> param_co = new HashMap<String, String>();
+        Map<String, String> param_ch4 = new HashMap<String, String>();
+        Map<String, String> param_dust = new HashMap<String, String>();
+        Map<String, String> param_press = new HashMap<String, String>();
+        Map<String, String> param_flow = new HashMap<String, String>();
+        DecimalFormat df = new DecimalFormat("0.00");
+        //红外线温度
+        Integer count_tem = null;
+        Integer count_tem_online = null;
+        String tem_online = "0.00";
+        condition.put("type", "2");
+        count_tem = devServiceImpl.selectCountByType(condition);
+        condition.put("online", "1");
+        count_tem_online = devServiceImpl.selectCountByType(condition);
+        tem_online = df.format((float) count_tem_online / count_tem * 100);
+
+        condition.remove("online");
+        //co
+        Integer count_co = null;
+        Integer count_co_online = null;
+        String co_online = "0.00";
+        condition.put("type", "5");
+        count_co = devServiceImpl.selectCountByType(condition);
+        condition.put("online", "1");
+        count_co_online = devServiceImpl.selectCountByType(condition);
+        if (count_co_online != null) {
+            co_online = df.format((float) count_co_online / count_co * 100);
+        }
+
+        //ch4
+        Integer count_ch4 = null;
+        Integer count_ch4_online = null;
+        String ch4_online = "0.00";
+
+        condition.remove("online");
+        condition.put("type", "6");
+        count_ch4 = devServiceImpl.selectCountByType(condition);
+        condition.put("online", "1");
+        count_ch4_online = devServiceImpl.selectCountByType(condition);
+        if (count_ch4_online != 0) {
+            ch4_online = df.format((float) count_ch4_online / count_ch4 * 100);
+        }
+        condition.remove("online");
+        //粉尘
+        Integer count_dust = null;
+        Integer count_dust_online = null;
+        String dust_online = "0.00";
+        condition.remove("online");
+        condition.put("type", "4");
+        count_dust = devServiceImpl.selectCountByType(condition);
+        condition.put("online", "1");
+        count_dust_online = devServiceImpl.selectCountByType(condition);
+        if (count_dust_online != 0) {
+            dust_online = df.format((float) count_dust_online / count_dust * 100);
+        }
+        list.add(param_dust);
+        condition.remove("online");
+        //水压
+        Integer count_press = null;
+        Integer count_press_online = null;
+        String press_online = "0.00";
+        condition.put("type", "7");
+        count_press = devServiceImpl.selectCountByType(condition);
+        condition.put("online", "1");
+        count_press_online = devServiceImpl.selectCountByType(condition);
+        if (count_press_online != null) {
+            dust_online = df.format((float) count_press_online / count_press * 100);
+        }
+        //流量
+        Integer count_flow = null;
+        Integer count_flow_online = null;
+        String flow_online = "0.00";
+        condition.put("type", "8");
+        count_flow = devServiceImpl.selectCountByType(condition);
+        condition.put("online", "1");
+        count_flow_online = devServiceImpl.selectCountByType(condition);
+        if (count_flow_online != 0) {
+            flow_online = df.format((float) count_flow_online / count_flow * 100);
+        }
+
+        OnlineRate onlineRate = new OnlineRate();
+        onlineRate.setTemonline(tem_online.substring(0,3));
+        onlineRate.setCoonline(co_online.substring(0,3));
+        onlineRate.setCh4online(ch4_online.substring(0,3));
+        onlineRate.setDustonline(dust_online.substring(0,3));
+        onlineRate.setPressonline(press_online.substring(0,3));
+        onlineRate.setFlowonline(flow_online.substring(0,3));
+        onlineRate.setCh4("CH4检测传感器");
+        onlineRate.setCo("CO检测传感器");
+        onlineRate.setDust("粉尘浓度传感器");
+        onlineRate.setTem("温度传感器");
+        onlineRate.setPress("水压检测仪");
+        onlineRate.setFlow("水流检测仪");
+        List<DevInfo> lst=new ArrayList<>();
+        
+        for(int i=0;i<6;i++){
+
+        }
+        onlineRate.setDevcount(String.valueOf(alldev));
+        onlineRate.setDevonlinecount(String.valueOf(onlinedev));
+        return JSON.toJSONString(onlineRate, SerializerFeature.DisableCircularReferenceDetect);
     }
 }

@@ -11,5 +11,12 @@ public class OnlineRate {
     private String pressonline;
     private String flowonline;
     private String devcount;
+    private String devonlinecount;
+    private String tem;
+    private String co;
+    private String ch4;
+    private String dust;
+    private String press;
+    private String flow;
 
 }
