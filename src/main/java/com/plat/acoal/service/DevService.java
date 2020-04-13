@@ -2,6 +2,7 @@ package com.plat.acoal.service;
 
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.model.*;
+import com.plat.acoal.utils.JsonResult;
 
 import java.util.List;
 import java.util.Map;
@@ -48,4 +49,6 @@ public interface DevService {
     List<DevInfo> selectFanInfo(Map<String, String> condition);
 
     List<DevActiveInfo> selectCountOpen(Map<String, String> condition);
+
+    JsonResult updatefan(Map<String, String> condition);
 }

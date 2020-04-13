@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class DevInfo {
@@ -12,6 +14,8 @@ public class DevInfo {
     private Integer id;
     //序号
     private Integer count;
+    private Integer devcount;
+    private Integer devcountonline;
 
     private Integer code;
 
@@ -21,6 +25,7 @@ public class DevInfo {
     private String regionname;
     private String value;
     private String customername;
+
 
     private String site;
 
@@ -67,6 +72,8 @@ public class DevInfo {
     private Integer rotate;
     //总时间
     private String sumtime;
+    //所有的在线率
+    private List<Map<String,String>> mapList;
 
 
 }

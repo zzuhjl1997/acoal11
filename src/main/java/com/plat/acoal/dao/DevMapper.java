@@ -1,6 +1,7 @@
 package com.plat.acoal.dao;
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.model.*;
+import com.plat.acoal.utils.JsonResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import javax.crypto.spec.DESedeKeySpec;
@@ -47,4 +48,6 @@ public interface DevMapper {
     List<DevInfo> selectFanInfo(Map<String, String> condition);
 
     List<DevActiveInfo> selectCountOpen(Map<String, String> condition);
+
+    int updatefan(Map<String, String> condition);
 }

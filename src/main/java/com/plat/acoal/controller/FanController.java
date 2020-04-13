@@ -8,6 +8,7 @@ import com.plat.acoal.model.DevActiveModel;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JsonResult;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +49,15 @@ public class FanController {
         //获取设备数据
         List<DevInfo> list = new ArrayList<DevInfo>();
         list = devServiceImpl.selectFanInfo(condition);
+
         for (DevInfo devInfo : list) {
             devInfo.setSumtime(times);
         }
-
+    /*    ResultData resultData = new ResultData();
+        resultData.setData(list);
+        if (list.size() > 0) {
+            resultData.setDate(list.get(list.size() - 1).getLastTime());
+        }*/
         return JSON.toJSONString(list);
     }
 
@@ -105,4 +111,15 @@ public class FanController {
 
     }
 
+    @RequestMapping(value = "/updatefan")
+    private JsonResult updatefan(@RequestParam Map<String, String> condition, HttpSession session) {
+        JsonResult jr = new JsonResult();
+        if (condition.get("status") != null || condition.get("is_auto") != null) {
+            jr = devServiceImpl.updatefan(condition);
+        } else if (condition.get("status") == null && condition.get("status") == null) {
+            jr.setStatus(100);
+            jr.setMsg("参数不足");
+        }
+        return jr;
+    }
 }
