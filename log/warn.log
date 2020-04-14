@@ -563,3 +563,8 @@ Field error in object 'user' on field 'ipopedom': rejected value [wq]; codes [ty
 2020-04-13 16:16:39.865 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-04-13 16:17:17.363 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-04-13 16:20:39.457 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-13 17:02:28.686 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-14 09:39:18.788 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-14 09:39:47.852 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-14 10:46:06.620 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-04-14 10:47:37.129 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.

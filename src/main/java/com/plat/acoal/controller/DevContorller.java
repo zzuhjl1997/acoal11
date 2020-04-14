@@ -421,17 +421,17 @@ public class DevContorller {
         ) {
             pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             flow_region[pos] = item.getRegionname();
-            flow_value[pos] = item.getTpressure();
+            flow_value[pos] = item.getTflow();
 //            pos++;
         }
         //获取区域温度
         condition.put("type", "2");
         List<DevInfo> list_tem = devServiceImpl.selectTemNowByCondition(condition);
-        for (DevInfo item : list_flow
+        for (DevInfo item : list_tem
         ) {
             pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             tem_region[pos] = item.getRegionname();
-            tem_value[pos] = item.getTpressure();
+            tem_value[pos] = item.getFT();
 //          pos++;
         }
         //获取总设备，在线设备数量，每种在线设备的数量
@@ -578,23 +578,6 @@ public class DevContorller {
 
 
         OnlineRate onlineRate = new OnlineRate();
-       /*  onlineRate.setTemonline(tem_online.substring(0,3));
-        onlineRate.setCoonline(co_online.substring(0,3));
-        onlineRate.setCh4online(ch4_online.substring(0,3));
-        onlineRate.setDustonline(dust_online.substring(0,3));
-        onlineRate.setPressonline(press_online.substring(0,3));
-        onlineRate.setFlowonline(flow_online.substring(0,3));
-        onlineRate.setCh4("CH4检测传感器");
-        onlineRate.setCo("CO检测传感器");
-        onlineRate.setDust("粉尘浓度传感器");
-        onlineRate.setTem("温度传感器");
-        onlineRate.setPress("水压检测仪");
-        onlineRate.setFlow("水流检测仪");
-        List<DevInfo> lst=new ArrayList<>();
-
-        for(int i=0;i<6;i++){
-
-        }*/
         onlineRate.setDevcount(String.valueOf(alldev));
         onlineRate.setDevonlinecount(String.valueOf(onlinedev));
         List<DevInfo> lst = new ArrayList<>();

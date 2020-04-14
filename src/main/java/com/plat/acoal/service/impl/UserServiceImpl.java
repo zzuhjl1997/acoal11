@@ -85,7 +85,15 @@ public class UserServiceImpl implements UserService {
     public JsonResult selectUserByUserName(String username, String password) {
         JsonResult jr = new JsonResult();
         User user = userMapper.selectUserByUserName(username);
+        User user1=new User();
         if(user!=null){
+            if(user.getIpopedom()==0){
+                user1.setMemo("管理员");
+                jr.setData(user1);
+            }else if(user.getIpopedom()==1){
+                user1.setMemo("操作员");
+                jr.setData(user1);
+            }
         if(MD5Utils.md5(password).equals(user.getCpassword())){
             jr.setStatus(200);
 //            jr.setData(user);
