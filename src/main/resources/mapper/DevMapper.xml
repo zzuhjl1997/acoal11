@@ -600,4 +600,9 @@
 
 
     </select>
+    <select id="selectDevList" resultType="com.plat.acoal.model.DevInfo">
+
+
+
+    </select>
 </mapper>

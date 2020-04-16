@@ -51,4 +51,6 @@ public interface DevService {
     List<DevActiveInfo> selectCountOpen(Map<String, String> condition);
 
     JsonResult updatefan(Map<String, String> condition);
+
+    List<DevInfo> selectDevList(Map<String, String> condition);
 }

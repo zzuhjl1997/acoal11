@@ -157,4 +157,9 @@ public class DevServiceImpl implements DevService {
         }
         return jr;
     }
+
+    @Override
+    public List<DevInfo> selectDevList(Map<String, String> condition) {
+        return dm.selectDevList(condition);
+    }
 }

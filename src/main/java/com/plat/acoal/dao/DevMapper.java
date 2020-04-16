@@ -50,4 +50,6 @@ public interface DevMapper {
     List<DevActiveInfo> selectCountOpen(Map<String, String> condition);
 
     int updatefan(Map<String, String> condition);
+
+    List<DevInfo> selectDevList(Map<String, String> condition);
 }
