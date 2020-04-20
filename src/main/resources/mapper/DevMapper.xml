@@ -392,6 +392,7 @@
         t_dev
         WHERE 1=1
         <if test="region != null">AND region = #{region}</if>
+        <if test="type != null">AND type = #{type}</if>
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
     </select>
     <!--这是查风机的吧。。这写的什么鬼-->
@@ -601,7 +602,17 @@
 
     </select>
     <select id="selectDevList" resultType="com.plat.acoal.model.DevInfo">
-
+        SELECT
+        td.NAME AS NAME,
+        tr.`name`,
+        td.site AS site,
+        td.`code` AS CODE,
+        td.`online`
+        FROM
+        t_dev td
+        INNER JOIN t_region tr ON td.region = tr.id
+        WHERE 1=1
+        <if test="devtype != null">AND devtype = #{devtype}</if>
 
 
     </select>

@@ -190,6 +190,7 @@ public class DevContorller {
         } else {
             currentPage = null;
         }
+
         Integer regionId = 1;
         List<RegionModel> listrg = regionServiceImpl.selectRegionByCus(customerId);
         List<RegionModel> listrg_re = new ArrayList<RegionModel>();
@@ -200,10 +201,15 @@ public class DevContorller {
             if (item != null) {
                 dev.setIcustomerid(customerId);
                 dev.setRegion(item.getId());
+                if(condition.get("type")!=null){
+                    dev.setType(StringUtils.isBlank(condition.get("type"))?null:Integer.valueOf(condition.get("type")));
+                }
+
             }
             List<Dev> listdev = devServiceImpl.selectDevByRegion(currentPage, dev);
             item.setDevs(listdev);
             listrg_re.add(item);
+
         }
         return JSON.toJSONString(listrg_re, SerializerFeature.DisableCircularReferenceDetect);
     }

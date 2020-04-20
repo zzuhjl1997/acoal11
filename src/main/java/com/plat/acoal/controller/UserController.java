@@ -1,4 +1,5 @@
 package com.plat.acoal.controller;
+
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.Dept;
@@ -13,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -28,14 +30,15 @@ public class UserController {
     public UserServiceImpl usi;
     @Autowired
     public OperationLogServiceImpl osi;
+
     @RequestMapping("/search")
-    public String selectAllUserCus(@RequestParam Map<String,String> condition) {
-        int sequence=0;
+    public String selectAllUserCus(@RequestParam Map<String, String> condition) {
+        int sequence = 0;
 //        User user = new User();
-        Map<String,String> param=new HashMap<String, String>();
-        String cusername=null;
-        if(condition.containsKey("cusername")){
-            cusername= StringUtils.isBlank(condition.get("cusername")) ?  null : condition.get("cusername");
+        Map<String, String> param = new HashMap<String, String>();
+        String cusername = null;
+        if (condition.containsKey("cusername")) {
+            cusername = StringUtils.isBlank(condition.get("cusername")) ? null : condition.get("cusername");
         }
         Integer currentPage = 1;
         Integer pageSize = 1;
@@ -48,22 +51,22 @@ public class UserController {
             condition.remove("pageSize");
         } else {
             currentPage = null;
-            pageSize=null;
+            pageSize = null;
         }
 
-        int count=0;
-        List<UserCustomer> list = usi.selectAllUserCus(condition,currentPage,pageSize);
-        count=usi.selectAllUserCount(condition);
+        int count = 0;
+        List<UserCustomer> list = usi.selectAllUserCus(condition, currentPage, pageSize);
+        count = usi.selectAllUserCount(condition);
 //        count=usi.selectAllUserCount(condition);
         List<UserCustomer> list_re = new ArrayList<UserCustomer>();
-        for (UserCustomer uc:list
-             ) {
-            sequence ++;
+        for (UserCustomer uc : list
+        ) {
+            sequence++;
             uc.setCount(sequence);
             list_re.add(uc);
         }
 //        param.put("tatal",String.valueOf(sequence));
-        ResultData resultData=new ResultData();
+        ResultData resultData = new ResultData();
         resultData.setPagecount(count);
         resultData.setData(list_re);
 //        resultData.setParam(param);
@@ -81,8 +84,11 @@ public class UserController {
      */
     @RequestMapping("/add")
     public String addUser(User user, HttpServletRequest request) {
-//        User user_s= (User) request.getSession().getAttribute("");
-//        int userid=user.getIuserid();
+        int userid = 517704512;
+        User user_s = (User) request.getSession().getAttribute("");
+        if (user_s != null) {
+            userid = user_s.getIuserid();
+        }
         OperationLog operationLog = new OperationLog();
         int i = usi.addUser(user);
         JsonResult jr = new JsonResult();
@@ -90,7 +96,7 @@ public class UserController {
             jr.setStatus(200);
             jr.setMsg("添加成功");
         }
-        int userid = 517704512;
+
         String uri = request.getRequestURI();
         String action = request.getMethod();
         operationLog.setOperationdate(new Date());
@@ -107,11 +113,16 @@ public class UserController {
         }
         return JSON.toJSONString(jr);
     }
+
     @RequestMapping("/update")
     public String updateUser(User user, HttpServletRequest request) {
+        int userid = 517704512;
+        User user_s = (User) request.getSession().getAttribute("");
+        if (user_s != null) {
+            userid = user_s.getIuserid();
+        }
         int i = usi.updateUser(user);
         JsonResult jr = new JsonResult();
-        int userid = 517704512;
         String uri = request.getRequestURI();
         String action = request.getMethod();
         OperationLog operationLog = new OperationLog();
@@ -135,6 +146,7 @@ public class UserController {
         }
         return JSON.toJSONString(jr);
     }
+
     /*
      *在这个@DeleteMapping注解中的{id}代表地址参数
      * 比如访问地址/user/123，{id}即为123
@@ -145,13 +157,18 @@ public class UserController {
      */
     @PostMapping("/delete")
     public String deleteUserById(Integer id, HttpServletRequest request) {
+        int userid = 517704512;
+        User user_s = (User) request.getSession().getAttribute("");
+        if (user_s != null) {
+            userid = user_s.getIuserid();
+        }
+        System.out.println(user_s);
         int i = usi.deleteUserById(id);
         JsonResult jr = new JsonResult();
         if (i > 0) {
             jr.setStatus(200);
             jr.setMsg("删除成功");
         }
-        int userid = 517704512;
         String uri = request.getRequestURI();
         String action = request.getMethod();
         OperationLog operationLog = new OperationLog();
@@ -173,15 +190,16 @@ public class UserController {
 
     /**
      * 用户登录
+     *
      * @param username
      * @param password
      * @return
      */
     @PostMapping("/login")
-    private JsonResult login(String username,String password,HttpServletRequest request){
-            JsonResult jr = usi.selectUserByUserName(username,password);
-            if (Integer.valueOf(200).equals(jr.getStatus())){
-            request.getSession().setAttribute("user",jr.getData());
+    private JsonResult login(String username, String password, HttpServletRequest request) {
+        JsonResult jr = usi.selectUserByUserName(username, password);
+        if (Integer.valueOf(200).equals(jr.getStatus())) {
+            request.getSession().setAttribute("user", jr.getData());
         }
         return jr;
     }

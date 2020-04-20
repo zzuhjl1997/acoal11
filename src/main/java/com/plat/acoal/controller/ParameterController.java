@@ -57,6 +57,7 @@ public class ParameterController {
             User user = (User) session.getAttribute("user");
             icustomerid = user.getIcustomerid();
         }
+
         List<Parameter> list = parameterService.selectParamByCondition(cparam, icustomerid, devId);
         return JSON.toJSONString(list);
     }
