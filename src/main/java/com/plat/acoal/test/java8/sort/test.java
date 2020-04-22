@@ -1,7 +1,10 @@
 package com.plat.acoal.test.java8.sort;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class test {
-    class Solution {
+   /* class Solution {
         public void nextPermutation(int[] nums) {
             //  int len=nums.length;
             int i = nums.length - 2;
@@ -35,5 +38,21 @@ public class test {
             nums[i] = nums[j];
             nums[j] = temp;
         }
+    }*/
+
+    public static void main(String[] args) {
+        String t="ABC";
+        Map<String, Integer> need = new HashMap<>();
+        for (char c : t) {
+            //need[c]++;
+        }
+        System.out.println(need);
     }
+
+
+
+
+
+
+
 }

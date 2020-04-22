@@ -16,8 +16,8 @@ public class CannonServiceImpl implements CannonService {
     private CannonMapper cam;
     @Override
     public List<DevInfo> selectCannonList(Map<String, String> condition,Integer currentPage,Integer pageSize) {
-        if(currentPage != null){
-            PageHelper.startPage(currentPage,1);
+        if(currentPage != null&&pageSize!=null){
+            PageHelper.startPage(currentPage,pageSize);
         }
         return cam.selectCannonList(condition);
     }
