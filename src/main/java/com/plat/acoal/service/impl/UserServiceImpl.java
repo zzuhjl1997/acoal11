@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addUser(User user) {
         user.setIuserid(UUIDUtil.getUUIDInOrderId());
+        user.setCpassword(MD5Utils.md5(user.getCpassword()));
         return userMapper.insertSelective(user);
     }
 

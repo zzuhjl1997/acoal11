@@ -84,8 +84,9 @@ public class UserController {
      */
     @RequestMapping("/add")
     public String addUser(User user, HttpServletRequest request) {
-        int userid = 517704512;
-        User user_s = (User) request.getSession().getAttribute("");
+
+        Integer userid = null;
+        User user_s = (User) request.getSession().getAttribute("user");
         if (user_s != null) {
             userid = user_s.getIuserid();
         }
@@ -116,8 +117,11 @@ public class UserController {
 
     @RequestMapping("/update")
     public String updateUser(User user, HttpServletRequest request) {
-        int userid = 517704512;
-        User user_s = (User) request.getSession().getAttribute("");
+      /*  User user1=new User();
+        user1.setIuserid(1344447583);
+        request.getSession().setAttribute("user",user1);*/
+        Integer userid = null;
+        User user_s = (User) request.getSession().getAttribute("user");
         if (user_s != null) {
             userid = user_s.getIuserid();
         }
@@ -157,7 +161,7 @@ public class UserController {
      */
     @PostMapping("/delete")
     public String deleteUserById(Integer id, HttpServletRequest request) {
-        int userid = 517704512;
+        Integer userid = null;
         User user_s = (User) request.getSession().getAttribute("");
         if (user_s != null) {
             userid = user_s.getIuserid();

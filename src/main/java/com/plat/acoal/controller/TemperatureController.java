@@ -49,7 +49,7 @@ public class TemperatureController {
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
-        double[] newVal = new double[3];
+        double[] newVal = new double[1];
         temperatureInfo.setDevid(Integer.parseInt(devid));
         List<TemperatureInfo> lstft = new ArrayList<TemperatureInfo>();
         List<TemperatureInfo> newFt = temperatureServiceImpl.selectNewFtById(temperatureInfo);

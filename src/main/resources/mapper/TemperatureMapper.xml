@@ -26,30 +26,13 @@
         <if test="devid!=null">
             AND dev_id = #{devid,jdbcType=INTEGER}
         </if>
-        order by dCollectDT limit 3
+        order by dCollectDT DESC limit 1
 
     </select>
-    <!--    &lt;!&ndash;查询实时温度曲线&ndash;&gt;-->
-    <!--    <select id="selectFtByTime" resultType="com.plat.acoal.entity.Temperature"-->
-    <!--            parameterType="com.plat.acoal.model.TemperatureInfo">-->
-
-    <!--        SELECT-->
-    <!--        dCollectDT,-->
-    <!--        fT,-->
-    <!--         b   dev_id as devid-->
-    <!--        FROM-->
-    <!--        t_temperature-->
-    <!--        WHERE-->
-    <!--        1 = 1-->
-    <!--        <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>-->
-    <!--        <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>-->
-    <!--        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>-->
-    <!--    </select>-->
 
     <!--查询历史温度曲线-->
     <select id="selectHFtByTime" resultType="com.plat.acoal.entity.Temperature"
             parameterType="com.plat.acoal.model.TemperatureInfo">
-
         SELECT
         dCollectDT,
         fT
@@ -112,7 +95,7 @@
         td.site AS site,
         tt.dCollectDT AS updateTime,
         td.ip AS ip,
-        td.`status` AS `status`,
+        td.`online` AS `online`,
         tt.fT AS ft
         FROM
         t_dev td
@@ -121,7 +104,7 @@
         WHERE 1=1
         <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
-        <if test="status!=null">AND td.`status` = #{status,jdbcType=INTEGER}</if>
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
 
         ) a

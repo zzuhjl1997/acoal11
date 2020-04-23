@@ -11903,3 +11903,57 @@
 2020-04-21 16:01:28.040 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
 2020-04-21 16:01:28.067 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
 2020-04-21 16:01:28.073 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 3.276 seconds (JVM running for 5.965)
+2020-04-23 16:15:01.911 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 12168 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-04-23 16:15:01.953 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-04-23 16:15:05.753 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-04-23 16:15:05.863 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-04-23 16:15:05.864 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-04-23 16:15:05.864 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-04-23 16:15:06.018 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-04-23 16:15:06.018 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 3970 ms
+2020-04-23 16:15:06.378 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-04-23 16:15:06.613 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-04-23 16:15:07.368 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-04-23 16:15:07.484 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-04-23 16:15:07.676 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-04-23 16:15:07.717 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-04-23 16:15:07.721 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 6.383 seconds (JVM running for 10.277)
+2020-04-23 16:16:41.176 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-23 16:16:41.176 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-04-23 16:16:41.181 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 5 ms
+2020-04-23 16:20:55.816 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 4036 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-04-23 16:20:55.820 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-04-23 16:20:56.876 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-04-23 16:20:56.984 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-04-23 16:20:56.984 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-04-23 16:20:56.985 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-04-23 16:20:57.074 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-04-23 16:20:57.074 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1206 ms
+2020-04-23 16:20:57.229 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-04-23 16:20:57.321 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-04-23 16:20:57.889 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-04-23 16:20:57.961 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-04-23 16:20:58.136 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-04-23 16:20:58.158 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-04-23 16:20:58.161 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 2.65 seconds (JVM running for 5.131)
+2020-04-23 16:20:59.817 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-23 16:20:59.818 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-04-23 16:20:59.826 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 8 ms
+2020-04-23 16:52:51.264 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 13176 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-04-23 16:52:51.273 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-04-23 16:52:52.531 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-04-23 16:52:52.664 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-04-23 16:52:52.664 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-04-23 16:52:52.665 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-04-23 16:52:52.785 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-04-23 16:52:52.785 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1460 ms
+2020-04-23 16:52:52.936 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-04-23 16:52:53.037 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-04-23 16:52:53.643 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-04-23 16:52:53.714 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-04-23 16:52:53.876 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-04-23 16:52:53.897 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-04-23 16:52:53.900 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 3.062 seconds (JVM running for 6.145)
+2020-04-23 16:56:32.533 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-23 16:56:32.533 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-04-23 16:56:32.538 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 5 ms
