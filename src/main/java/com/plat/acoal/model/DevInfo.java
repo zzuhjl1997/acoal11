@@ -21,7 +21,7 @@ public class DevInfo {
 
     private Integer icustomerid;
 
-    private Integer region;
+    private String region;
     private String regionname;
     private String value;
     private String customername;

@@ -13,4 +13,6 @@ public interface AlarmService {
     int deleteByPrimaryKey(Long id);
 
     List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo);
+
+    int selectAlarmCount(Map<String, String> condition);
 }

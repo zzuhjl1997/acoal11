@@ -31,7 +31,7 @@
     </if>
     ORDER BY
     dCollectDT
-    LIMIT 3
+    LIMIT 1
   </select>
   <!--获取一天的数据-->
   <select id="selectInfoByHour" resultType="com.plat.acoal.model.DustModel" parameterType="com.plat.acoal.model.DustModel">

@@ -28,4 +28,9 @@ public class AlarmServiceImpl implements AlarmService {
     public List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo) {
         return am.selectAlarmInfoByCondition(alarmInfo);
     }
+
+    @Override
+    public int selectAlarmCount(Map<String, String> condition) {
+        return am.selectAlarmCount(condition);
+    }
 }

@@ -306,4 +306,15 @@
         alarm_time
         LIMIT 1
     </select>
+    <select id="selectAlarmCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT( * )
+        FROM
+        t_alarmtime
+        WHERE
+        1 = 1
+        <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
+        <if test="starttime!=null">AND lasteventtime BETWEEN  #{starttime,jdbcType=TIMESTAMP}</if>
+        <if test="endtime!=null">AND  #{endtime,jdbcType=TIMESTAMP}</if>
+    </select>
 </mapper>

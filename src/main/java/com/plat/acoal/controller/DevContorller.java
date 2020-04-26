@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @Log4j2
@@ -164,12 +161,41 @@ public class DevContorller {
             sum = devServiceImpl.selectCountByType(condition);
         }*/
         //查询基础信息
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, -30);
+        String c = cal.getTime().toString();
+        System.out.println(cal.getTime());
+        String starttime = DateUtil.dateToString(cal.getTime(), "yyyy-MM-dd HH:mm:ss");
+        String endtime = DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss");
+        int alacount = 0;
+        condition.put("starttime", starttime);
+        condition.put("endtime", endtime);
         int sum = 0;
         List<DevInfo> listd = new ArrayList<DevInfo>();
+
         listd = devServiceImpl.selectDevInfoByDevid(condition);
+      List<DevInfo>  listr = new ArrayList<>();
+        for (DevInfo devInfo : listd) {
+            condition.put("devid", String.valueOf(devInfo.getId()));
+            alacount = alarmServiceImpl.selectAlarmCount(condition);
+            condition.remove("devid");
+            if (devInfo != null) {
+                if (devInfo.getOnline()!=null&&devInfo.getOnline() == 1) {
+                    if (alacount > 0) {
+                        devInfo.setRemark("报警");
+                    } else {
+                        devInfo.setRemark("正常");
+                    }
+                } else {
+                    devInfo.setRemark("离线");
+                }
+                listr.add(devInfo);
+            }
+
+        }
         sum = devServiceImpl.selectCountByType(condition);
         ResultData resultData = new ResultData();
-        resultData.setData(listd);
+        resultData.setData(listr);
         resultData.setCount(sum);
         return JSON.toJSONString(resultData);
     }
@@ -201,8 +227,8 @@ public class DevContorller {
             if (item != null) {
                 dev.setIcustomerid(customerId);
                 dev.setRegion(item.getId());
-                if(condition.get("type")!=null){
-                    dev.setType(StringUtils.isBlank(condition.get("type"))?null:Integer.valueOf(condition.get("type")));
+                if (condition.get("type") != null) {
+                    dev.setType(StringUtils.isBlank(condition.get("type")) ? null : Integer.valueOf(condition.get("type")));
                 }
 
             }
@@ -588,7 +614,7 @@ public class DevContorller {
         onlineRate.setDevonlinecount(String.valueOf(onlinedev));
         List<DevInfo> lst = new ArrayList<>();
         DevInfo devInfo = new DevInfo();
-        if(mapList.size()>0){
+        if (mapList.size() > 0) {
             devInfo.setMapList(mapList);
         }
 

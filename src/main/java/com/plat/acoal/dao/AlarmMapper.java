@@ -13,4 +13,6 @@ public interface AlarmMapper {
     int updateByPrimaryKey(Alarm record);
     List<AlarmModel> selectAlarmModelByCondition(Map<String, String> condition);
     List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo);
+
+    int selectAlarmCount(Map<String, String> condition);
 }

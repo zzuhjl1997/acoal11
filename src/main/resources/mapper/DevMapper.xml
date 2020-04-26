@@ -561,15 +561,18 @@
     <select id="selectDevInfoByDevid" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
         SELECT
         td.id AS devid,
-        td.NAME AS name,
+        td.NAME AS NAME,
         td.site AS site,
-        td.region AS region,
+        tr.`name` AS region,
         td.STATUS AS STATUS,
+        td.ONLINE AS ONLINE,
         tc.cCustomerName AS customername
         FROM
         t_dev td
         INNER JOIN t_customer tc ON tc.iCustomerID = td.iCustomerID
-        WHERE 1=1
+        INNER JOIN t_region tr ON td.region = tr.id
+        WHERE
+        1 =1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="devid != null">AND td.id= #{devid}</if>
     </select>
@@ -603,6 +606,7 @@
     </select>
     <select id="selectDevList" resultType="com.plat.acoal.model.DevInfo">
         SELECT
+        td.id as id,
         td.NAME AS NAME,
         tr.`name`,
         td.site AS site,
@@ -612,8 +616,7 @@
         t_dev td
         INNER JOIN t_region tr ON td.region = tr.id
         WHERE 1=1
-        <if test="devtype != null">AND devtype = #{devtype}</if>
-
-
+        <if test="devtype != null">AND td.type = #{devtype,jdbcType=INTEGER}</if>
+        <if test="region != null">AND td.region = #{region,jdbcType=INTEGER}</if>
     </select>
 </mapper>

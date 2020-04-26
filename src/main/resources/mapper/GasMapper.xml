@@ -31,7 +31,7 @@
         </if>
         ORDER BY
         dCollectDT DESC
-        LIMIT 3
+        LIMIT 1
 
     </select>
     <!-- 获取一天ch4数据-->
@@ -152,7 +152,7 @@
         </if>
         ORDER BY
         dCollectDT DESC
-        LIMIT 3
+        LIMIT 1
 
     </select>
     <select id="selectCh4Count" resultType="java.lang.Integer">

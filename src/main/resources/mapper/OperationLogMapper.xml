@@ -39,7 +39,7 @@
             AND #{enddate,jdbcType=TIMESTAMP}
         </if>
         <if test="username!=null">AND tu.cUserName like #{username,jdbcType=VARCHAR}</if>
-
+        ORDER BY operationDate DESC
     </select>
     <select id="selectLogsCount" resultType="java.lang.Integer">
 
