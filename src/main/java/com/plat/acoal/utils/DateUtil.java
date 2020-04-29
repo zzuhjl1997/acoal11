@@ -172,6 +172,40 @@ public class DateUtil {
         return true;
     }
 
+    //获取某一时间的几天前（后）的日期
+    public static String aFewDaysAgo(String current,int day,String format){
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(sdf.parse(current));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + day);
+        Date today = calendar.getTime();
+        return sdf.format(today);
+    }
+
+    //获取时间段内的所有日
+    public static List<String> getAllDaysIn(String head,String tail,String format){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<String > list = new ArrayList<>();
+        try{
+            Date startDate = dateFormat.parse(head);
+            Date endDate = dateFormat.parse(tail);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+            while(calendar.getTime().before(endDate)){
+                list.add(dateFormat.format(calendar.getTime()));
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            list.add(dateFormat.format(endDate));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
     /**
      * 将毫秒转成时分秒
      * @param time
@@ -187,5 +221,4 @@ public class DateUtil {
         System.out.println(times);
         return  times;
     }
-
 }

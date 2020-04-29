@@ -10,6 +10,7 @@ import com.plat.acoal.service.impl.AlarmServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.RegionServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JsonResult;
 import com.plat.acoal.utils.NumberUtil;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -35,55 +36,112 @@ public class DevContorller {
     @Autowired
     private RegionServiceImpl regionServiceImpl;
 
-    @RequestMapping("/dim")
-    public String selectDevInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    @GetMapping("/dim")
+    public String selectDevInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session){
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
         Integer currentPage = 1;
+        Integer pageSize = Integer.MAX_VALUE;
         if (condition.containsKey("currentPage")) {
-            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.parseInt(condition.get("currentPage"));
             condition.remove("currentPage");
-        } else {
-            currentPage = null;
         }
-        return JSON.toJSONString(dsi.selectDevInfoModelByCondtition(currentPage, condition));
+        if (condition.containsKey("pageSize")) {
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? Integer.MAX_VALUE : Integer.parseInt(condition.get("pageSize"));
+            condition.remove("pageSize");
+        } else {
+            pageSize = Integer.MAX_VALUE;
+        }
+        return JSON.toJSONString(dsi.selectDevInfoModelByCondtition(currentPage,pageSize,condition));
     }
-
-    @RequestMapping("/name")
-    public String selectNameByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    @GetMapping("/name")
+    public String selectNameByCondition(@RequestParam Map<String, String> condition,HttpSession session){
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
         return JSON.toJSONString(dsi.selectNameByCondition(condition));
     }
-
-    @RequestMapping("/type")
-    public String selectTypeByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    @GetMapping("/type")
+    public String selectTypeByCondition(@RequestParam Map<String, String> condition,HttpSession session){
         /*User user = (User)session.getAttribute("user");
         Integer customerid = user.getIcustomerid();
         condition.put("customer",customer);
         */
         return JSON.toJSONString(dsi.selectTypeByCondition(condition));
     }
-
-    @RequestMapping("/dam")
-
-    public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    @GetMapping("/dam")
+    public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition,HttpSession session){
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
         Integer currentPage = 1;
+        Integer pageSize = Integer.MAX_VALUE;
         if (condition.containsKey("currentPage")) {
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             condition.remove("currentPage");
-        } else {
-            currentPage = null;
         }
-        return JSON.toJSONString(dsi.selectDevActiveModelByCondtition(currentPage, condition));
+        if (condition.containsKey("pageSize")) {
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? Integer.MAX_VALUE : Integer.valueOf(condition.get("pageSize"));
+            condition.remove("pageSize");
+        } else {
+            pageSize = Integer.MAX_VALUE;
+        }
+        return JSON.toJSONString(dsi.selectDevActiveModelByCondtition(currentPage,pageSize,condition));
     }
-
-    ;
+    @GetMapping("/damb")
+    public String selectDevAmountModelByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+        return JSON.toJSONString(dsi.selectDevAmountModel(condition));
+    }
+    @PostMapping("")
+    public String insert(Dev dev,HttpSession session){
+        JsonResult jr = new JsonResult();
+        int num = dsi.insert(dev);
+        if(num == 1){
+            jr.setMsg("添加成功");
+            jr.setStatus(200);
+        }else if(num < 1){
+            jr.setMsg("添加失败");
+            jr.setStatus(500);
+        }else{
+            jr.setMsg("异常！可能出现增加多次记录！");
+            jr.setStatus(555);
+        }
+        return JSON.toJSONString(jr);
+    }
+    @DeleteMapping("")
+    public String deleteByPrimaryKey(@RequestParam(value = "devId") Integer devId){
+        JsonResult jr = new JsonResult();
+        System.out.println("devId::::::::::::"+devId);
+        int num = dsi.deleteByPrimaryKey(devId);
+        if(num == 1){
+            jr.setMsg("删除成功");
+            jr.setStatus(200);
+        }else if(num < 1){
+            jr.setMsg("删除失败");
+            jr.setStatus(500);
+        }else{
+            jr.setMsg("异常！可能出现删除多次记录！");
+            jr.setStatus(555);
+        }
+        return JSON.toJSONString(jr);
+    }
+    @PutMapping("")
+    public String update(Dev dev){
+        JsonResult jr = new JsonResult();
+        int a = dsi.updateByPrimaryKeySelective(dev);
+        if(a == 1){
+            jr.setStatus(200);
+            jr.setMsg("修改成功");
+        }else if(a < 1){
+            jr.setStatus(400);
+            jr.setMsg("修改失败");
+        }else if(a > 1){
+            jr.setStatus(500);
+            jr.setMsg("修改异常");
+        }
+        return JSON.toJSONString(jr);
+    }
 
     /**
      * 查询消防炮状态列表
@@ -201,7 +259,7 @@ public class DevContorller {
     }
 
     /**
-     * 获取监测点列表  树状图
+     * 获取监测点列表  树状图1
      */
     @RequestMapping("/devlist")
     private String getdevlist(@RequestParam Map<String, String> condition, HttpSession session) {
@@ -240,6 +298,48 @@ public class DevContorller {
         return JSON.toJSONString(listrg_re, SerializerFeature.DisableCircularReferenceDetect);
     }
 
+    /**
+     * 这个用于参数设置里的树
+     * @param condition
+     * @param session
+     * @return
+     */
+    @RequestMapping("/devlist2")
+    private String getdevlist2(@RequestParam Map<String, String> condition, HttpSession session) {
+       /* User user = (User)session.getAttribute("user");
+        Integer icustomerid = user.getIcustomerid();*/
+        Integer customerId = 2;
+        Region region = new Region();
+        Integer currentPage = 1;
+        if (condition.containsKey("currentPage")) {
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            condition.remove("currentPage");
+        } else {
+            currentPage = null;
+        }
+
+        Integer regionId = 1;
+        List<RegionModel> listrg = regionServiceImpl.selectRegionByCus(customerId);
+        List<RegionModel> listrg_re = new ArrayList<RegionModel>();
+//        List<Dev> listdev=new ArrayList<Dev>();
+        for (RegionModel item : listrg
+        ) {
+            Dev dev = new Dev();
+            if (item != null) {
+                dev.setIcustomerid(customerId);
+                dev.setRegion(item.getId());
+                if (condition.get("type") != null) {
+                    dev.setType(StringUtils.isBlank(condition.get("type")) ? null : Integer.valueOf(condition.get("type")));
+                }
+
+            }
+            List<Dev> listdev = devServiceImpl.selectDevPByRegion(currentPage, dev);
+            item.setDevs(listdev);
+            listrg_re.add(item);
+
+        }
+        return JSON.toJSONString(listrg_re, SerializerFeature.DisableCircularReferenceDetect);
+    }
     /**
      * 获取设备总数
      */

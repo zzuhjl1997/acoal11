@@ -17,4 +17,5 @@ public interface UserMapper {
     User selectUserByUserName(String username);
 
     int selectAllUserCount(Map<String, String> condition);
-}
+    User selectUserByUsername(String username);
+    }

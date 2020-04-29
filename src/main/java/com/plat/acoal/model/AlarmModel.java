@@ -11,11 +11,12 @@ public class AlarmModel {
     private String alarmTypeName;
     private Float alarmThreshold;
     private Float alarmData;
-    private Date alarmTime;
+    private String alarmTime;
     private Integer alarmCount;
-    private Integer alarmDis;
+    private Integer alarmStatus;
     private Integer alarmGradeId;
     private String alarmGradeName;
+    private Integer devId;
     private String devName;
     private Integer regionId;
     private String regionName;
@@ -24,4 +25,11 @@ public class AlarmModel {
     private String alarmInfo;
     private Integer alarmDealUserId;
     private Date alarmDealTime;
+    private String imgpath;
+    private String videopath;
+    private String lastalarmtime;
+    private String lastimgpath;
+    private String lastvideopath;
+    private Integer isfault;
+    private String dealimgpath;
 }

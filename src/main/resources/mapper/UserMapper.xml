@@ -338,4 +338,15 @@
       dftcustomerid = #{dftcustomerid,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+    <!--根据用户名查看用户实体-->
+    <select id="selectUserByUsername" resultType="com.plat.acoal.entity.User" parameterType="java.lang.String">
+        SELECT
+        *
+        FROM
+        t_user
+        WHERE 1=1
+        <if test="cusername!=null">
+            and cUserName=#{cusername,jdbcType=VARCHAR}
+        </if>
+    </select>
 </mapper>

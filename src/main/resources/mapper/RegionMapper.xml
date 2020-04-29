@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.plat.acoal.dao.RegionMapper">
-  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Region">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="iCustomerID" jdbcType="INTEGER" property="icustomerid" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-  </resultMap>
-  <resultMap id="RegionModelMap" type="com.plat.acoal.model.RegionModel">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="iCustomerID" jdbcType="INTEGER" property="icustomerid" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Region">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="iCustomerID" jdbcType="INTEGER" property="icustomerid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <resultMap id="RegionModelMap" type="com.plat.acoal.model.RegionModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="iCustomerID" jdbcType="INTEGER" property="icustomerid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, iCustomerID, name, create_time, update_time, remark
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_region
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_region
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_region
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.plat.acoal.entity.Region">
+    <insert id="insert" parameterType="com.plat.acoal.entity.Region">
     insert into t_region (id, iCustomerID, name,
       create_time, update_time, remark
       )
@@ -38,71 +38,71 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.plat.acoal.entity.Region">
-    insert into t_region
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="icustomerid != null">
-        iCustomerID,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="icustomerid != null">
-        #{icustomerid,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Region">
-    update t_region
-    <set>
-      <if test="icustomerid != null">
-        iCustomerID = #{icustomerid,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Region">
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Region">
+        insert into t_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="icustomerid != null">
+                iCustomerID,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="icustomerid != null">
+                #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Region">
+        update t_region
+        <set>
+            <if test="icustomerid != null">
+                iCustomerID = #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Region">
     update t_region
     set iCustomerID = #{icustomerid,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
@@ -111,21 +111,30 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <!--根据客户id查找区域-->
-  <select id="selectRegionByCustomerId" parameterType="java.lang.Integer" resultMap="RegionModelMap">
-    SELECT
-    <include refid="Base_Column_List" />
-  FROM
-      t_region
-  WHERE
-      iCustomerID = #{icustomerid,jdbcType=INTEGER};
-  </select>
-  <select id="selectRegionByCus" resultType="com.plat.acoal.entity.Region" parameterType="com.plat.acoal.entity.Region">
-    SELECT
-    <include refid="Base_Column_List" />
-    FROM
-    t_region
-    WHERE
-    iCustomerID = #{icustomerid,jdbcType=INTEGER};
- </select>
+    <!--根据客户id查找区域-->
+    <select id="selectRegionByCustomerId" parameterType="java.lang.Integer" resultMap="RegionModelMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_region
+        WHERE
+        iCustomerID = #{icustomerid,jdbcType=INTEGER};
+    </select>
+    <select id="selectRegionModelByCondition" resultType="com.plat.acoal.model.RegionModel">
+        select id AS regionId,name AS regionName from t_region where 1=1
+        <if test="customerId != null">
+            AND icustomerid = #{customerId}
+        </if>
+    </select>
+    <select id="selectRegionByCus" resultType="com.plat.acoal.entity.Region"
+            parameterType="com.plat.acoal.entity.Region">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_region
+        WHERE 1=1
+        <if test="customerId != null">
+            iCustomerID = #{customerId,jdbcType=INTEGER};
+        </if>
+    </select>
 </mapper>

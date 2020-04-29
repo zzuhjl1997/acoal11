@@ -1,6 +1,7 @@
 package com.plat.acoal.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.plat.acoal.dao.DevMapper;
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.model.*;
@@ -18,31 +19,53 @@ public class DevServiceImpl implements DevService {
     @Autowired
     DevMapper dm;
 
+
     @Override
-    public List<DevNameModel> selectNameByCondition(Map<String, String> condition) {
+    public int insert(Dev dev){
+        return dm.insert(dev);
+    }
+
+    public int deleteByPrimaryKey(Integer devId){
+        return dm.deleteByPrimaryKey(devId);
+    }
+    @Override
+    public List<DevNameModel> selectNameByCondition(Map<String,String> condition) {
         return dm.selectNameByCondition(condition);
     }
 
     @Override
-    public List<DevTypeModel> selectTypeByCondition(Map<String, String> condition) {
+    public List<DevTypeModel> selectTypeByCondition(Map<String,String> condition) {
         return dm.selectTypeByCondition(condition);
     }
 
     @Override
-    public List<DevInfoModel> selectDevInfoModelByCondtition(Integer currentPage, Map<String, String> condition) {
-        if (currentPage != null) {
-            PageHelper.startPage(currentPage, 1);
+    public PageInfo<DevInfoModel> selectDevInfoModelByCondtition(Integer currentPage, Integer pageSize, Map<String, String> condition) {
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,pageSize);
         }
-        return dm.selectDevInfoByCondition(condition);
+        List<DevInfoModel> devInfoModelList= dm.selectDevInfoByCondition(condition);
+        PageInfo<DevInfoModel> returnDi = new PageInfo<>(devInfoModelList);
+        return returnDi;
     }
 
     @Override
-    public List<DevActiveModel> selectDevActiveModelByCondtition(Integer currentPage, Map<String, String> condition) {
-        if (currentPage != null) {
-            PageHelper.startPage(currentPage, 1);
+    public PageInfo<DevActiveModel> selectDevActiveModelByCondtition(Integer currentPage,Integer pageSize ,Map<String, String> condition) {
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,pageSize);
         }
+        List<DevActiveModel> devActiveModelList = dm.selectDevActiveModelByCondition(condition);
+        PageInfo<DevActiveModel> returnDa = new PageInfo<>(devActiveModelList);
+        return returnDa;
+    }
 
-        return dm.selectDevActiveModelByCondition(condition);
+    @Override
+    public int updateByPrimaryKeySelective(Dev dev){
+        return dm.updateByPrimaryKeySelective(dev);
+    }
+
+    @Override
+    public DevAmountModel selectDevAmountModel(Map<String, String> condition) {
+        return dm.selectDevAmountModel(condition);
     }
 
     @Override
@@ -161,5 +184,10 @@ public class DevServiceImpl implements DevService {
     @Override
     public List<DevInfo> selectDevList(Map<String, String> condition) {
         return dm.selectDevList(condition);
+    }
+
+    @Override
+    public List<Dev> selectDevPByRegion(Integer currentPage, Dev dev) {
+        return dm.selectDevPByRegion(dev);
     }
 }

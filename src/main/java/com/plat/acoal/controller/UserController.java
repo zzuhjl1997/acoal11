@@ -192,19 +192,5 @@ public class UserController {
     }
 
 
-    /**
-     * 用户登录
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    @PostMapping("/login")
-    private JsonResult login(String username, String password, HttpServletRequest request) {
-        JsonResult jr = usi.selectUserByUserName(username, password);
-        if (Integer.valueOf(200).equals(jr.getStatus())) {
-            request.getSession().setAttribute("user", jr.getData());
-        }
-        return jr;
-    }
+
 }

@@ -1,34 +1,144 @@
 package com.plat.acoal.service.impl;
+
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.plat.acoal.dao.AlarmMapper;
-import com.plat.acoal.entity.Alarm;
-import com.plat.acoal.model.AlarmInfo;
-import com.plat.acoal.model.AlarmModel;
+import com.plat.acoal.model.*;
 import com.plat.acoal.service.AlarmService;
+import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+import java.util.stream.Stream;
+
 @Service
 public class AlarmServiceImpl implements AlarmService {
+
     @Autowired
     private AlarmMapper am;
-    @Override
-    public List<AlarmModel> selectAlarmModelByCondition(Integer currentPage, Map<String,String> condition){
-        if(currentPage != null){
-            PageHelper.startPage(currentPage,1);
-        }
-        return am.selectAlarmModelByCondition(condition);
-    }
-    @Override
-    public int deleteByPrimaryKey(Long id) {
-        return am.deleteByPrimaryKey(id);
-    }
     @Override
     public List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo) {
         return am.selectAlarmInfoByCondition(alarmInfo);
     }
 
+    @Override
+    public PageInfo<AlarmModel> selectAlarmModelByCondition(Integer currentPage,Integer pageSize, Map<String,String> condition){
+        Optional.ofNullable(currentPage).ifPresent(a->PageHelper.startPage(a,pageSize));
+        List<AlarmModel> list = am.selectAlarmModelByCondition(condition);
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(Long id) {
+        return am.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public List<AlarmStatisticsModel> selectAlarmStatisticsModelByCondition(Map<String, String> condition) {
+        List<String >list = DateUtil.getAllDaysIn(condition.get("alarmTimeHead"),condition.get("alarmTimeTail"),"yyyy-MM-dd");
+        List<AlarmStatisticsModel> asmList = am.selectAlarmStatisticsModelByCondition(condition);
+        Map<String ,String> map = new HashMap<>();
+        System.out.println("asmList::::"+asmList.toString());
+        asmList.forEach((a)->{
+            ArrayList<String> list1 = new ArrayList<>();
+            System.out.println("a:::::"+a);
+            int i = 0;
+            for(String item:a.getXaxis()){
+                map.put(item,a.getTempY().get(i).getValue());
+                i++;
+            }
+            list.forEach((b)->{
+                //YaxisModel y = new YaxisModel();
+                //y.setValue(map.getOrDefault(b, "0"));
+                //list1.add(y);
+                list1.add(map.getOrDefault(b, "0"));
+            });
+            a.setXaxis(list);
+            a.setYaxis(list1);
+            a.setTempY(null);
+        });
+        return asmList;
+    }
+
+    @Override
+    public List<AlarmTypeModel> selectAlarmTypeModel() {
+        return am.selectAlarmTypeModel();
+    }
+
+    @Override
+    public List<AlarmGradeModel> selectAlarmGradeModel() {
+        return am.selectAlarmGradeModel();
+    }
+
+    @Override
+    public List<AlarmRatioModel> selectAlarmRatioModel() {
+        return am.selectAlarmRatioModel();
+    }
+
+    @Override
+    public List<DevAlarmModel> selectDevAlarmModel(Map<String, String> condition){
+        return am.selectDevAlarmModel(condition);
+    }
+
+    @Override
+    public List<DevAlarmFrequencyModel> selectDevAlarmFrequencyModel(Map<String,String> condition){
+        return am.selectDevAlarmFrequencyModel(condition);
+    }
+
+    @Override
+    public List<DevAlarmInfoModel> selectDevAlarmInfoModel(Map<String, String> condition) {
+        return am.selectDevAlarmInfoModel(condition);
+    }
+
+    @Override
+    public List<AlarmFourModel> selectAlarmFourCountModel() {
+        return am.selectAlarmFourCountModel();
+    }
+
+    @Override
+    public TodayAlarmAmountModel selectTodayAlarmAmountModel(Map<String ,String> condition) {
+        return am.selectTodayAlarmAmountModel(condition);
+    }
+
+    @Override
+    public AlarmAmountModel selectAlarmAmountModel(Map<String, String> condition) {
+        return am.selectAlarmAmountModel(condition);
+    }
+
+    @Override
+    public TodayUntreatedAlarmValueModel selectTodayAlarmUntreatedModel(Map<String, String> condition) {
+        return am.selectTodayAlarmUntreatedModel(condition);
+    }
+
+    @Override
+    public UntreatedAlarmValueModel selectAlarmUntreatedModel(Map<String, String> condition) {
+        return am.selectAlarmUntreatedModel(condition);
+    }
+
+    @Override
+    public List<UntreatedAlarmModel> selectUntreatedAlarmModel(Map<String, String> condition) {
+        return am.selectUntreatedAlarmModel(condition);
+    }
+
+    @Override
+    public JsonResult updateUntreatedAlarmStatus(Map<String,String> condition) {
+        JsonResult jr = new JsonResult();
+        int iserror = am.updateUntreatedAlarmStatus(condition);
+        if (iserror == 1) {
+            jr.setMsg("处理完毕！");
+            jr.setStatus(200);
+        } else if (iserror < 1) {
+            jr.setMsg("处理错误！");
+            jr.setStatus(500);
+        } else {
+            jr.setStatus(555);
+            jr.setMsg("处理异常！可能出现处理多个记录的情况！");
+        }
+        return jr;
+    }
     @Override
     public int selectAlarmCount(Map<String, String> condition) {
         return am.selectAlarmCount(condition);

@@ -13,12 +13,16 @@ import java.util.Map;
 @Service
 public class RegionServiceImpl implements RegionService {
     @Autowired
-    private RegionMapper regionMapper;
+    private RegionMapper rm;
 
 
     @Override
     public List<RegionModel> selectRegionByCus(Integer customerid) {
 
-        return regionMapper.selectRegionByCustomerId(customerid);
+        return rm.selectRegionByCustomerId(customerid);
+    }
+    @Override
+    public List<RegionModel> selectRegionModelByCondition(Map<String, String> condition) {
+        return rm.selectRegionModelByCondition(condition);
     }
 }

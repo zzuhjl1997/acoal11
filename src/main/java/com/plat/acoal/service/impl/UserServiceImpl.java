@@ -80,34 +80,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据用户名查询用户实体，登录
      * @param username
-     * @param password
      * @return
      */
-    public JsonResult selectUserByUserName(String username, String password) {
-        JsonResult jr = new JsonResult();
-        User user = userMapper.selectUserByUserName(username);
-        User user1=new User();
-        if(user!=null){
-            if(user.getIpopedom()==0){
-                user1.setMemo("管理员");
-                jr.setData(user1);
-            }else if(user.getIpopedom()==1){
-                user1.setMemo("操作员");
-                jr.setData(user1);
-            }
-        if(MD5Utils.md5(password).equals(user.getCpassword())){
-            jr.setStatus(200);
-//            jr.setData(user);
-            jr.setMsg("请求成功");
-        }else{
-            jr.setStatus(300);
-            jr.setMsg("密码错误");
-        }}else {
-            jr.setStatus(300);
-            jr.setMsg("用户不存在");
-        }
-        return jr;
+    @Override
+    public User selectUserByUsername(String username) {
+        return userMapper.selectUserByUsername(username);
     }
-
 
 }

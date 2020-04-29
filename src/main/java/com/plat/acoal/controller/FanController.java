@@ -29,9 +29,12 @@ public class FanController {
     @RequestMapping(value = "/faninfo")
     private String newfan(@RequestParam Map<String, String> condition, HttpSession session) {
         Integer currentPage = 1;
+        Integer pageSize = 1;
         if (condition.containsKey("currentPage")) {
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
             condition.remove("currentPage");
+            condition.remove("pageSize");
         } else {
             currentPage = null;
         }
@@ -40,7 +43,7 @@ public class FanController {
         String times = "";
         long time = 0;
         List<DevActiveModel> list_time = new ArrayList<DevActiveModel>();
-        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, condition);
+        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage,pageSize, condition).getList();
         for (DevActiveModel item : list_time) {
             time += item.getDevActiveCloseTime().getTime() - item.getDevActiveOpenTime().getTime();
         }

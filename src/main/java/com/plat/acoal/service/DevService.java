@@ -1,5 +1,7 @@
+
 package com.plat.acoal.service;
 
+import com.github.pagehelper.PageInfo;
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.model.*;
 import com.plat.acoal.utils.JsonResult;
@@ -9,9 +11,20 @@ import java.util.Map;
 
 public interface DevService {
     List<DevNameModel> selectNameByCondition(Map<String, String> condition);
+
     List<DevTypeModel> selectTypeByCondition(Map<String, String> condition);
-    List<DevInfoModel> selectDevInfoModelByCondtition(Integer currentPage, Map<String, String> condition);
-    List<DevActiveModel> selectDevActiveModelByCondtition(Integer currentPage, Map<String, String> condition);
+
+    PageInfo<DevInfoModel> selectDevInfoModelByCondtition(Integer currentPage, Integer pageSize, Map<String, String> condition);
+
+    PageInfo<DevActiveModel> selectDevActiveModelByCondtition(Integer currentPage, Integer pageSize, Map<String, String> condition);
+
+    int insert(Dev dev);
+
+    int updateByPrimaryKeySelective(Dev dev);
+
+    DevAmountModel selectDevAmountModel(Map<String, String> condition);
+
+
     Dev selectDevById(Dev dev);
 
     List<DevInfo> selectFireList(Dev dev);
@@ -19,7 +32,6 @@ public interface DevService {
     DevInfo selectFireDev(DevInfo devInfo);
 
     int selectCountByType(Map<String, String> condition);
-
 
 
     List<Dev> selectDevByRegion(Integer currentPage, Dev dev);
@@ -53,4 +65,7 @@ public interface DevService {
     JsonResult updatefan(Map<String, String> condition);
 
     List<DevInfo> selectDevList(Map<String, String> condition);
+
+    //参数设置的设备树
+    List<Dev> selectDevPByRegion(Integer currentPage, Dev dev);
 }

@@ -377,7 +377,9 @@
         t_dev
         WHERE 1=1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+<!--
         <if test="online != null">AND online = #{online}</if>
+-->
         <if test="type!=null">AND type = #{type}</if>
         <!--
                 <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
@@ -618,5 +620,22 @@
         WHERE 1=1
         <if test="devtype != null">AND td.type = #{devtype,jdbcType=INTEGER}</if>
         <if test="region != null">AND td.region = #{region,jdbcType=INTEGER}</if>
+    </select>
+    <select id="selectDevAmountModel" parameterType="map" resultType="com.plat.acoal.model.DevAmountModel">
+    select count(1) as `value` from t_dev where 1=1
+  </select>
+    <select id="selectDevPByRegion" resultType="com.plat.acoal.entity.Dev">
+        SELECT
+        id,
+        name,
+        region
+        FROM
+        t_dev
+        WHERE 1=1
+        <if test="region != null">AND region = #{region}</if>
+        <if test="type != null and type==11">AND type =5 or type=6</if>
+        <if test="type != null and type==12">AND type =7 or type=8</if>
+        <if test="type != null and type!=11 and type!=12">AND type =#{type}</if>
+        <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
     </select>
 </mapper>

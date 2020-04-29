@@ -22,5 +22,5 @@ public interface UserService {
 
     int selectAllUserCount(Map<String, String> condition);
 
-//    JsonResult selectUserByUserName(String username, String password);
+    User selectUserByUsername(String username);
 }

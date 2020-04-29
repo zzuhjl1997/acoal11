@@ -122,19 +122,19 @@ public class PoiUtils {
                 HSSFCell alarmTimeCell = row.createCell(1);
                 alarmTimeCell.setCellValue(alarmModel.getAlarmTime());
                 alarmTimeCell.setCellStyle(dateCellStyle);
-                row.createCell(2).setCellValue(alarmModel.getAlarmData());
-                row.createCell(3).setCellValue(alarmModel.getAlarmCount());
-                row.createCell(4).setCellValue(alarmModel.getAlarmGradeName());
-                row.createCell(5).setCellValue(alarmModel.getDevName());
-                row.createCell(6).setCellValue(alarmModel.getRegionName());
-                row.createCell(7).setCellValue(alarmModel.getDevSite());
-                if(alarmModel.getAlarmDis() == 0){
+                row.createCell(2).setCellValue(alarmModel.getAlarmData()==null? "" : alarmModel.getAlarmData().toString());
+                row.createCell(3).setCellValue(alarmModel.getAlarmCount()==null? "" : alarmModel.getAlarmCount().toString());
+                row.createCell(4).setCellValue(alarmModel.getAlarmGradeName()==null? "" : alarmModel.getAlarmGradeName());
+                row.createCell(5).setCellValue(alarmModel.getDevName()==null? "" : alarmModel.getDevName());
+                row.createCell(6).setCellValue(alarmModel.getRegionName()==null? "" : alarmModel.getRegionName());
+                row.createCell(7).setCellValue(alarmModel.getDevSite()==null? "" : alarmModel.getDevSite());
+                if(Integer.valueOf(0).equals(alarmModel.getAlarmStatus())){
                     row.createCell(8).setCellStyle(redStyle);
                     row.getCell(8).setCellValue("未处理");
                 }else{
                     row.createCell(8).setCellValue("已处理");
                 }
-                row.createCell(9).setCellValue(alarmModel.getAlarmInfo());
+                row.createCell(9).setCellValue(alarmModel.getAlarmInfo()==null? "" : alarmModel.getAlarmInfo());
             }
             headers = new HttpHeaders();
             headers.setContentDispositionFormData("attachment", new String("报警信息表.xls".getBytes("UTF-8"), "iso-8859-1"));

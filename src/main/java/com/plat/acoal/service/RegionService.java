@@ -8,4 +8,5 @@ import java.util.Map;
 
 public interface RegionService {
     List<RegionModel> selectRegionByCus(Integer customerid);
+    List<RegionModel> selectRegionModelByCondition(Map<String,String> condition);
 };
