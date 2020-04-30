@@ -156,9 +156,11 @@
 
     </select>
     <select id="selectCh4Count" resultType="java.lang.Integer">
-        SELECT DISTINCT
-        count(*)
+        SELECT
+        count(*) from (SELECT DISTINCT
+        *
         FROM
+        (
         (SELECT
         tdt.`name` AS typename,
         td.`name` AS devname,
@@ -180,13 +182,15 @@
             AND td.type = #{type,jdbcType=INTEGER}
         </if>
         ) a
-
+        )b
 
     </select>
     <select id="selectCoCount" resultType="java.lang.Integer">
-        SELECT DISTINCT
-        count(*)
+        SELECT
+        count(*) from (SELECT DISTINCT
+        *
         FROM
+        (
         (
         SELECT
         tdt.`name` AS typename,
@@ -209,7 +213,7 @@
             AND td.type = #{type,jdbcType=INTEGER}
         </if>
         ) a
-
+        )b
 
     </select>
     <select id="selectGasList" resultType="com.plat.acoal.model.GasModel" parameterType="map">

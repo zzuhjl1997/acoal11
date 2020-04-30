@@ -587,7 +587,7 @@
         tda.open_time AS lasttime
         FROM
         t_dev td
-        INNER JOIN t_dev_active tda ON td.id = tda.dev_id
+        LEFT JOIN t_dev_active tda ON td.id = tda.dev_id
         where 1=1
         <if test="devid != null">AND td.id= #{devid}</if>
     </select>
@@ -632,10 +632,27 @@
         FROM
         t_dev
         WHERE 1=1
-        <if test="region != null">AND region = #{region}</if>
-        <if test="type != null and type==11">AND type =5 or type=6</if>
-        <if test="type != null and type==12">AND type =7 or type=8</if>
         <if test="type != null and type!=11 and type!=12">AND type =#{type}</if>
+        <if test="type != null and type==11">AND type =5
+        </if>
+        <if test="type != null and type==12">AND type =7
+        </if>
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+        <if test="region != null">AND region = #{region}</if>
+        UNION
+        SELECT
+        id,
+        name,
+        region
+        FROM
+        t_dev
+        WHERE 1=1
+        <if test="type != null and type!=11 and type!=12">AND type =#{type}</if>
+        <if test="type != null and type==11">AND type =6
+        </if>
+        <if test="type != null and type==12">AND type =8
+        </if>
+        <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+        <if test="region != null">AND region = #{region}</if>
     </select>
 </mapper>

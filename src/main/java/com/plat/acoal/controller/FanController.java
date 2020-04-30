@@ -55,7 +55,23 @@ public class FanController {
 
         for (DevInfo devInfo : list) {
             devInfo.setSumtime(times);
+            if(devInfo.getLastTime()!=null){
+                devInfo.setLastTime(devInfo.getLastTime().substring(0,19));
+
+            }
         }
+        ResultData resultData=new ResultData();
+
+        if(list.size()>0){
+            resultData.setCode(200);
+            resultData.setMsg("成功获取数据");
+        }else{
+            resultData.setCode(100);
+            resultData.setMsg("数据为空");
+        }
+
+//        resultData.setData(list);
+
     /*    ResultData resultData = new ResultData();
         resultData.setData(list);
         if (list.size() > 0) {

@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.plat.acoal.dao.DustMapper" >
-  <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Dust" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="dCollectDT" property="dcollectdt" jdbcType="TIMESTAMP" />
-    <result column="fDust" property="fdust" jdbcType="REAL" />
-    <result column="dev_id" property="devId" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.plat.acoal.dao.DustMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Dust">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="dCollectDT" property="dcollectdt" jdbcType="TIMESTAMP"/>
+        <result column="fDust" property="fdust" jdbcType="REAL"/>
+        <result column="dev_id" property="devId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, dCollectDT, fDust, dev_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_dust
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <!-- 获取最新数据-->
-  <select id="selectNewInfoById" resultType="com.plat.acoal.model.DustModel" parameterType="com.plat.acoal.model.DustModel">
-    SELECT
-    dCollectDT,
-    fDust AS fdust,
-    dev_id AS devid
-    FROM
-    t_dust_history
-    WHERE
-    1 = 1
-    <if test="devid!=null">
-      AND dev_id= #{devid,jdbcType=BIGINT}
-    </if>
-    ORDER BY
-    dCollectDT
-    LIMIT 1
-  </select>
-  <!--获取一天的数据-->
-  <select id="selectInfoByHour" resultType="com.plat.acoal.model.DustModel" parameterType="com.plat.acoal.model.DustModel">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_dust
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <!-- 获取最新数据-->
+    <select id="selectNewInfoById" resultType="com.plat.acoal.model.DustModel"
+            parameterType="com.plat.acoal.model.DustModel">
+        SELECT
+        dCollectDT,
+        fDust AS fdust,
+        dev_id AS devid
+        FROM
+        t_dust_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">
+            AND dev_id= #{devid,jdbcType=BIGINT}
+        </if>
+        ORDER BY
+        dCollectDT
+        LIMIT 1
+    </select>
+    <!--获取一天的数据-->
+    <select id="selectInfoByHour" resultType="com.plat.acoal.model.DustModel"
+            parameterType="com.plat.acoal.model.DustModel">
 
-    SELECT
-    DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
-    fDust AS fdust,
-    dev_id AS devid
-    FROM
-    t_dust_history
-    WHERE
-    1 = 1
-    <if test="devid!=null">
-      AND dev_id= #{devid,jdbcType=BIGINT}
-    </if>
-    <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
-    <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
-    group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
-    ORDER BY
-    id ASC
-    LIMIT 24
-  </select>
+        SELECT
+        DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
+        fDust AS fdust,
+        dev_id AS devid
+        FROM
+        t_dust_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">
+            AND dev_id= #{devid,jdbcType=BIGINT}
+        </if>
+        <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
+        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+        group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
+        ORDER BY
+        id ASC
+        LIMIT 24
+    </select>
 
-<!--  根据区域id查找粉尘浓度数据-->
-  <select id="selectDustByRegionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--  根据区域id查找粉尘浓度数据-->
+    <select id="selectDustByRegionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT
       dust.id, dCollectDT, fDust, dev_id
     FROM
@@ -65,126 +67,123 @@
     WHERE
         dev.region = #{regionId,jdbcType=INTEGER}
   </select>
-  <!--烟尘检测列表 -->
-  <select id="selectDustList" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo">
-    SELECT DISTINCT
-    *
-    FROM
-    (
-    SELECT
-    td.id as devid,
-    tdt.`name` AS typename,
-    td.`name` AS NAME,
-    td.site AS site,
-    td.code AS code,
-    tdu.dCollectDT AS updateTime,
-    td.ip AS ip,
-    td.`status` AS `status`,
-    tdu.fDust as fdust
-    FROM
-    t_dev td
-    INNER JOIN t_dev_type tdt ON td.type = tdt.id
-    INNER JOIN t_dust tdu ON td.id = tdu.dev_id
-    WHERE 1=1
-    <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
-    <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
-    <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
-    <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
-    ) a
+    <!--烟尘检测列表 -->
+    <select id="selectDustList" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo">
+        SELECT DISTINCT
+        *
+        FROM
+        (
+        SELECT
+        td.id as devid,
+        tdt.`name` AS typename,
+        td.`name` AS NAME,
+        td.site AS site,
+        td.code AS code,
+        tdu.dCollectDT AS updateTime,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tdu.fDust as fdust
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_dust tdu ON td.id = tdu.dev_id
+        WHERE 1=1
+        <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
+        <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+        ) a
 
 
-
-
-  </select>
+    </select>
     <select id="selectDustCount" resultType="java.lang.Integer">
 
-      SELECT DISTINCT
-      count(*)
-      FROM
-      (
-      SELECT
-      tdt.`name` AS typename,
-      td.`name` AS NAME,
-      td.site AS site,
-      td.code AS code,
-      td.update_time AS updateTime,
-      td.ip AS ip,
-      td.`status` AS `status`,
-      tdu.fDust as fdust
-      FROM
-      t_dev td
-      INNER JOIN t_dev_type tdt ON td.type = tdt.id
-      INNER JOIN t_dust tdu ON td.id = tdu.dev_id
-      WHERE 1=1
-      <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
-      <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
-      <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
-      <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
-      ) a
-
-
-
+        SELECT
+        count(*) from (SELECT DISTINCT
+        *
+        FROM
+        (
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS NAME,
+        td.site AS site,
+        td.code AS code,
+        td.update_time AS updateTime,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tdu.fDust as fdust
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_dust tdu ON td.id = tdu.dev_id
+        WHERE 1=1
+        <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
+        <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+        ) a
+        )b
 
 
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_dust
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.plat.acoal.entity.Dust" >
+    <insert id="insert" parameterType="com.plat.acoal.entity.Dust">
     insert into t_dust (id, dCollectDT, fDust, 
       dev_id)
     values (#{id,jdbcType=BIGINT}, #{dcollectdt,jdbcType=TIMESTAMP}, #{fdust,jdbcType=REAL}, 
       #{devId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.plat.acoal.entity.Dust" >
-    insert into t_dust
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="dcollectdt != null" >
-        dCollectDT,
-      </if>
-      <if test="fdust != null" >
-        fDust,
-      </if>
-      <if test="devId != null" >
-        dev_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="dcollectdt != null" >
-        #{dcollectdt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fdust != null" >
-        #{fdust,jdbcType=REAL},
-      </if>
-      <if test="devId != null" >
-        #{devId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Dust" >
-    update t_dust
-    <set >
-      <if test="dcollectdt != null" >
-        dCollectDT = #{dcollectdt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fdust != null" >
-        fDust = #{fdust,jdbcType=REAL},
-      </if>
-      <if test="devId != null" >
-        dev_id = #{devId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Dust" >
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Dust">
+        insert into t_dust
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dcollectdt != null">
+                dCollectDT,
+            </if>
+            <if test="fdust != null">
+                fDust,
+            </if>
+            <if test="devId != null">
+                dev_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="dcollectdt != null">
+                #{dcollectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fdust != null">
+                #{fdust,jdbcType=REAL},
+            </if>
+            <if test="devId != null">
+                #{devId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Dust">
+        update t_dust
+        <set>
+            <if test="dcollectdt != null">
+                dCollectDT = #{dcollectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fdust != null">
+                fDust = #{fdust,jdbcType=REAL},
+            </if>
+            <if test="devId != null">
+                dev_id = #{devId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Dust">
     update t_dust
     set dCollectDT = #{dcollectdt,jdbcType=TIMESTAMP},
       fDust = #{fdust,jdbcType=REAL},

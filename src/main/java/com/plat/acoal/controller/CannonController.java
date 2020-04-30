@@ -75,7 +75,7 @@ public class CannonController {
         for (DevInfo item:lstinfo
         ) {
             sequence ++;
-            item.setCount(count);
+            item.setCount(sequence);
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("更新时间"+DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("对象"+item);

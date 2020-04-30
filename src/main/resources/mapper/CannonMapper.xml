@@ -67,8 +67,9 @@
     </select>
     <select id="selectCannonCount" resultType="java.lang.Integer" parameterType="map">
 
-        SELECT DISTINCT
-        count(*)
+        SELECT
+        count(*) from (SELECT DISTINCT
+        *
         FROM
         (
         SELECT
@@ -92,7 +93,7 @@
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="is_auto!=null">AND td.`is_auto` = #{is_auto,jdbcType=INTEGER}</if>
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
-        ) a
+        ) a)b
 
 
 
