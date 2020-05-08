@@ -216,7 +216,6 @@
 
     <select id="selectParamByCondition" parameterType="com.plat.acoal.entity.Parameter" resultMap="BaseResultMap">
         SELECT
-
         <include refid="Base_Column_List"/>
         FROM
         t_parameter
@@ -232,14 +231,14 @@
             AND cParam = 'P' OR cParam = 'F'
         </if>
 
-        <if test="gradeid!=null and gradeid!=''">
+        <if test="gradeid!=null">
             AND gradeID = #{gradeid}
         </if>
-        <if test="icustomerid!=null and icustomerid != ''">
+        <if test="icustomerid!=null">
             AND iCustomerID = #{icustomerid}
         </if>
-        <if test="devId!=null and devId != ''">
-            AND dev_id = #{devId}
+        <if test="devId!=null">
+            AND dev_id = #{devId,jdbcType=INTEGER}
         </if>
         AND isUsed = 1
     </select>
@@ -278,6 +277,7 @@
             `t_parameter`
             WHERE
             1 = 1
+            AND gradeID =2
             <if test="devid!=null and devid != ''">
                 AND dev_id = #{devid}
             </if>

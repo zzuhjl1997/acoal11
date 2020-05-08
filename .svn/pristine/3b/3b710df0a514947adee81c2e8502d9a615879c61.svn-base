@@ -1,0 +1,12 @@
+package com.plat.acoal.service;
+
+import com.plat.acoal.entity.Region;
+import com.plat.acoal.model.RegionModel;
+
+import java.util.List;
+import java.util.Map;
+
+public interface RegionService {
+    List<RegionModel> selectRegionByCus(Integer customerid);
+    List<RegionModel> selectRegionModelByCondition(Map<String,String> condition);
+};

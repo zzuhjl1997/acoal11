@@ -52,4 +52,5 @@ public interface AlarmMapper {
     int updateUntreatedAlarmStatus(Map<String,String> condition);
     List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo);
     int selectAlarmCount(Map<String, String> condition);
+
 }

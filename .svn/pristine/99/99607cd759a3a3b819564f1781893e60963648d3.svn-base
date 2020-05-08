@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plat.acoal.dao.GasMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Gas">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="dcollectdt" property="dcollectdt" jdbcType="TIMESTAMP"/>
+        <result column="gCH4" property="gch4" jdbcType="REAL"/>
+        <result column="dev_id" property="devId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, dcollectdt, gCH4, dev_id
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_gas
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--获取最新Ch4 -->
+    <select id="selectNewCh4ById" parameterType="com.plat.acoal.model.GasModel"
+            resultType="com.plat.acoal.model.GasModel">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from
+        t_gas_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">
+            AND dev_id= #{devid,jdbcType=BIGINT}
+        </if>
+        ORDER BY
+        dCollectDT DESC
+        LIMIT 1
+
+    </select>
+    <!-- 获取一天ch4数据-->
+    <select id="selectCh4ByHour" parameterType="com.plat.acoal.model.GasModel"
+            resultType="com.plat.acoal.model.GasModel">
+
+        SELECT
+        DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
+        AVG( gCH4 ) AS gCH4,
+        dev_id AS devid
+        FROM
+        t_gas_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">
+            AND dev_id= #{devid,jdbcType=BIGINT}
+        </if>
+        <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
+        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+        group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
+        ORDER BY
+        id ASC
+        LIMIT 24
+    </select>
+    <!--ch4检测列表 -->
+    <select id="selectCh4List" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo">
+        SELECT DISTINCT
+        *
+        FROM
+        (SELECT
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site as site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        td.update_time as updatetime,
+        tg.gCH4 AS gch4
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_gas tg ON td.id = tg.dev_id
+        WHERE 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        ) a
+    </select>
+    <!--根据区域id查找可燃气体浓度-->
+    <select id="selectGasByRegionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+         gas.id, dcollectdt, gCO, gCH4, gO2, dev_id
+        FROM
+            t_dev dev
+        LEFT JOIN t_gas gas ON dev.id = gas.dev_id
+        WHERE
+            dev.region = #{regionId,jdbcType=INTEGER}
+    </select>
+    <select id="selectCoList" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo">
+        SELECT DISTINCT
+        *
+        FROM
+        (
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        td.update_time AS updatetime,
+        tc.gCO AS gCO
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_co tc ON td.id = tc.dev_id
+        WHERE 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        ) a
+    </select>
+    <select id="selectCoByHour" resultType="com.plat.acoal.model.GasModel"
+            parameterType="com.plat.acoal.model.GasModel">
+        SELECT
+        DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
+        AVG( gCO ) AS gCO,
+        dev_id AS devid
+        FROM
+        t_co_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">
+            AND dev_id= #{devid,jdbcType=BIGINT}
+        </if>
+        <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
+        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+        group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
+        ORDER BY
+        id ASC
+        LIMIT 24
+    </select>
+    <select id="selectNewCoById" resultType="com.plat.acoal.model.GasModel">
+        SELECT
+        *
+        from
+        t_co_history
+        WHERE
+        1 = 1
+        <if test="devid!=null">
+            AND dev_id= #{devid,jdbcType=BIGINT}
+        </if>
+        ORDER BY
+        dCollectDT DESC
+        LIMIT 1
+
+    </select>
+    <select id="selectCh4Count" resultType="java.lang.Integer">
+        SELECT
+        count(*) from (SELECT DISTINCT
+        *
+        FROM
+        (
+        (SELECT
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site as site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        td.update_time as updatetime,
+        tg.gCH4 AS gch4
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_gas tg ON td.id = tg.dev_id
+        WHERE 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        ) a
+        )b
+
+    </select>
+    <select id="selectCoCount" resultType="java.lang.Integer">
+        SELECT
+        count(*) from (SELECT DISTINCT
+        *
+        FROM
+        (
+        (
+        SELECT
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        td.update_time AS updatetime,
+        tc.gCO AS gCO
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_co tc ON td.id = tc.dev_id
+        WHERE 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        ) a
+        )b
+
+    </select>
+    <select id="selectGasList" resultType="com.plat.acoal.model.GasModel" parameterType="map">
+       SELECT
+        td.id AS devid,
+        td.type AS type,
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.code AS code,
+        td.`online` AS `online`,
+        tc.dCollectDT AS updateTime,
+        tc.gCO AS val
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_co tc ON td.id = tc.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+				UNION
+        SELECT
+        td.id AS devid,
+        td.type AS type,
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.code AS code,
+        td.`online` AS `online`,
+        tg.dCollectDT AS updateTime,
+        tg.gCH4 AS val
+        FROM
+        t_dev td
+        INNER JOIN t_dev_type tdt ON td.type = tdt.id
+        INNER JOIN t_gas tg ON td.id = tg.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="selectGasCount" resultType="java.lang.Integer" parameterType="map">
+SELECT
+	count( * )
+FROM
+	(
+	SELECT
+		td.id AS devid,
+		td.type AS type,
+		tdt.`name` AS typename,
+		td.`name` AS devname,
+		td.site AS site,
+		td.ip AS ip,
+		td.`online` AS `online`,
+		tc.dCollectDT AS updateTime,
+		tc.gCO AS val
+	FROM
+		t_dev td
+		INNER JOIN t_dev_type tdt ON td.type = tdt.id
+		INNER JOIN t_co tc ON td.id = tc.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+		 UNION
+	SELECT
+		td.id AS devid,
+		td.type AS type,
+		tdt.`name` AS typename,
+		td.`name` AS devname,
+		td.site AS site,
+		td.ip AS ip,
+		td.`status` AS `status`,
+		tg.dCollectDT AS updateTime,
+		tg.gCH4 AS val
+	FROM
+		t_dev td
+		INNER JOIN t_dev_type tdt ON td.type = tdt.id
+		INNER JOIN t_gas tg ON td.id = tg.dev_id
+        where 1=1
+        <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="devname!=null">
+            AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="icustomerid!=null">
+            AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
+        </if>
+	) a
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_gas
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.Gas">
+    insert into t_gas (id, dcollectdt, gCH4, 
+      dev_id)
+    values (#{id,jdbcType=BIGINT}, #{dcollectdt,jdbcType=TIMESTAMP}, #{gch4,jdbcType=REAL}, 
+      #{devId,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Gas">
+        insert into t_gas
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dcollectdt != null">
+                dcollectdt,
+            </if>
+            <if test="gch4 != null">
+                gCH4,
+            </if>
+            <if test="devId != null">
+                dev_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="dcollectdt != null">
+                #{dcollectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gch4 != null">
+                #{gch4,jdbcType=REAL},
+            </if>
+            <if test="devId != null">
+                #{devId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Gas">
+        update t_gas
+        <set>
+            <if test="dcollectdt != null">
+                dcollectdt = #{dcollectdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gch4 != null">
+                gCH4 = #{gch4,jdbcType=REAL},
+            </if>
+            <if test="devId != null">
+                dev_id = #{devId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Gas">
+    update t_gas
+    set dcollectdt = #{dcollectdt,jdbcType=TIMESTAMP},
+      gCH4 = #{gch4,jdbcType=REAL},
+      dev_id = #{devId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

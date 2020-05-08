@@ -51,8 +51,9 @@ public class ParameterController {
     @PostMapping("/list")
     private String selectParamByCondition(String cparam, @RequestParam(value = "devId", required = false, defaultValue = "0") Integer devId, HttpServletRequest request, HttpSession session) {
         // 获取customerid
-        Integer icustomerid = 2;
+        Integer icustomerid = null;
 //        HttpSession session = request.getSession();
+        System.out.println("devId:"+devId);
         if (session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             icustomerid = user.getIcustomerid();
@@ -69,10 +70,10 @@ public class ParameterController {
     private String updateParameter(Parameter parameter, Integer ischecked, HttpServletRequest request) {
         // 获取customerid
         //Optional.ofNullable()
-        Integer icustomerid = 2;
+        Integer icustomerid = null;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        Integer userid=null;
+        Integer userid = null;
         if (user != null) {
             icustomerid = user.getIcustomerid();
             parameter.setIcustomerid(icustomerid);

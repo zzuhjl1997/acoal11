@@ -547,4 +547,5 @@ FROM
         <if test="starttime!=null">AND lasteventtime BETWEEN  #{starttime,jdbcType=TIMESTAMP}</if>
         <if test="endtime!=null">AND  #{endtime,jdbcType=TIMESTAMP}</if>
     </select>
+
 </mapper>

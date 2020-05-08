@@ -46,7 +46,7 @@ public class DustController {
      */
     @RequestMapping(value = "/newDust")
     public String selectNewFt(DustModel dustModel, HttpServletRequest request) {
-        String devid = "1";
+        String devid =null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -107,7 +107,7 @@ public class DustController {
      */
     @RequestMapping("/monitordayDust")
     public String getDayFt(DustModel dustModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
-        String devid = "3";
+        String devid = null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -185,7 +185,6 @@ public class DustController {
         Integer pageSize = 1;
 
         if (condition.containsKey("currentPage")) {
-//            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
             condition.remove("currentPage");

@@ -17,7 +17,7 @@ public class JwtCfg {
         final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new JwtFilter());
         registrationBean.addUrlPatterns("/alarm/*");
-        //registrationBean.addUrlPatterns("/dev/*");
+        registrationBean.addUrlPatterns("/dev/*");
         //registrationBean.addUrlPatterns("/region/*");
         return registrationBean;
     }

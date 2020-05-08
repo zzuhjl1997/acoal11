@@ -47,7 +47,7 @@ public class PressureFlowController {
     @RequestMapping("/newPress")
     public String getNewPress(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
         //获取消防栓Id
-        String hid = "102";
+        String hid = "";
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
             hid = request.getParameter("hid");
         }
@@ -81,7 +81,7 @@ public class PressureFlowController {
 //            devid = request.getParameter("devid");
 //        }
         //获取消防栓Id
-        String hid = "102";
+        String hid = null;
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
             hid = request.getParameter("hid");
         }
@@ -177,7 +177,7 @@ public class PressureFlowController {
      */
     @RequestMapping("/hydrantList")
     private String hydrantList(@RequestParam Map<String, String> condition, HttpSession session) {
-        Integer icustomerid = 2;
+        Integer icustomerid = null;
         if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
             icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
         }
@@ -267,7 +267,7 @@ public class PressureFlowController {
 //                devid = request.getParameter("devid");
 //            }
         //获取消防栓Id
-        String hid = "102";
+        String hid = null;
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
             hid = request.getParameter("hid");
         }
@@ -352,7 +352,7 @@ public class PressureFlowController {
 //            devid = request.getParameter("devid");
 //        }
         //获取消防栓Id
-        String hid = "102";
+        String hid = null;
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
             hid = request.getParameter("hid");
         }
@@ -434,7 +434,7 @@ public class PressureFlowController {
     @RequestMapping("/pfnow")
     private String getpflist(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
         //先查询一天的水流
-        String hid = "1";
+        String hid = null;
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
             hid = request.getParameter("hid");
         }

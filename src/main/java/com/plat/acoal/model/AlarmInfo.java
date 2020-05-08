@@ -9,6 +9,7 @@ public class AlarmInfo {
     private  int id;
 
     private  int devid;
+    private  int type;
 
     private  int is_auto;
 

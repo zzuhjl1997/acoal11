@@ -45,7 +45,7 @@ public class TemperatureController {
      */
     @RequestMapping("/newFt")
     public String selectNewFt(TemperatureInfo temperatureInfo, HttpServletRequest request) {
-        String devid = "3";
+        String devid = null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -107,7 +107,7 @@ public class TemperatureController {
      */
     @RequestMapping("/monitordayFt")
     public String getDayFt(TemperatureInfo temperatureInfo, HttpServletRequest request, @RequestParam Map<String, String> condition) {
-        String devid = "3";
+        String devid = null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }

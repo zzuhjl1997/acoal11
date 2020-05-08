@@ -15,6 +15,7 @@ import java.util.List;
 public class JwtUtils {
     public static User getUser(HttpServletRequest request){
         Claims claims = (Claims) request.getAttribute("claims");
+        System.out.println("lllll:::"+request.getAttribute("claims"));
         System.out.println("claims:::"+claims.get("user").getClass()+":::"+JSON.toJSON(claims.get("user")));
         List<User> user = JSON.parseArray("["+JSON.toJSONString(claims.get("user"))+"]",User.class);
         if(user!=null){

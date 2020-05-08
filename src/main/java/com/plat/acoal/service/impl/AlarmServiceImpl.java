@@ -143,4 +143,5 @@ public class AlarmServiceImpl implements AlarmService {
     public int selectAlarmCount(Map<String, String> condition) {
         return am.selectAlarmCount(condition);
     }
+
 }

@@ -40,7 +40,7 @@ public class JwtController {
             JwtBuilder builder = Jwts.builder();
             Map<String, Object> claims = new HashMap<>();
             claims.put("user", user);
-            token = builder.setSubject(user.getCusername()).setClaims(claims).setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+            token = builder.setSubject(user.getCusername()).setClaims(claims).setExpiration(new Date(System.currentTimeMillis()+86400000L)).setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             System.out.println(token);
         } else {
             jr.setStatus(500);

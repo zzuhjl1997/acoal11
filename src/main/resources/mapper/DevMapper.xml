@@ -377,9 +377,7 @@
         t_dev
         WHERE 1=1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
-<!--
         <if test="online != null">AND online = #{online}</if>
--->
         <if test="type!=null">AND type = #{type}</if>
         <!--
                 <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
@@ -419,13 +417,12 @@
     <select id="selectDevByCondition" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
 
         SELECT
-        td.`name` as name,
-        tco.gCO as gco,
-        td.`online` as `online`
+        td.`name` AS NAME,
+        tc.gCO AS gCO,
+        td.`online` AS `online`
         FROM
-        `t_co` tco
-        INNER JOIN t_dev td
-        ON td.id = tco.dev_id
+        `t_dev` td
+        LEFT JOIN t_co tc ON td.id = tc.dev_id
         WHERE
         1 = 1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
@@ -471,12 +468,12 @@
     <!-- 大屏 CH4列表-->
     <select id="selectCh4ByCondition" resultType="com.plat.acoal.model.DevInfo">
         SELECT
-        td.`name` AS name,
+        td.`name` AS NAME,
         tg.gCH4 AS gCH4,
         td.`online` AS `online`
         FROM
-        `t_gas` tg
-        INNER JOIN t_dev td ON td.id = tg.dev_id
+        `t_dev` td
+        LEFT JOIN t_gas tg ON td.id = tg.dev_id
         WHERE
         1 = 1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
@@ -484,12 +481,12 @@
     </select>
     <select id="selectDustByCondition" resultType="com.plat.acoal.model.DevInfo">
         SELECT
-        td.`name` AS name,
+        td.`name` AS NAME,
         tdu.fDust AS fDust,
         td.`online` AS `online`
         FROM
-        `t_dust` tdu
-        INNER JOIN t_dev td ON td.id = tdu.dev_id
+        `t_dev` td
+        LEFT JOIN t_dust tdu ON td.id = tdu.dev_id
         where 1 = 1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and type=#{type}</if>

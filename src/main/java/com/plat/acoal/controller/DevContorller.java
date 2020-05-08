@@ -11,6 +11,7 @@ import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.RegionServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import com.plat.acoal.utils.JsonResult;
+import com.plat.acoal.utils.JwtUtils;
 import com.plat.acoal.utils.NumberUtil;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -37,7 +38,7 @@ public class DevContorller {
     private RegionServiceImpl regionServiceImpl;
 
     @GetMapping("/dim")
-    public String selectDevInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session){
+    public String selectDevInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
@@ -53,25 +54,28 @@ public class DevContorller {
         } else {
             pageSize = Integer.MAX_VALUE;
         }
-        return JSON.toJSONString(dsi.selectDevInfoModelByCondtition(currentPage,pageSize,condition));
+        return JSON.toJSONString(dsi.selectDevInfoModelByCondtition(currentPage, pageSize, condition));
     }
+
     @GetMapping("/name")
-    public String selectNameByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+    public String selectNameByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
         return JSON.toJSONString(dsi.selectNameByCondition(condition));
     }
+
     @GetMapping("/type")
-    public String selectTypeByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+    public String selectTypeByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerid = user.getIcustomerid();
         condition.put("customer",customer);
         */
         return JSON.toJSONString(dsi.selectTypeByCondition(condition));
     }
+
     @GetMapping("/dam")
-    public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+    public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         /*User user = (User)session.getAttribute("user");
         Integer customerId = user.getIcustomerid();
         condition.put("customerId",customerId.toString());*/
@@ -87,56 +91,60 @@ public class DevContorller {
         } else {
             pageSize = Integer.MAX_VALUE;
         }
-        return JSON.toJSONString(dsi.selectDevActiveModelByCondtition(currentPage,pageSize,condition));
+        return JSON.toJSONString(dsi.selectDevActiveModelByCondtition(currentPage, pageSize, condition));
     }
+
     @GetMapping("/damb")
-    public String selectDevAmountModelByCondition(@RequestParam Map<String, String> condition,HttpSession session){
+    public String selectDevAmountModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
         return JSON.toJSONString(dsi.selectDevAmountModel(condition));
     }
+
     @PostMapping("")
-    public String insert(Dev dev,HttpSession session){
+    public String insert(Dev dev, HttpSession session) {
         JsonResult jr = new JsonResult();
         int num = dsi.insert(dev);
-        if(num == 1){
+        if (num == 1) {
             jr.setMsg("添加成功");
             jr.setStatus(200);
-        }else if(num < 1){
+        } else if (num < 1) {
             jr.setMsg("添加失败");
             jr.setStatus(500);
-        }else{
+        } else {
             jr.setMsg("异常！可能出现增加多次记录！");
             jr.setStatus(555);
         }
         return JSON.toJSONString(jr);
     }
+
     @DeleteMapping("")
-    public String deleteByPrimaryKey(@RequestParam(value = "devId") Integer devId){
+    public String deleteByPrimaryKey(@RequestParam(value = "devId") Integer devId) {
         JsonResult jr = new JsonResult();
-        System.out.println("devId::::::::::::"+devId);
+        System.out.println("devId::::::::::::" + devId);
         int num = dsi.deleteByPrimaryKey(devId);
-        if(num == 1){
+        if (num == 1) {
             jr.setMsg("删除成功");
             jr.setStatus(200);
-        }else if(num < 1){
+        } else if (num < 1) {
             jr.setMsg("删除失败");
             jr.setStatus(500);
-        }else{
+        } else {
             jr.setMsg("异常！可能出现删除多次记录！");
             jr.setStatus(555);
         }
         return JSON.toJSONString(jr);
     }
+
     @PutMapping("")
-    public String update(Dev dev){
+    public String update(Dev dev) {
         JsonResult jr = new JsonResult();
         int a = dsi.updateByPrimaryKeySelective(dev);
-        if(a == 1){
+        if (a == 1) {
             jr.setStatus(200);
             jr.setMsg("修改成功");
-        }else if(a < 1){
+        } else if (a < 1) {
             jr.setStatus(400);
             jr.setMsg("修改失败");
-        }else if(a > 1){
+        } else if (a > 1) {
             jr.setStatus(500);
             jr.setMsg("修改异常");
         }
@@ -148,11 +156,7 @@ public class DevContorller {
      */
     @RequestMapping("/fire")
     public String getFireList(Dev dev, HttpServletRequest request) {
-//
-//        String devid = "3";
-//        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
-//            devid = request.getParameter("devid");
-//        }
+
         //查询消防炮列表监测数据
         List<DevInfo> lst = dsi.selectFireList(dev);
         //查询对应的消防炮的报警状态
@@ -204,20 +208,7 @@ public class DevContorller {
      */
     @RequestMapping("/newstatus")
     public String getStatus(@RequestParam Map<String, String> condition, Dev dev, HttpServletRequest request) {
-        /*String devid = "3";
-        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
-            devid = request.getParameter("devid");
-        }
-        dev.setId(Integer.parseInt(devid));*/
-//        Dev newDev = devServiceImpl.selectDeviNFOById(condition);
 
-
-        //获取该类设备总数
-    /*
-        if (newDev != null) {
-            int type = newDev.getType();
-            sum = devServiceImpl.selectCountByType(condition);
-        }*/
         //查询基础信息
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, -30);
@@ -232,13 +223,13 @@ public class DevContorller {
         List<DevInfo> listd = new ArrayList<DevInfo>();
 
         listd = devServiceImpl.selectDevInfoByDevid(condition);
-      List<DevInfo>  listr = new ArrayList<>();
+        List<DevInfo> listr = new ArrayList<>();
         for (DevInfo devInfo : listd) {
             condition.put("devid", String.valueOf(devInfo.getId()));
             alacount = alarmServiceImpl.selectAlarmCount(condition);
             condition.remove("devid");
             if (devInfo != null) {
-                if (devInfo.getOnline()!=null&&devInfo.getOnline() == 1) {
+                if (devInfo.getOnline() != null && devInfo.getOnline() == 1) {
                     if (alacount > 0) {
                         devInfo.setRemark("报警");
                     } else {
@@ -262,10 +253,12 @@ public class DevContorller {
      * 获取监测点列表  树状图1
      */
     @RequestMapping("/devlist")
-    private String getdevlist(@RequestParam Map<String, String> condition, HttpSession session) {
-       /* User user = (User)session.getAttribute("user");
-        Integer icustomerid = user.getIcustomerid();*/
-        Integer customerId = 2;
+    private String getdevlist(@RequestParam Map<String, String> condition, HttpServletRequest request) {
+        Integer customerId = null;
+        User user = JwtUtils.getUser(request);
+//        User user = (User) session.getAttribute("user");
+        customerId = user.getIcustomerid();
+//        condition.put("customerId",customerId.toString());
         Region region = new Region();
         Integer currentPage = 1;
         if (condition.containsKey("currentPage")) {
@@ -275,10 +268,9 @@ public class DevContorller {
             currentPage = null;
         }
 
-        Integer regionId = 1;
+        Integer regionId = null;
         List<RegionModel> listrg = regionServiceImpl.selectRegionByCus(customerId);
         List<RegionModel> listrg_re = new ArrayList<RegionModel>();
-//        List<Dev> listdev=new ArrayList<Dev>();
         for (RegionModel item : listrg
         ) {
             Dev dev = new Dev();
@@ -300,15 +292,17 @@ public class DevContorller {
 
     /**
      * 这个用于参数设置里的树
+     *
      * @param condition
      * @param session
      * @return
      */
     @RequestMapping("/devlist2")
     private String getdevlist2(@RequestParam Map<String, String> condition, HttpSession session) {
-       /* User user = (User)session.getAttribute("user");
-        Integer icustomerid = user.getIcustomerid();*/
-        Integer customerId = 2;
+        Integer customerId = null;
+        User user = (User) session.getAttribute("user");
+        customerId = user.getIcustomerid();
+//        condition.put("customerId",customerId.toString());
         Region region = new Region();
         Integer currentPage = 1;
         if (condition.containsKey("currentPage")) {
@@ -321,7 +315,6 @@ public class DevContorller {
         Integer regionId = 1;
         List<RegionModel> listrg = regionServiceImpl.selectRegionByCus(customerId);
         List<RegionModel> listrg_re = new ArrayList<RegionModel>();
-//        List<Dev> listdev=new ArrayList<Dev>();
         for (RegionModel item : listrg
         ) {
             Dev dev = new Dev();
@@ -340,6 +333,7 @@ public class DevContorller {
         }
         return JSON.toJSONString(listrg_re, SerializerFeature.DisableCircularReferenceDetect);
     }
+
     /**
      * 获取设备总数
      */
@@ -477,11 +471,13 @@ public class DevContorller {
         if (count_press_online != null) {
             dust_online = df.format((float) count_press_online / count_press);
         }
+        condition.remove("online");
         //流量
         Integer count_flow = null;
         Integer count_flow_online = null;
         String flow_online = "0.00";
         condition.put("type", "8");
+
         count_flow = devServiceImpl.selectCountByType(condition);
         condition.put("online", "1");
         count_flow_online = devServiceImpl.selectCountByType(condition);

@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plat.acoal.dao.AlarmMapper">
+    <resultMap id="BaseResultMap" type="com.plat.acoal.entity.Alarm">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="iCustomerID" jdbcType="INTEGER" property="icustomerid"/>
+        <result column="dev_id" jdbcType="INTEGER" property="devId"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
+        <result column="data" jdbcType="REAL" property="data"/>
+        <result column="info" jdbcType="VARCHAR" property="info"/>
+        <result column="alarm_time" jdbcType="TIMESTAMP" property="alarmTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="threshold" jdbcType="REAL" property="threshold"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="deal_user_id" jdbcType="INTEGER" property="dealUserId"/>
+        <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime"/>
+        <result column="dealimgpath" jdbcType="VARCHAR" property="dealimgpath"/>
+        <result column="isfault" jdbcType="INTEGER" property="isfault"/>
+        <result column="lastvideopath" jdbcType="VARCHAR" property="lastvideopath"/>
+        <result column="lastalarmtime" jdbcType="TIMESTAMP" property="lastalarmtime"/>
+        <result column="lastimgpath" jdbcType="VARCHAR" property="lastimgpath"/>
+        <result column="imgpath" jdbcType="VARCHAR" property="imgpath"/>
+        <result column="videopath" jdbcType="VARCHAR" property="videopath"/>
+    </resultMap>
+    <resultMap id="AlarmModelMap" type="com.plat.acoal.model.AlarmModel">
+        <id column="alarmId" property="alarmId" jdbcType="INTEGER"/>
+        <result column="alarmData" property="alarmData" jdbcType="FLOAT"/>
+        <result column="alarmStatus" property="alarmStatus" jdbcType="INTEGER"/>
+        <result column="alarmCount" property="alarmCount" jdbcType="INTEGER"/>
+        <result column="alarmTime" property="alarmTime" jdbcType="TIMESTAMP"/>
+        <result column="alarmGradeName" property="alarmGradeName" jdbcType="VARCHAR"/>
+        <result column="devId" property="devId" jdbcType="INTEGER"/>
+        <result column="devName" property="devName" jdbcType="VARCHAR"/>
+        <result column="alarmTypeId" property="alarmTypeId" jdbcType="INTEGER"/>
+        <result column="alarmTypeName" property="alarmTypeName" jdbcType="VARCHAR"/>
+        <result column="alarmGradeId" property="alarmGradeId" jdbcType="INTEGER"/>
+        <result column="alarmGradeName" property="alarmGradeName" jdbcType="VARCHAR"/>
+        <result column="alarmInfo" property="alarmInfo" jdbcType="VARCHAR"/>
+        <result column="regionId" property="regionId" jdbcType="INTEGER"/>
+        <result column="regionName" property="regionName" jdbcType="VARCHAR"/>
+        <result column="alarmThreshold" property="alarmThreshold" jdbcType="FLOAT"/>
+        <result column="devStatus" property="devStatus" jdbcType="INTEGER"/>
+        <result column="alarmDealUserId" property="alarmDealUserId" jdbcType="INTEGER"/>
+        <result column="alarmDealTime" property="alarmDealTime" jdbcType="TIMESTAMP"/>
+        <result column="imgpath" property="imgpath" jdbcType="VARCHAR"/>
+        <result column="videopath" property="videopath" jdbcType="VARCHAR"/>
+        <result column="lastalarmtime" property="lastalarmtime" jdbcType="TIMESTAMP"/>
+        <result column="lastimgpath" property="lastimgpath" jdbcType="VARCHAR"/>
+        <result column="lastvideopath" property="lastvideopath" jdbcType="VARCHAR"/>
+        <result column="isfault" property="isfault" jdbcType="INTEGER"/>
+        <result column="dealimgpath" property="dealimgpath" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <resultMap id="AlarmStatisticsModelMap" type="com.plat.acoal.model.AlarmStatisticsModel">
+        <id column="typeId" jdbcType="BIGINT" property="typeId"/>
+        <result column="typeName" jdbcType="VARCHAR" property="typeName"/>
+        <collection property="xaxis" ofType="String">
+            <id column="alarmTime"/>
+        </collection>
+        <collection property="tempY" javaType="ArrayList" ofType="com.plat.acoal.model.YaxisModel">
+            <id column="alarmTime"/>
+            <result property="value" column="sum"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, iCustomerID, dev_id, type, grade, data, info, alarm_time, status, threshold,
+    count, remark, deal_user_id, deal_time,imgpath,videopath,lastalarmtime,lastimgpath,lastvideopath,isfault,dealimgpath
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_alarm
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_alarm
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.plat.acoal.entity.Alarm">
+    insert into t_alarm (id, iCustomerID, dev_id,
+      type, grade, data, info,
+      alarm_time, status, threshold,
+      count, remark, deal_user_id,
+      deal_time,imgpath,videopath,lastalarmtime,lastimgpath,lastvideopath,isfault,dealimgpath)
+    values (
+    #{id,jdbcType=BIGINT}, #{icustomerid,jdbcType=INTEGER}, #{devId,jdbcType=INTEGER},
+    #{type,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{data,jdbcType=REAL},
+    #{info,jdbcType=VARCHAR}, #{alarmTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+    #{threshold,jdbcType=REAL}, #{count,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+    #{dealUserId,jdbcType=INTEGER}, #{dealTime,jdbcType=TIMESTAMP},#{imgpath,jdbcType=VARCHAR},
+    #{videopath,jdbcType=VARCHAR}, #{lastalarmtime,jdbcType=TIMESTAMP},#{lastimgpath,jdbcType=VARCHAR},
+    #{lastvideopath,jdbcType=VARCHAR},#{isfault,jdbcType=INTEGER},#{dealimgpath,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.plat.acoal.entity.Alarm">
+        insert into t_alarm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="icustomerid != null">
+                iCustomerID,
+            </if>
+            <if test="devId != null">
+                dev_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="data != null">
+                data,
+            </if>
+            <if test="info != null">
+                info,
+            </if>
+            <if test="alarmTime != null">
+                alarm_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="threshold != null">
+                threshold,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="dealUserId != null">
+                deal_user_id,
+            </if>
+            <if test="dealTime != null">
+                deal_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="icustomerid != null">
+                #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="devId != null">
+                #{devId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="data != null">
+                #{data,jdbcType=REAL},
+            </if>
+            <if test="info != null">
+                #{info,jdbcType=VARCHAR},
+            </if>
+            <if test="alarmTime != null">
+                #{alarmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="threshold != null">
+                #{threshold,jdbcType=REAL},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dealUserId != null">
+                #{dealUserId,jdbcType=INTEGER},
+            </if>
+            <if test="dealTime != null">
+                #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Alarm">
+        update t_alarm
+        <set>
+            <if test="icustomerid != null">
+                iCustomerID = #{icustomerid,jdbcType=INTEGER},
+            </if>
+            <if test="devId != null">
+                dev_id = #{devId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="data != null">
+                data = #{data,jdbcType=REAL},
+            </if>
+            <if test="info != null">
+                info = #{info,jdbcType=VARCHAR},
+            </if>
+            <if test="alarmTime != null">
+                alarm_time = #{alarmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="threshold != null">
+                threshold = #{threshold,jdbcType=REAL},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dealUserId != null">
+                deal_user_id = #{dealUserId,jdbcType=INTEGER},
+            </if>
+            <if test="dealTime != null">
+                deal_time = #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.plat.acoal.entity.Alarm">
+    update t_alarm
+    set iCustomerID = #{icustomerid,jdbcType=INTEGER},
+      dev_id = #{devId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=INTEGER},
+      data = #{data,jdbcType=REAL},
+      info = #{info,jdbcType=VARCHAR},
+      alarm_time = #{alarmTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      threshold = #{threshold,jdbcType=REAL},
+      count = #{count,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      deal_user_id = #{dealUserId,jdbcType=INTEGER},
+      deal_time = #{dealTime,jdbcType=TIMESTAMP},
+      imgpath = #{imgpath,jdbcType=VARCHAR},
+      videopath = #{videopath,jdbcType=VARCHAR},
+      lastalarmtime = #{lastalarmtime,jdbcType=TIMESTAMP},
+      lastimgpath = #{lastimgpath,jdbcType=VARCHAR},
+      lastvideopath = #{lastvideopath,jdbcType=VARCHAR},
+      isfault = #{isfault,jdbcType=INTEGER},
+      dealimgpath = #{dealimgpath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="selectAlarmModelByCondition" parameterType="map" resultMap="AlarmModelMap">
+        SELECT
+        `a`.id AS `alarmId`,
+        DATE_FORMAT(`a`.alarm_time,'%Y-%m-%d %T') AS `alarmTime`,
+        `a`.data AS `alarmData`,
+        `a`.count AS `alarmCount`,
+        `a`.status AS `alarmStatus`,
+        `ag`.id AS `alarmGradeId`,
+        `ag`.`name` AS `alarmGradeName`,
+        `at`.id AS `alarmTypeId`,
+        `a`.threshold AS `alarmThreshold`,
+        `at`.`name` AS `alarmTypeName`,
+        `d`.`name` AS `devName`,
+        `r`.id AS `regionId`,
+        `r`.`name` AS `regionName`,
+        `a`.dev_id AS `devId`,
+        `d`.site AS `devSite`,
+        `a`.deal_user_id AS `alarmDealUserId`,
+        DATE_FORMAT(`a`.deal_time,'%Y-%m-%d %T') AS `alarmDealTime`,
+        `a`.info AS `alarmInfo`,
+        `a`.imgpath AS `imgpath`,
+        `a`.videopath AS `videopath`,
+        DATE_FORMAT(`a`.lastalarmtime,'%Y-%m-%d %T') AS `lastalarmtime`,
+        `a`.lastimgpath AS `lastimgpath`,
+        `a`.lastvideopath AS `lastvideopath`,
+        `a`.isfault AS `isfault`,
+        `a`.dealimgpath AS `dealimgpath`,
+        `d`.status AS `devStatus`
+        FROM
+        (
+        SELECT * FROM `t_alarm`
+        WHERE 1 = 1
+        <if test="regionId != null">
+            AND `t_alarm`.region = #{regionId,jdbcType=INTEGER}
+        </if>
+        <if test="customerId != null">
+            AND `t_alarm`.iCustomerID = #{customerId,jdbcType=INTEGER}
+        </if>
+        <if test="devId != null">
+            AND `t_alarm`.dev_id = #{devId,jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+            AND `t_alarm`.status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="alarmId != null">
+            AND `t_alarm`.id = #{alarmId,jdbc=INTEGER}
+        </if>
+        <if test="alarmTimeHead != null">
+            AND `t_alarm`.alarm_time &gt;=#{alarmTimeHead}
+        </if>
+        <if test="alarmTimeTail">
+            AND `t_alarm`.alarm_time &lt;= date_sub(#{alarmTimeTail},interval -1 day)
+        </if>
+        <!--        <if test="alarmTimeHead != null and alarmTimeTail != null">-->
+        <!--            AND `t_alarm`.alarm_time between from_unixtime(#{alarmTimeHead,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') AND-->
+        <!--            from_unixtime(#{alarmTimeTail,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') + INTERVAL 1 DAY-->
+        <!--        </if>-->
+        <!--        <if test="alarmTimeHead != null and alarmTimeTail == null">-->
+        <!--            AND `t_alarm`.alarm_time between from_unixtime(#{alarmTimeHead,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') AND-->
+        <!--            FROM_UNIXTIME(UNIX_TIMESTAMP(CAST(SYSDATE()AS DATE) + INTERVAL 1 DAY),'%Y-%m-%d')-->
+        <!--        </if>-->
+        <!--        <if test="alarmTimeHead == null and alarmTimeTail != null">-->
+        <!--            AND `t_alarm`.alarm_time between from_unixtime(0,'%Y-%m-%d') AND-->
+        <!--            from_unixtime(#{alarmTimeTail,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') + INTERVAL 1 DAY-->
+        <!--        </if>-->
+        <if test="alarmTypeId != null">
+            AND `t_alarm`.type = #{alarmTypeId,jdbcType=INTEGER}
+        </if>
+        <if test="alarmGradeId != null">
+            AND `t_alarm`.grade = #{alarmGradeId,jdbcType=INTEGER}
+        </if>
+        <if test="isfault != null">
+            AND `t_alarm`.isfault = #{isfault,jdbcType=INTEGER}
+        </if>
+        ) AS `a`
+        LEFT JOIN `t_dev` AS `d` ON `a`.dev_id = `d`.id
+        LEFT JOIN `t_alarm_type` AS `at` ON `a`.type = `at`.id
+        LEFT JOIN `t_alarm_grade` AS `ag` ON `a`.grade = `ag`.id
+        LEFT JOIN `t_region` AS `r` ON `d`.region = `r`.id
+        WHERE 1 = 1
+        <if test="devName != null">
+            AND `d`.name "%" #{devName,jdbcType=INTEGER} "%"
+        </if>
+        <if test="alarmGradeName != null">
+            AND `ag`.name LIKE '%' #{alarmGradeName,jdbcType=VARCHAR} '%'
+        </if>
+        <if test="regionName != null">
+            AND `r`.name LIKE '%' #{regionName,jdbcType=VARCHAR} '%'
+        </if>
+        <if test="devStatus != null">
+            AND `d`.status = #{devStatus,jdbcType=INTEGER}
+        </if>
+        <if test="limit != null">
+            order by alarm_time desc LIMIT ${limit}
+        </if>
+    </select>
+    <select id="selectAlarmStatisticsModelByCondition" parameterType="map" resultMap="AlarmStatisticsModelMap">
+        SELECT
+        a.type AS `typeId`,
+        DATE_FORMAT( alarm_time, '%Y-%m-%d' ) AS `alarmTime`,
+        ifnull(sum( a.count ),0) AS `sum`
+        FROM
+        (SELECT * FROM t_alarm WHERE 1 = 1
+        <if test="customerId != null">
+            AND iCustomerID = #{customerId}
+        </if>
+        <!--<if test="alarmTimeHead == null and alarmTimeTail == null">AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(alarm_time)</if>
+        <if test="alarmTimeHead != null and alarmTimeTail == null">AND alarm_time &gt;= #{alarmTimeHead} AND alarm_time &lt; #{alarmTimeHead}+INTERVAL 7 DAY</if>
+        <if test="alarmTimeTail != null and alarmTimeHead == null">AND alarm_time &lt;= #{alarmTimeTail} AND alarm_time &gt; #{alarmTimeTail}-INTERVAL 7 DAY</if>-->
+        <if test="alarmTimeTail != null and alarmTimeHead != null">AND alarm_time &gt;= #{alarmTimeHead} AND alarm_time &lt;= #{alarmTimeTail} +INTERVAL 1 DAY</if>
+        <if test="alarmType != null">AND type = #{alarmTypeId}</if>) AS `a`
+        GROUP BY
+        a.`type`,
+        `alarmTime`;
+    </select>
+    <select id="selectAlarmTypeModel" resultType="com.plat.acoal.model.AlarmTypeModel">
+        select id AS 'alarmTypeId',name AS 'alarmTypeName' from t_alarm_type;
+    </select>
+    <select id="selectAlarmGradeModel" resultType="com.plat.acoal.model.AlarmGradeModel">
+        select id AS 'alarmGradeId',name AS 'alarmGradeName' from t_alarm_grade;
+    </select>
+    <select id="selectAlarmRatioModel" resultType="com.plat.acoal.model.AlarmRatioModel">
+        SELECT
+	IFNULL(tdt.`name`,'未知') as `name`,
+	sum( count ) AS `value`
+FROM
+	( SELECT ta.count, td.type AS `type` FROM t_alarm ta LEFT JOIN t_dev td ON ta.dev_id = td.id ) a
+	LEFT JOIN t_dev_type tdt ON a.type = tdt.id
+GROUP BY
+	`name`
+ORDER BY
+	`value` DESC
+    </select>
+    <select id="selectDevAlarmModel" resultType="com.plat.acoal.model.DevAlarmModel">
+SELECT
+	a.alarm_time AS `alarmTime`,
+	a.info AS `alarmInfo`,
+	tat.`name` AS `alarmType`
+FROM
+	( SELECT * FROM `t_alarm` WHERE dev_id = #{devid} ) a
+	LEFT JOIN t_alarm_type tat ON a.type = tat.id
+	ORDER BY alarm_time DESC
+    </select>
+    <select id="selectDevAlarmFrequencyModel" resultType="com.plat.acoal.model.DevAlarmFrequencyModel">
+        SELECT
+        a.count AS `value`,
+        IFNULL( td.NAME, '未知' ) AS `name`,
+        td.ser_num AS `sernum`
+        FROM
+        ( SELECT * FROM t_alarm WHERE 1 =1
+        <if test="radioType != null and radioType == 1">
+            AND to_days(alarm_time) = to_days(now())
+        </if>
+        <if test="radioType != null and radioType == 2">
+            AND DATE_SUB( CURDATE( ), INTERVAL 7 DAY ) &lt;= date( alarm_time )
+        </if>
+        <if test="radioType != null and radioType == 3">
+            AND DATE_SUB( CURDATE( ), INTERVAL 30 DAY ) &lt;= date( alarm_time )
+        </if>
+        ) a
+        LEFT JOIN t_dev td ON a.dev_id = td.id
+        ORDER BY
+        `value` DESC limit 5
+    </select>
+    <select id="selectDevAlarmInfoModel" resultType="com.plat.acoal.model.DevAlarmInfoModel">
+        SELECT
+        td.`name` AS `devName`,
+        tdt.`name` AS `devTypeName`,
+        td.`type` AS `devTypeId`,
+        DATE_FORMAT( ta.alarm_time, '%Y-%m-%d %H:%i:%S' ) AS `alarmTime`,
+        ta.`data` AS `alarmData`,
+        ta.info AS `alarmInfo`,
+        ta.lastvideopath AS `video`,
+        CONCAT( tr.NAME, td.site ) AS `devSite`
+        FROM
+        (select * from t_alarm where 1 = 1
+        <if test="fault!=null">AND isfault = #{fault}</if>
+        <if test="status!=null">AND status != 2</if>
+        )ta
+        INNER JOIN (select * from t_dev where 1=1
+        <if test="devType!=null">AND type = #{devType}</if>
+        ) td ON ta.dev_id = td.id
+        LEFT JOIN t_dev_type tdt ON td.type = tdt.id
+        LEFT JOIN t_region tr ON td.region = tr.id
+        order by `alarmTime` desc
+    </select>
+    <select id="selectAlarmFourCountModel" resultType="com.plat.acoal.model.AlarmFourModel">
+        SELECT
+        a.click_date AS `alarmTime`,
+        IFNULL(b.`value`,0)  as `value`
+        FROM
+        (
+        SELECT
+        curdate( ) AS click_date UNION ALL
+        SELECT
+        date_sub( curdate( ), INTERVAL 1 DAY ) AS click_date UNION ALL
+        SELECT
+        date_sub( curdate( ), INTERVAL 2 DAY ) AS click_date UNION ALL
+        SELECT
+        date_sub( curdate( ), INTERVAL 3 DAY ) AS click_date
+        ) a
+        LEFT JOIN (
+        SELECT
+        sum( count ) AS `value`,
+        DATE_FORMAT( alarm_time, '%Y-%m-%d' ) AS `alarmTime`
+        FROM
+        `t_alarm`
+        WHERE
+        DATE_SUB( CURDATE( ), INTERVAL 4 DAY ) &lt;= date( alarm_time )
+        GROUP BY
+        alarmTime
+        ) b ON a.click_date = b.alarmTime
+        order by alarmTime desc
+    </select>
+    <select id="selectTodayAlarmAmountModel" resultType="com.plat.acoal.model.TodayAlarmAmountModel">
+        select count(1) AS `value` from (select * from t_alarm where 1 = 1 and to_days(alarm_time) = to_days(now()) )a
+    </select>
+    <select id="selectAlarmAmountModel" resultType="com.plat.acoal.model.AlarmAmountModel">
+        select count(1) AS `value` from (select * from t_alarm where 1 = 1 and to_days(alarm_time) = to_days(now()) )a
+    </select>
+    <select id="selectTodayAlarmUntreatedModel" resultType="com.plat.acoal.model.TodayUntreatedAlarmValueModel">
+        select count(1) AS `value` from (select * from t_alarm where 1 = 1 and status != 2 and to_days(alarm_time) = to_days(now()))a
+    </select>
+    <select id="selectAlarmUntreatedModel" resultType="com.plat.acoal.model.UntreatedAlarmValueModel">
+        select sum(1) AS `value` from (select * from t_alarm where 1 = 1 and status != 2)a
+    </select>
+    <select id="selectUntreatedAlarmModel" parameterType="map" resultType="com.plat.acoal.model.UntreatedAlarmModel">
+        SELECT
+        a.*,
+        td.`name` AS `devName`,
+        td.site AS `devSite`,
+        tat.`name` AS `alarmTypeName`,
+        tag.`name` AS `alarmGradeName`,
+        tr.`name` AS `regionName`
+        FROM
+        (
+        SELECT
+        ta.id AS `alarmId`,
+        ta.type AS `alarmTypeId`,
+        ta.`status` AS `alarmStatus`,
+        ta.grade AS `alarmGradeId`,
+        ta.info AS `alarmInfo`,
+        ta.dev_id AS `devId`,
+        DATE_FORMAT(ta.alarm_time,'%Y-%m-%d %T') AS `alarmTime`
+        FROM
+        t_alarm ta
+        WHERE
+        1 = 1
+        AND ta.`status` != 2
+        <if test="devId!=null">AND ta.dev_id = #{devId}</if>
+        <if test="alarmType">AND ta.type = #{alarmType}</if>
+        <if test="alarmGrade">AND ta.grade = #{alarmGrade}</if>
+        <if test="alarmTimeHead">AND ta.alarm_time &gt;=#{alarmTimeHead}</if>
+        <if test="alarmTimeTail">AND ta.alarm_time &lt;= date_sub(#{alarmTimeTail},interval -1 day)</if>
+        ) a
+        LEFT JOIN t_dev td ON a.devId = td.id
+        LEFT JOIN t_alarm_type tat ON a.alarmTypeId = tat.id
+        LEFT JOIN t_alarm_grade tag ON a.alarmGradeId = tag.id
+        LEFT JOIN t_region tr ON td.region = tr.id
+        ORDER BY a.alarmTime desc
+    </select>
+    <update id="updateUntreatedAlarmStatus" parameterType="String">
+        UPDATE t_alarm set `status` = 2,`remark` = #{remark} where id = #{id}
+    </update>
+    <select id="selectAlarmInfoByCondition" resultType="com.plat.acoal.model.AlarmInfo"
+            parameterType="com.plat.acoal.model.AlarmInfo">
+        SELECT
+        id,
+        dev_id AS devid,
+        alarm_time,
+        deal_time
+        FROM
+        t_alarm
+        WHERE 1=1
+        <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
+        <if test="dcollectstart!=null">AND alarm_time BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
+        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+        <if test="dcollectstart!=null">AND deal_time NOT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
+        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
+        ORDER BY
+        alarm_time
+        LIMIT 1
+    </select>
+    <select id="selectAlarmCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT( * )
+        FROM
+        t_alarmtime
+        WHERE
+        1 = 1
+        <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
+        <if test="starttime!=null">AND lasteventtime BETWEEN  #{starttime,jdbcType=TIMESTAMP}</if>
+        <if test="endtime!=null">AND  #{endtime,jdbcType=TIMESTAMP}</if>
+    </select>
+</mapper>

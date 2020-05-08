@@ -593,3 +593,12 @@ Field error in object 'user' on field 'ipopedom': rejected value [wq]; codes [ty
 2020-04-30 15:05:28.734 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-04-30 15:05:51.541 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
 2020-04-30 15:29:11.705 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-07 15:51:28.133 [WARN ] org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.logException - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+2020-05-07 16:05:02.948 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-08 10:38:08.666 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-08 10:51:37.721 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-08 17:33:07.486 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-08 17:38:22.520 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-08 17:42:29.831 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-08 17:43:46.229 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.
+2020-05-08 17:53:32.115 [WARN ] org.mybatis.logging.Logger.warn - No MyBatis mapper was found in '[com.plat.acoal.dao]' package. Please check your configuration.

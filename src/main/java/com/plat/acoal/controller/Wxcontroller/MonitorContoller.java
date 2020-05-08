@@ -1,6 +1,7 @@
 package com.plat.acoal.controller.Wxcontroller;
 
 import com.alibaba.fastjson.JSON;
+import com.plat.acoal.model.AlarmInfo;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.service.impl.AlarmServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
@@ -81,7 +82,6 @@ public class MonitorContoller {
         //正常 离线 报警
         try {
 
-
             if (condition.containsKey("status")) {
                 if (condition.get("status").equals(1)) {
                     if (condition.get("status").equals(2)) {
@@ -90,7 +90,7 @@ public class MonitorContoller {
                         list_re = listr.stream().filter(devInfo -> devInfo.getOnline().equals(1)).collect(Collectors.toList());
                     }
                 } else {
-                    list_re = listr.stream().filter(devInfo -> devInfo.getOnline()==0).collect(Collectors.toList());
+                    list_re = listr.stream().filter(devInfo -> devInfo.getOnline() == 0).collect(Collectors.toList());
                 }
             } else {
                 list_re = listr;
@@ -101,4 +101,29 @@ public class MonitorContoller {
 
         return JSON.toJSONString(list_re);
     }
+
+    @RequestMapping(value = "alldev")
+    public String alldev(@RequestParam Map<String, String> condition, HttpSession session) {
+        List<DevInfo> list = new ArrayList<>();
+        list = devServiceImpl.selectDevList(condition);
+        return JSON.toJSONString(list);
+    }
+
+    @RequestMapping(value = "devinfo")
+    public String devinfo(@RequestParam Map<String, String> condition, HttpSession session) {
+
+        List<DevInfo> list = new ArrayList<>();
+        list = devServiceImpl.selectDevInfoByDevid(condition);
+
+        return JSON.toJSONString(list);
+    }
+
+    @RequestMapping(value = "historyinfo")
+    public String historyinfo(@RequestParam Map<String, String> condition, HttpSession session) {
+
+
+        return null;
+    }
+
+
 }
