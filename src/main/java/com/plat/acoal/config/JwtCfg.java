@@ -18,6 +18,14 @@ public class JwtCfg {
         registrationBean.setFilter(new JwtFilter());
         registrationBean.addUrlPatterns("/alarm/*");
         registrationBean.addUrlPatterns("/dev/*");
+        registrationBean.addUrlPatterns("/param/*");
+        registrationBean.addUrlPatterns("/cannon/*");
+        registrationBean.addUrlPatterns("/dust/*");
+        registrationBean.addUrlPatterns("/gas/*");
+        registrationBean.addUrlPatterns("/operationLog/*");
+        registrationBean.addUrlPatterns("/pressureflow/*");
+        registrationBean.addUrlPatterns("/temperature/*");
+        registrationBean.addUrlPatterns("//user/*");
         //registrationBean.addUrlPatterns("/region/*");
         return registrationBean;
     }

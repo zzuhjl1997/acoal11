@@ -40,13 +40,12 @@ public class ParameterServiceImpl implements ParameterService {
      * @return
      */
     public void updateParameter(Parameter parameter, Integer ischecked) {
-    // 查询当前参数表中是否有该设备,通过以下条件，如果能查到数据，应该只有一条。
+       // 查询当前参数表中是否有该设备,通过以下条件，如果能查到数据，应该只有一条。
         Parameter par = new Parameter();
         par.setIcustomerid(parameter.getIcustomerid());
         par.setDevId(parameter.getDevId());
         par.setCparam(parameter.getCparam());
-        par.setGradeid(parameter.getGradeid());
-        List<Parameter> parameters = parameterMapper.selectParamByCondition(par);
+        List<ParameterInfo> parameters = parameterMapper.selectParamByCondition(par);
         // 查找当前客户所有同类型的设备
         List<Dev> devList = devMapper.selectDevByCustomerId(parameter.getIcustomerid(), parameter.getType());
         // 判断当前数据库中是否有该设备；如果有该设备则进行更新，如果没有则进行插入
@@ -55,15 +54,15 @@ public class ParameterServiceImpl implements ParameterService {
             parameter.setUpdatedatetime(new Date());
             parameterMapper.updateByPrimaryKeySelective(parameter);
 
-            if (ischecked!=null&&ischecked == 1) {
+            if (ischecked != null && ischecked == 1) {
                 for (int i = 0; i < devList.size(); i++) {
                     Parameter param = new Parameter();
                     param.setIcustomerid(parameter.getIcustomerid());
                     param.setDevId(devList.get(i).getId());
-                    System.out.println("参数id："+devList.get(i).getId());
+                    System.out.println("参数id：" + devList.get(i).getId());
                     param.setCparam(parameter.getCparam());
 //                    param.setGradeid(parameter.getGradeid());
-                    List<Parameter> paramList = parameterMapper.selectParamByCondition(param);
+                    List<ParameterInfo> paramList = parameterMapper.selectParamByCondition(param);
                     if (paramList.size() > 0) {
                         // 更新一条纪录
                         parameter.setId(paramList.get(0).getId());
@@ -72,7 +71,7 @@ public class ParameterServiceImpl implements ParameterService {
                     } else {
                         // 插入一条新纪录
                         parameter.setId((long) 0);
-                        parameter.setDevId(devList.get(i).getId());
+                        parameter.setDevId(0);
                         parameter.setAdddatetime(new Date());
                         parameter.setUpdatedatetime(new Date());
                         parameterMapper.insertSelective(parameter);
@@ -90,8 +89,8 @@ public class ParameterServiceImpl implements ParameterService {
                     param.setIcustomerid(parameter.getIcustomerid());
                     param.setDevId(devList.get(i).getId());
                     param.setCparam(parameter.getCparam());
-                    param.setGradeid(parameter.getGradeid());
-                    List<Parameter> paramList = parameterMapper.selectParamByCondition(param);
+//                    param.setGradeid(parameter.getGradeid());
+                    List<ParameterInfo> paramList = parameterMapper.selectParamByCondition(param);
                     if (paramList.size() > 0) {
                         // 更新一条纪录
                         parameter.setId(paramList.get(0).getId());
@@ -99,8 +98,8 @@ public class ParameterServiceImpl implements ParameterService {
                         parameterMapper.updateByPrimaryKeySelective(parameter);
                     } else {
                         // 插入一条新纪录
-                        parameter.setId((long) 0);
-                        parameter.setDevId(devList.get(i).getId());
+//                        parameter.setId((long) 0);
+                        parameter.setDevId(0);
                         parameter.setAdddatetime(new Date());
                         parameter.setUpdatedatetime(new Date());
                         parameterMapper.insertSelective(parameter);
@@ -108,6 +107,7 @@ public class ParameterServiceImpl implements ParameterService {
                 }
             }
         }
+
     }
 
     /**
@@ -118,7 +118,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @param deviceId
      * @return
      */
-    public List<Parameter> selectParamByCondition(String cparam, Integer icustomerid, Integer deviceId) {
+    public List<ParameterInfo> selectParamByCondition(String cparam, Integer icustomerid, Integer deviceId) {
 
         Parameter parameter = new Parameter();
         if (deviceId == 0) {
@@ -134,11 +134,7 @@ public class ParameterServiceImpl implements ParameterService {
         return parameterMapper.selectParamByCondition(parameter);
     }
 
-/*    public List<Parameter> selectParameterByCus(Parameter parameter) {
 
-        *//*return parameterMapper.selectByCus(parameter);*//*
-        return null;
-    }*/
 
     @Override
     public List<ParameterInfo> selectParamInfoByCondition(Map<String, String> condition) {

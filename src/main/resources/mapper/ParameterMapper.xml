@@ -8,6 +8,7 @@
         <result column="isUsed" jdbcType="BIT" property="isused"/>
         <result column="cParam" jdbcType="VARCHAR" property="cparam"/>
         <result column="cValue" jdbcType="VARCHAR" property="cvalue"/>
+        <result column="cValue2" jdbcType="VARCHAR" property="cvalue2"/>
         <result column="gradeID" jdbcType="INTEGER" property="gradeid"/>
         <result column="cReTime" jdbcType="VARCHAR" property="cretime"/>
         <result column="iDelayTime" jdbcType="INTEGER" property="idelaytime"/>
@@ -88,6 +89,9 @@
             <if test="adduserid != null">
                 addUserID,
             </if>
+            <if test="cvalue2 != null">
+                cValue2,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -132,6 +136,9 @@
             <if test="adduserid != null">
                 #{adduserid,jdbcType=INTEGER},
             </if>
+            <if test="cvalue2 != null">
+                cValue2,
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Parameter">
@@ -151,6 +158,9 @@
             </if>
             <if test="cvalue != null">
                 cValue = #{cvalue,jdbcType=VARCHAR},
+            </if>
+            <if test="cvalue2 != null">
+                cValue2 = #{cvalue2,jdbcType=VARCHAR},
             </if>
             <if test="gradeid != null">
                 gradeID = #{gradeid,jdbcType=INTEGER},
@@ -197,26 +207,17 @@
     where ID = #{id,jdbcType=BIGINT}
   </update>
 
-    <!--    查询客户某预警参数
-       <select id="selectByCus" parameterType="com.plat.acoal.entity.Parameter" resultType="com.plat.acoal.entity.Parameter">
-           SELECT
-           cParam,
-           cValue
-           FROM
-           t_parameter
-           WHERE 1=1
-           <if test="cparam!=null">
-               AND cParam = #{cparam,jdbcType=VARCHAR}
-           </if>
-           <if test="icustomerid!=null">
-               AND iCustomerID = #{icustomerid,jdbcType=INTEGER}
-           </if>
-       </select>-->
 
-
-    <select id="selectParamByCondition" parameterType="com.plat.acoal.entity.Parameter" resultMap="BaseResultMap">
+    <select id="selectParamByCondition" parameterType="com.plat.acoal.entity.Parameter"
+            resultType="com.plat.acoal.model.ParameterInfo">
         SELECT
-        <include refid="Base_Column_List"/>
+        id,
+        dev_id AS devid,
+        cParam,
+        cValue,
+        cValue2,
+        cReTime,
+        iDelayTime
         FROM
         t_parameter
         WHERE
@@ -231,9 +232,9 @@
             AND cParam = 'P' OR cParam = 'F'
         </if>
 
-        <if test="gradeid!=null">
-            AND gradeID = #{gradeid}
-        </if>
+        <!--  <if test="gradeid!=null">
+              AND gradeID = #{gradeid}
+          </if>-->
         <if test="icustomerid!=null">
             AND iCustomerID = #{icustomerid}
         </if>
@@ -248,13 +249,13 @@
         id,
         cParam,
         cValue,
+        cValue2,
         dev_id as devid,
         gradeID
         FROM
         `t_parameter`
         WHERE
         1 = 1
-        AND gradeID =1
         <if test="devid!=null and devid != ''">
             AND dev_id = #{devid}
         </if>
@@ -265,28 +266,6 @@
             AND cParam = #{cparam}
         </if>
 
-        <if test="cparam=='CH4' or cparam=='CO'">
-            UNION
-            SELECT
-            id,
-            cParam,
-            cValue,
-            dev_id AS devid,
-            gradeID
-            FROM
-            `t_parameter`
-            WHERE
-            1 = 1
-            AND gradeID =2
-            <if test="devid!=null and devid != ''">
-                AND dev_id = #{devid}
-            </if>
-            <if test="icustomerid!=null and icustomerid != ''">
-                AND iCustomerID = #{icustomerid}
-            </if>
-            <if test="cparam!=null and cparam!=''">
-                AND cParam = #{cparam}
-            </if>
-        </if>
+
     </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
+import com.plat.acoal.entity.User;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.GasModel;
 import com.plat.acoal.model.ParameterInfo;
@@ -11,6 +12,7 @@ import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.GasServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,7 @@ public class GasController {
      */
     @RequestMapping(value = "/newCh4", produces = "application/json;charset=UTF-8")
     public String selectNewCh4(GasModel gasModel, HttpServletRequest request) {
-        String devid = "2";
+        String devid =null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -84,7 +86,7 @@ public class GasController {
      */
     @RequestMapping(value = "/newCo", produces = "application/json;charset=UTF-8")
     public String getNewCo(GasModel gasModel, HttpServletRequest request) {
-        String devid = "7";
+        String devid = null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -118,7 +120,7 @@ public class GasController {
      */
     @RequestMapping("/dayCh4")
     public String getDayFt(GasModel gasModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
-        String devid = "7";
+        String devid = null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -212,7 +214,7 @@ public class GasController {
      */
     @RequestMapping("/dayCo")
     public String getDayCo(GasModel gasModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
-        String devid = "7";
+        String devid = null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -252,7 +254,6 @@ public class GasController {
                 if (item.getGco() != null && pos < 24) {
                     fGcoArr[pos] = item.getGch4();
                 }
-
 //                pos++;
             }
         }
@@ -285,11 +286,10 @@ public class GasController {
      * @return
      */
     @RequestMapping("/ch4List")
-    public String getMonitorList(DevInfo devInfo, HttpSession session, @RequestParam Map<String, String> condition) {
+    public String getMonitorList(DevInfo devInfo, HttpServletRequest request, @RequestParam Map<String, String> condition) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer currentPage = 1;
         Integer pageSize = 1;
 
@@ -332,11 +332,10 @@ public class GasController {
      * @return
      */
     @RequestMapping("/coList")
-    public String getCoList(DevInfo devInfo, HttpSession session, @RequestParam Map<String, String> condition) {
+    public String getCoList(DevInfo devInfo, HttpServletRequest request, @RequestParam Map<String, String> condition) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer type = null;
         if (condition.containsKey("type")) {
             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
@@ -380,13 +379,10 @@ public class GasController {
      */
 
     @RequestMapping(value = "/gaslist")
-    private String getGasList(@RequestParam Map<String, String> condition, HttpSession session) {
+    private String getGasList(@RequestParam Map<String, String> condition, HttpServletRequest request) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-            condition.put("icustomerid", icustomerid.toString());
-        }
-
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer currentPage = 1;
         Integer pageSize = 1;
         if (condition.containsKey("currentPage")) {

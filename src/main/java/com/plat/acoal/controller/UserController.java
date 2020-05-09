@@ -10,6 +10,7 @@ import com.plat.acoal.service.UserService;
 import com.plat.acoal.service.impl.OperationLogServiceImpl;
 import com.plat.acoal.service.impl.UserServiceImpl;
 import com.plat.acoal.utils.JsonResult;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ public class UserController {
     public String addUser(User user, HttpServletRequest request) {
 
         Integer userid = null;
-        User user_s = (User) request.getSession().getAttribute("user");
+        User user_s = JwtUtils.getUser(request);
         if (user_s != null) {
             userid = user_s.getIuserid();
         }
@@ -117,11 +118,9 @@ public class UserController {
 
     @RequestMapping("/update")
     public String updateUser(User user, HttpServletRequest request) {
-      /*  User user1=new User();
-        user1.setIuserid(1344447583);
-        request.getSession().setAttribute("user",user1);*/
+
         Integer userid = null;
-        User user_s = (User) request.getSession().getAttribute("user");
+        User user_s = JwtUtils.getUser(request);
         if (user_s != null) {
             userid = user_s.getIuserid();
         }
@@ -162,7 +161,7 @@ public class UserController {
     @PostMapping("/delete")
     public String deleteUserById(Integer id, HttpServletRequest request) {
         Integer userid = null;
-        User user_s = (User) request.getSession().getAttribute("");
+        User user_s = JwtUtils.getUser(request);
         if (user_s != null) {
             userid = user_s.getIuserid();
         }
@@ -190,7 +189,5 @@ public class UserController {
         int j = osi.addLogs(operationLog);
         return JSON.toJSONString(jr);
     }
-
-
 
 }

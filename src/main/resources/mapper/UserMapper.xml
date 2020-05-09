@@ -65,7 +65,14 @@
 
     <select id="selectUserByName" resultType="com.plat.acoal.model.UserCustomer"
             parameterType="com.plat.acoal.entity.User">
-
+        SELECT
+        *
+        FROM
+        t_user
+        WHERE 1=1
+        <if test="cusername!=null">
+            and cUserName=#{cusername,jdbcType=VARCHAR}
+        </if>
 
     </select>
     <!--根据用户名查看用户实体-->

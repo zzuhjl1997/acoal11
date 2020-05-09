@@ -11,6 +11,7 @@ import com.plat.acoal.service.impl.HydrantidRelationServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.service.impl.PressureFlowServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,11 +177,10 @@ public class PressureFlowController {
      * 消防栓监控列表
      */
     @RequestMapping("/hydrantList")
-    private String hydrantList(@RequestParam Map<String, String> condition, HttpSession session) {
+    private String hydrantList(@RequestParam Map<String, String> condition, HttpServletRequest request) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         condition.put("icustomerid", icustomerid.toString());
 
         Integer currentPage = 1;
@@ -191,7 +191,6 @@ public class PressureFlowController {
 
         }
         if (condition.containsKey("currentPage")) {
-//            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
             condition.remove("currentPage");
@@ -262,10 +261,7 @@ public class PressureFlowController {
      */
     @RequestMapping("/dayPress")
     public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
-//            String devid = "3";
-//            if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
-//                devid = request.getParameter("devid");
-//            }
+
         //获取消防栓Id
         String hid = null;
         if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {

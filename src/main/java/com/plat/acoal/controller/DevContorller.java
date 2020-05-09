@@ -294,14 +294,14 @@ public class DevContorller {
      * 这个用于参数设置里的树
      *
      * @param condition
-     * @param session
+     * @param request
      * @return
      */
     @RequestMapping("/devlist2")
-    private String getdevlist2(@RequestParam Map<String, String> condition, HttpSession session) {
-        Integer customerId = null;
-        User user = (User) session.getAttribute("user");
-        customerId = user.getIcustomerid();
+    private String getdevlist2(@RequestParam Map<String, String> condition,HttpServletRequest request) {
+        Integer icustomerid = null;
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
 //        condition.put("customerId",customerId.toString());
         Region region = new Region();
         Integer currentPage = 1;
@@ -313,13 +313,13 @@ public class DevContorller {
         }
 
         Integer regionId = 1;
-        List<RegionModel> listrg = regionServiceImpl.selectRegionByCus(customerId);
+        List<RegionModel> listrg = regionServiceImpl.selectRegionByCus(icustomerid);
         List<RegionModel> listrg_re = new ArrayList<RegionModel>();
         for (RegionModel item : listrg
         ) {
             Dev dev = new Dev();
             if (item != null) {
-                dev.setIcustomerid(customerId);
+                dev.setIcustomerid(icustomerid);
                 dev.setRegion(item.getId());
                 if (condition.get("type") != null) {
                     dev.setType(StringUtils.isBlank(condition.get("type")) ? null : Integer.valueOf(condition.get("type")));
@@ -338,12 +338,11 @@ public class DevContorller {
      * 获取设备总数
      */
     @RequestMapping("/devcount")
-    private String getdevcount(@RequestParam Map<String, String> condition, HttpSession session) {
+    private String getdevcount(@RequestParam Map<String, String> condition, HttpServletRequest request) {
 
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer type = null;
         if (condition.containsKey("type")) {
             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
@@ -363,12 +362,10 @@ public class DevContorller {
      * @param
      */
     @RequestMapping("/fanlist")
-    private String getfanlist(@RequestParam Map<String, String> condition, HttpSession session) {
-        Integer customerId = 2;
+    private String getfanlist(@RequestParam Map<String, String> condition, HttpServletRequest request) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer type = null;
 //         if (condition.containsKey("type")) {
 //             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
@@ -394,12 +391,10 @@ public class DevContorller {
      * List(Map<String,Integer>)
      */
     @RequestMapping("/onlinerate")
-    private String onlinerate(@RequestParam Map<String, String> condition, HttpSession session) {
-        Integer customerId = 2;
+    private String onlinerate(@RequestParam Map<String, String> condition, HttpServletRequest request) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
 
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> param_tem = new HashMap<String, String>();
@@ -501,11 +496,10 @@ public class DevContorller {
      * 获取大屏实时数据 三个表格 三个坐标轴
      */
     @RequestMapping("/realtimedata")
-    private String realtimedata(@RequestParam Map<String, String> condition, HttpSession session) {
-        Integer customerId = 2;
-        if (condition.containsKey("customerId")) {
-            customerId = StringUtils.isBlank(condition.get("customerId")) ? 1 : Integer.valueOf(condition.get("customerId"));
-        }
+    private String realtimedata(@RequestParam Map<String, String> condition, HttpServletRequest request) {
+        Integer icustomerid = null;
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         //获取CO,CH4,粉尘实时数据
         int pos = 0;
         String[] press_region = new String[4];
@@ -579,13 +573,11 @@ public class DevContorller {
     }
 
     @RequestMapping(value = "/alldevdata")
-    private String alldevdata(@RequestParam Map<String, String> condition, HttpSession session) {
+    private String alldevdata(@RequestParam Map<String, String> condition, HttpServletRequest request) {
 
-        Integer customerId = 2;
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
 
         //获取总设备数量
         int alldev = 0;

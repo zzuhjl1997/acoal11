@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.Parameter;
 import com.plat.acoal.entity.Temperature;
+import com.plat.acoal.entity.User;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.model.TemperatureInfo;
@@ -11,6 +12,7 @@ import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.service.impl.TemperatureServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import net.sf.jsqlparser.expression.StringValue;
 import org.apache.commons.lang.StringUtils;
@@ -179,11 +181,8 @@ public class TemperatureController {
     @RequestMapping("/ftList")
     public String getCoList(DevInfo devInfo, HttpServletRequest request, HttpSession session, @RequestParam Map<String, String> condition) throws ParseException {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-//           condition.put("icustomerid",icustomerid.toString());
-
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer currentPage = 1;
         Integer pageSize = 1;
 

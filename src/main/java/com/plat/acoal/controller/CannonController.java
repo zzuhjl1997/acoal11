@@ -2,12 +2,14 @@ package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
+import com.plat.acoal.entity.User;
 import com.plat.acoal.model.CannonInfo;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.TemperatureInfo;
 import com.plat.acoal.service.impl.CannonServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +38,14 @@ public class CannonController {
      * 查询消防炮实时数据列表
      *
      * @param condition
-     * @param session
+     * @param request
      * @return
      */
     @RequestMapping("/cannonlist")
-    public String Cannonlist(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String Cannonlist(@RequestParam Map<String, String> condition, HttpServletRequest request) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer currentPage = 1;
         Integer pageSize = 1;
 

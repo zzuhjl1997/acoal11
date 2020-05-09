@@ -19,7 +19,7 @@ public interface ParameterMapper {
 
     int updateByPrimaryKey(Parameter record);
 
-    List<Parameter> selectParamByCondition(Parameter parameter);
+    List<ParameterInfo> selectParamByCondition(Parameter parameter);
 
     List<ParameterInfo> selectParamInfoByCondition(Map<String, String> condition);
 }

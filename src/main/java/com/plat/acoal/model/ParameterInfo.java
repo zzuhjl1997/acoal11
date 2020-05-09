@@ -3,6 +3,7 @@ package com.plat.acoal.model;
 import lombok.Data;
 
 import java.util.Date;
+
 @Data
 public class ParameterInfo {
     private Long id;
@@ -16,6 +17,8 @@ public class ParameterInfo {
     private String cparam;
 
     private String cvalue;
+
+    private String cvalue2;
 
     private Integer gradeid;
 

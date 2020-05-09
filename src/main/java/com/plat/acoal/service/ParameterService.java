@@ -11,7 +11,7 @@ public interface ParameterService {
 
     void updateParameter(Parameter parameter, Integer ischecked);
 
-    List<Parameter> selectParamByCondition(String cparam, Integer icustomerid, Integer deviceId);
+    List<ParameterInfo> selectParamByCondition(String cparam, Integer icustomerid, Integer deviceId);
 //    List<Parameter> selectParameterByCus(Parameter parameter);
 
    List<ParameterInfo> selectParamInfoByCondition(Map<String, String> condition);

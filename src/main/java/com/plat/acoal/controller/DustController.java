@@ -2,6 +2,7 @@ package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
+import com.plat.acoal.entity.User;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.DustModel;
 import com.plat.acoal.model.GasModel;
@@ -11,6 +12,7 @@ import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.DustServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,15 +174,14 @@ public class DustController {
      * 烟尘监控列表
      *
      * @param devInfo
-     * @param session
+     * @param request
      * @return
      */
     @RequestMapping("/dustList")
-    public String getCoList(DevInfo devInfo, HttpSession session, @RequestParam Map<String, String> condition) {
+    public String getCoList(DevInfo devInfo, HttpServletRequest request, @RequestParam Map<String, String> condition) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
         Integer currentPage = 1;
         Integer pageSize = 1;
 

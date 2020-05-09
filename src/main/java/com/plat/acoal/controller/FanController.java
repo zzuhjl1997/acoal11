@@ -70,13 +70,7 @@ public class FanController {
             resultData.setMsg("数据为空");
         }
 
-//        resultData.setData(list);
 
-    /*    ResultData resultData = new ResultData();
-        resultData.setData(list);
-        if (list.size() > 0) {
-            resultData.setDate(list.get(list.size() - 1).getLastTime());
-        }*/
         return JSON.toJSONString(list);
     }
 

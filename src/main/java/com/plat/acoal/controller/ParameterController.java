@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.plat.acoal.entity.OperationLog;
 import com.plat.acoal.entity.Parameter;
 import com.plat.acoal.entity.User;
+import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.service.OperationLogService;
 import com.plat.acoal.service.ParameterService;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.JsonResult;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +36,7 @@ public class ParameterController {
     /**
      * 添加报警参数
      */
-    @PostMapping("/add")
+   /* @PostMapping("/add")
     private String addParameter(Parameter parameter) {
         int res = parameterService.addParameter(parameter);
         JsonResult jr = new JsonResult();
@@ -43,23 +45,22 @@ public class ParameterController {
             jr.setMsg("添加成功");
         }
         return JSON.toJSONString(jr);
-    }
+    }*/
 
     /**
      * 根据父参数查看报警参数信息
      */
     @PostMapping("/list")
     private String selectParamByCondition(String cparam, @RequestParam(value = "devId", required = false, defaultValue = "0") Integer devId, HttpServletRequest request, HttpSession session) {
-        // 获取customerid
         Integer icustomerid = null;
-//        HttpSession session = request.getSession();
-        System.out.println("devId:"+devId);
-        if (session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");
-            icustomerid = user.getIcustomerid();
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
+
+        List<ParameterInfo> list = parameterService.selectParamByCondition(cparam, icustomerid, devId);
+        if (list.size() < 1) {
+            list = parameterService.selectParamByCondition(cparam, icustomerid, 0);
         }
 
-        List<Parameter> list = parameterService.selectParamByCondition(cparam, icustomerid, devId);
         return JSON.toJSONString(list);
     }
 
@@ -71,8 +72,7 @@ public class ParameterController {
         // 获取customerid
         //Optional.ofNullable()
         Integer icustomerid = null;
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = JwtUtils.getUser(request);
         Integer userid = null;
         if (user != null) {
             icustomerid = user.getIcustomerid();

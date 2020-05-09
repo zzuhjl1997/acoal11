@@ -9,6 +9,7 @@ import com.plat.acoal.model.OperationIAO;
 import com.plat.acoal.service.OperationLogService;
 import com.plat.acoal.service.impl.OperationLogServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,10 @@ public class OperationLogController {
     public OperationLogServiceImpl osi;
 
     @RequestMapping("")
-    public String selectLogs(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectLogs(@RequestParam Map<String, String> condition, HttpServletRequest request) {
         Integer icustomerid = null;
-        if (session.getAttribute("icustomerid") != null && !"".equals(session.getAttribute("icustomerid"))) {
-            icustomerid = Integer.parseInt(session.getAttribute("icustomerid").toString());
-            condition.put("icustomerid",icustomerid.toString());
-        }
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
 //        String startdate = null;
 //        String enddate = null;
         Integer pageSize = 1;
