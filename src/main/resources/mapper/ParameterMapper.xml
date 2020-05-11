@@ -20,7 +20,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     ID, iCustomerID, dev_id, isUsed, cParam, cValue, gradeID, cReTime, iDelayTime, cOrder, 
-    type, addDateTime, updateDateTime, addUserID
+    type, addDateTime, updateDateTime, addUserID,cValue2
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -203,7 +203,8 @@
       type = #{type,jdbcType=INTEGER},
       addDateTime = #{adddatetime,jdbcType=TIMESTAMP},
       updateDateTime = #{updatedatetime,jdbcType=TIMESTAMP},
-      addUserID = #{adduserid,jdbcType=INTEGER}
+      addUserID = #{adduserid,jdbcType=INTEGER},
+      cValue2=#{cvalue2,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 

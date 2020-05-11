@@ -25,7 +25,7 @@ public class JwtCfg {
         registrationBean.addUrlPatterns("/operationLog/*");
         registrationBean.addUrlPatterns("/pressureflow/*");
         registrationBean.addUrlPatterns("/temperature/*");
-        registrationBean.addUrlPatterns("//user/*");
+        registrationBean.addUrlPatterns("/user/*");
         //registrationBean.addUrlPatterns("/region/*");
         return registrationBean;
     }

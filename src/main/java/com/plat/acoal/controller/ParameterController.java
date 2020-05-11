@@ -7,12 +7,14 @@ import com.plat.acoal.entity.User;
 import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.service.OperationLogService;
 import com.plat.acoal.service.ParameterService;
+import com.plat.acoal.service.impl.OperationLogServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.JsonResult;
 import com.plat.acoal.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +33,7 @@ public class ParameterController {
     @Autowired
     private ParameterServiceImpl parameterService;
     @Autowired
-    private OperationLogService operationLogService;
+    private OperationLogServiceImpl operationLogService;
 
     /**
      * 添加报警参数
