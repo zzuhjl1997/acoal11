@@ -62,7 +62,9 @@ public class ParameterController {
         if (list.size() < 1) {
             list = parameterService.selectParamByCondition(cparam, icustomerid, 0);
         }
-
+        for (ParameterInfo parameterInfo : list) {
+            parameterInfo.setDevId(devId);
+        }
         return JSON.toJSONString(list);
     }
 

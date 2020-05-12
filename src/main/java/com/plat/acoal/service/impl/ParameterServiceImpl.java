@@ -28,6 +28,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @param parameter
      * @return
      */
+    @Override
     public int addParameter(Parameter parameter) {
 
         return parameterMapper.insertSelective(parameter);
@@ -39,8 +40,9 @@ public class ParameterServiceImpl implements ParameterService {
      * @param parameter
      * @return
      */
+    @Override
     public void updateParameter(Parameter parameter, Integer ischecked) {
-       // 查询当前参数表中是否有该设备,通过以下条件，如果能查到数据，应该只有一条。
+        // 查询当前参数表中是否有该设备,通过以下条件，如果能查到数据，应该只有一条。
         Parameter par = new Parameter();
         par.setIcustomerid(parameter.getIcustomerid());
         par.setDevId(parameter.getDevId());
@@ -61,20 +63,23 @@ public class ParameterServiceImpl implements ParameterService {
                     param.setDevId(devList.get(i).getId());
                     System.out.println("参数id：" + devList.get(i).getId());
                     param.setCparam(parameter.getCparam());
-//                    param.setGradeid(parameter.getGradeid());
                     List<ParameterInfo> paramList = parameterMapper.selectParamByCondition(param);
                     if (paramList.size() > 0) {
                         // 更新一条纪录
                         parameter.setId(paramList.get(0).getId());
                         parameter.setUpdatedatetime(new Date());
                         parameterMapper.updateByPrimaryKeySelective(parameter);
-                    } else {
+                    }else {
                         // 插入一条新纪录
-                        parameter.setId((long) 0);
                         parameter.setDevId(0);
                         parameter.setAdddatetime(new Date());
                         parameter.setUpdatedatetime(new Date());
-                        parameterMapper.insertSelective(parameter);
+                        paramList = parameterMapper.selectParamByCondition(param);
+                        if (paramList.size() > 0) {
+                            parameterMapper.updateByPrimaryKeySelective(parameter);
+                        } else {
+                            parameterMapper.insertSelective(parameter);
+                        }
                     }
                 }
             }
@@ -89,7 +94,6 @@ public class ParameterServiceImpl implements ParameterService {
                     param.setIcustomerid(parameter.getIcustomerid());
                     param.setDevId(devList.get(i).getId());
                     param.setCparam(parameter.getCparam());
-//                    param.setGradeid(parameter.getGradeid());
                     List<ParameterInfo> paramList = parameterMapper.selectParamByCondition(param);
                     if (paramList.size() > 0) {
                         // 更新一条纪录
@@ -98,11 +102,15 @@ public class ParameterServiceImpl implements ParameterService {
                         parameterMapper.updateByPrimaryKeySelective(parameter);
                     } else {
                         // 插入一条新纪录
-//                        parameter.setId((long) 0);
                         parameter.setDevId(0);
                         parameter.setAdddatetime(new Date());
                         parameter.setUpdatedatetime(new Date());
-                        parameterMapper.insertSelective(parameter);
+                        paramList = parameterMapper.selectParamByCondition(param);
+                        if (paramList.size() > 0) {
+                            parameterMapper.updateByPrimaryKeySelective(parameter);
+                        } else {
+                            parameterMapper.insertSelective(parameter);
+                        }
                     }
                 }
             }
@@ -118,6 +126,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @param deviceId
      * @return
      */
+    @Override
     public List<ParameterInfo> selectParamByCondition(String cparam, Integer icustomerid, Integer deviceId) {
 
         Parameter parameter = new Parameter();
@@ -133,7 +142,6 @@ public class ParameterServiceImpl implements ParameterService {
         System.out.println(parameter);
         return parameterMapper.selectParamByCondition(parameter);
     }
-
 
 
     @Override

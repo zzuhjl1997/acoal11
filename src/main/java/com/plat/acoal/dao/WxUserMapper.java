@@ -7,4 +7,5 @@ public interface WxUserMapper {
     WxUser selectByPrimaryKey(Integer id);
     int updateByPrimaryKeySelective(WxUser record);
     int updateByPrimaryKey(WxUser record);
+
 }
