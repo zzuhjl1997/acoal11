@@ -1,3 +1,4 @@
+/*
 package com.plat.acoal.utils;
 
 
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.plat.acoal.dao.AccessTokenMapper;
+import com.plat.acoal.dao.AlarmMapper;
 import com.plat.acoal.model.AccessToken;
 import com.plat.acoal.model.TemplateData;
 import org.apache.ibatis.session.SqlSession;
@@ -15,16 +17,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 public class WX_TemplateMsgUtil {
+    @Autowired
+    public AccessTokenMapper accessTokenMapper;
 
     private static Logger log = LoggerFactory.getLogger(WX_TemplateMsgUtil.class);
 
-    /**
+
+    */
+/**
      * 封装模板详细信息
      *
      * @return
-     */
+     *//*
+
 
     public static JSONObject packJsonmsg(Map<String, TemplateData> param) {
 
@@ -48,13 +57,15 @@ public class WX_TemplateMsgUtil {
 
     }
 
-    /**
+    */
+/**
      * 根据模板的编号 新增并获取模板ID
      *
      * @param templateSerialNumber
      *            模板库中模板的 "编号"
      * @return 模板ID
-     */
+     *//*
+
 
     public static String getWXTemplateMsgId(String templateSerialNumber) {
 
@@ -88,16 +99,15 @@ public class WX_TemplateMsgUtil {
 
     public static String sendWechatMsgToUser(String touser, String templatId, String clickurl, String topcolor,
                                              JSONObject data) {
-        /**
+
+        */
+/**
          * 做个查询，access token是否过期
          *
-         */
+         *//*
 
-        SqlSession sqlsession = null;
-        try {
-//            sqlsession = SqlSessionFactoryUtils.openSqlSession();
-            AccessTokenMapper accessTokenMapper = sqlsession.getMapper(AccessTokenMapper.class);
-            AccessToken access_token = accessTokenMapper.selectByPrimaryKey(1);
+            AccessToken access_token=null;
+            access_token = accessTokenMapper.selectByPrimaryKey(1);
             String accesstoken = "";
             if (access_token != null) {
                 Date updatetime = access_token.getUpdatetime();
@@ -114,7 +124,6 @@ public class WX_TemplateMsgUtil {
                     accessToken.setUpdatetime(now);
                     accessToken.setId(1);
                     int flag = accessTokenMapper.updateByPrimaryKeySelective(accessToken);
-                    sqlsession.commit();
 
                 } else {
 
@@ -129,7 +138,6 @@ public class WX_TemplateMsgUtil {
                 accessToken.setAccesstoken(accesstoken);
                 accessToken.setUpdatetime(now);
                 int flag = accessTokenMapper.insert(accessToken);
-                sqlsession.commit();
             }
             String tmpurl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accesstoken;
 
@@ -160,25 +168,8 @@ public class WX_TemplateMsgUtil {
 
             }
 
-        } catch (Exception e) {
-            try {
-                if (sqlsession != null) {
-                    sqlsession.rollback();
-                }
-            } catch (Exception e1) {
-                // TODO: handle exception
-            }
-            e.printStackTrace();
-
-            return "error";
-        } finally {
-
-            if (sqlsession != null) {
-                sqlsession.close();
-            }
-        }
 
         return "success";
 
     }
-}
+}*/

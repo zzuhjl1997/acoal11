@@ -27,5 +27,6 @@ public class GasModel {
     private Integer type;
     private Integer code;
     private Integer online;
+    private Integer count;
 //    private Predicate
 }

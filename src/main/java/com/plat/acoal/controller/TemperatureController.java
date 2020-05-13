@@ -229,7 +229,6 @@ public class TemperatureController {
 
 //            System.out.println("对象"+item);
         }
-//        param.put("tatal",String.valueOf(count));
         ResultData resultData = new ResultData();
         resultData.setPagecount(count);
         resultData.setData(listinfo);

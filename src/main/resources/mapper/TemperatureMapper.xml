@@ -99,8 +99,8 @@
         tt.fT AS ft
         FROM
         t_dev td
-        INNER JOIN t_dev_type tdt ON td.type = tdt.id
-        INNER JOIN t_temperature tt ON td.id = tt.dev_id
+        LEFT JOIN t_dev_type tdt ON td.type = tdt.id
+        LEFT JOIN t_temperature tt ON td.id = tt.dev_id
         WHERE 1=1
         <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>

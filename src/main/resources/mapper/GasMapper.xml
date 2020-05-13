@@ -230,20 +230,20 @@
         tc.gCO AS val
         FROM
         t_dev td
-        INNER JOIN t_dev_type tdt ON td.type = tdt.id
-        INNER JOIN t_co tc ON td.id = tc.dev_id
+        left JOIN t_dev_type tdt ON td.type = tdt.id
+        left  JOIN t_co tc ON td.id = tc.dev_id
         where 1=1
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="devname!=null">
             AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
         </if>
-        <if test="type!=null">
-            AND td.type = #{type,jdbcType=INTEGER}
-        </if>
+
+            AND td.type = 5
+
         <if test="icustomerid!=null">
             AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
         </if>
-				UNION
+		UNION
         SELECT
         td.id AS devid,
         td.type AS type,
@@ -257,16 +257,16 @@
         tg.gCH4 AS val
         FROM
         t_dev td
-        INNER JOIN t_dev_type tdt ON td.type = tdt.id
-        INNER JOIN t_gas tg ON td.id = tg.dev_id
+        left JOIN t_dev_type tdt ON td.type = tdt.id
+        left JOIN t_gas tg ON td.id = tg.dev_id
         where 1=1
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="devname!=null">
             AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
         </if>
-        <if test="type!=null">
-            AND td.type = #{type,jdbcType=INTEGER}
-        </if>
+
+            AND td.type = 6
+
         <if test="icustomerid!=null">
             AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
         </if>

@@ -5,9 +5,7 @@ import com.plat.acoal.utils.GetGZHOpenId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,14 +15,27 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Locale;
 
+
 @RestController
-@RequestMapping(value = "/wxbind")
+@RequestMapping(value = "/acbind")
 public class WxBindController {
     private static Logger logger = LoggerFactory.getLogger(WxBindController.class);
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws ParseException
+     * @throws IOException
+     * @throws ParseException
+     * @throws URISyntaxException
+     * @throws SQLException
+     */
     @RequestMapping(value = "/getopenid", produces = "application/json;charset=utf-8") // ,method =
-    // {RequestMethod.POST}method =
-    // RequestMethod.POST,
+    /**
+     *
+     */
     private String getopenid(HttpServletRequest request, HttpServletResponse response, Locale locale)
             throws ParseException, IOException, ParseException, URISyntaxException, SQLException {
         logger.info("WxBindController", "getopenid");
@@ -43,11 +54,11 @@ public class WxBindController {
         // 把openid到session
         HttpSession session = request.getSession();
         session.setAttribute("openid", openId);
-        String url = "https://wx.cnsbdz.com";
+        String url = "http://www.lanwu114.club";
         StringBuffer url_code = new StringBuffer(url);
         // 这里请不要使用get请求单纯的将页面跳转到该url即可
         response.sendRedirect(url_code.toString());
+        logger.info(url_code.toString(),"url_code.toString()");
         return null;
-
     }
 }

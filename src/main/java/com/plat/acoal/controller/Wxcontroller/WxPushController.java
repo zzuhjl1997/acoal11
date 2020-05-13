@@ -11,10 +11,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.plat.acoal.dao.WxUserMapper;
 import com.plat.acoal.entity.WxUser;
 import com.plat.acoal.model.TemplateData;
-import com.plat.acoal.utils.WX_TemplateMsgUtil;
+import com.plat.acoal.service.impl.WX_TemplateMsgServiceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -29,13 +31,17 @@ import org.springframework.web.bind.annotation.RestController;
  * 问候语 报警类型 报警设备 报警时间 报警内容
  */
 @RestController
-@RequestMapping(value = "/wxpush")
+@RequestMapping(value = "/wxacpush")
 public class WxPushController {
-    @RequestMapping(value = "/dopush", produces = "application/json;charset=utf-8") // ,method = {RequestMethod.POST}method = RequestMethod.POST,
+    @Autowired
+    public WX_TemplateMsgServiceImpl wx_templateMsgServiceImpl;
+
+    @RequestMapping(value = "/dopush", produces = "application/json;charset=utf-8")
+    // ,method = {RequestMethod.POST}method = RequestMethod.POST,
     private String dopush(HttpServletRequest request, HttpServletResponse response, Locale locale, Model model) {
         int deviceid = 0;
         //cname 客户名
-        String cname="",eventtype = "", devicename = "",content="",remark="";
+        String cname = "", eventtype = "", devicename = "", content = "", remark = "";
 
         if (request.getParameter("cname") != null && !"".equals(request.getParameter("cname"))) {
             cname = request.getParameter("cname");
@@ -81,15 +87,18 @@ public class WxPushController {
 
         // 调用发送微信消息给用户的接口 ********这里写自己在微信公众平台拿到的模板ID
 
-//        WxUserMapperDao wxUserMapperDao = sqlSession.getMapper(WxUserMapperDao.class);
-        List<WxUser> list = wxUserMapper.selectOpenidList(deviceid);
-        for (WxUser wxUser : list) {
-            System.out.println(wxUser.getOpenidGzh());
-            WX_TemplateMsgUtil.sendWechatMsgToUser(wxUser.getOpenidGzh(), "此处填写你的模板id",
-                    null,
+//        List<WxUser> list = wxUserMapper.selectOpenidList(deviceid);
+//        for (WxUser wxUser : list) {
+//            System.out.println(wxUser.getOpenidGzh());
+      /*  WX_TemplateMsgUtil.sendWechatMsgToUser(wxUser.getOpenidGzh(), "此处填写你的模板id",
+                null,
 
-                    "#000000", jsonObject);
-        }
+                "#000000", jsonObject);*/
+//        }
+        wx_templateMsgServiceImpl.sendWechatMsgToUser("oXpoI1gNyoGnb9C5EXlpglw-trhY", "vuqd2ZS1Fbqto9rXcqJ8CleHr1V4XXOT0OKLw3QXgB4",
+                null,
+
+                "#000000", jsonObject);
         System.out.println("进入了这个方法");
         System.out.println(123);
         return null;

@@ -394,9 +394,12 @@ public class GasController {
             currentPage = null;
             pageSize = null;
         }
-
+        int count_se=0;
         List<GasModel> allgas = gasServiceImpl.selectGasList(condition, pageSize, currentPage);
         for (GasModel gasModel : allgas) {
+            count_se++;
+            gasModel.setCount(count_se);
+
             gasModel.setLasttime(DateUtil.dateToString(gasModel.getUpdatetime(), "yyyy-MM-dd HH:mm:ss"));
 
         }
