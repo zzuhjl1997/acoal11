@@ -438,6 +438,7 @@ FROM
         LEFT JOIN t_dev_type tdt ON td.type = tdt.id
         LEFT JOIN t_region tr ON td.region = tr.id
         order by `alarmTime` desc
+        limit 11
     </select>
     <select id="selectAlarmFourCountModel" resultType="com.plat.acoal.model.AlarmFourModel">
         SELECT

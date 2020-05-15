@@ -48,14 +48,14 @@ public class PressureFlowController {
     @RequestMapping("/newPress")
     public String getNewPress(PressureFlowModel pressureFlowModel, HttpServletRequest request) {
         //获取消防栓Id
-        String hid = "";
-        if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
-            hid = request.getParameter("hid");
+        String devid = "";
+        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
+            devid = request.getParameter("devid");
         }
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防栓Id查找设备Id
 
-        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(devid));
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
             System.out.println(pressureFlowModel.getTflow() + "aWRDWSgfaes");
@@ -76,29 +76,30 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/newFlow")
-    public String getNewFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
+    public String getNewFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
 //        String devid = "3";
 //        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
 //            devid = request.getParameter("devid");
 //        }
         //获取消防栓Id
-        String hid = null;
-        if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
-            hid = request.getParameter("hid");
+        String devid = null;
+        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
+            devid = request.getParameter("devid");
         }
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防阀门id查询消防阀门开启状态
         int isopen = 0;
-        condition.put("devid", hid.toString());
+        condition.put("devid", devid.toString());
         List<DevInfo> lst = devServiceImpl.selectDevInfoByDevid(condition);
         if (lst.size() > 0) {
             for (DevInfo devInfo : lst) {
-                if (devInfo != null)
+                if (devInfo != null) {
                     isopen = devInfo.getStatus();
+                }
             }
         }
         //根据消防栓Id查找设备Id
-        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(devid));
         //查询实时水压
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
@@ -124,9 +125,9 @@ public class PressureFlowController {
         String[] arrtime = new String[24];
         double[] flow = new double[24];
 
-        for(int i=0;i<24;i++){
-            arrtime[i] = String.valueOf(i)+":00";
-            flow[i]=0.0;
+        for (int i = 0; i < 24; i++) {
+            arrtime[i] = String.valueOf(i) + ":00";
+            flow[i] = 0.0;
         }
 
         int pos = 0;
@@ -135,7 +136,7 @@ public class PressureFlowController {
             if (d != null) {
                 Date dt = d.getDcollectdt();
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
-                arrtime[pos] = DateUtil.dateToString(dt,"HH:00");
+                arrtime[pos] = DateUtil.dateToString(dt, "HH:00");
                 flow[pos] = d.getTflow();
 //                pos++;
             }
@@ -260,15 +261,16 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/dayPress")
-    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
+    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request,@RequestParam Map<String, String> condition) {
 
         //获取消防栓Id
-        String hid = null;
-        if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
-            hid = request.getParameter("hid");
+        String devid = null;
+        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
+            devid = request.getParameter("devid");
         }
+        condition.remove("devid");
         //根据消防栓Id查找设备Id
-        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(devid));
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
         }
@@ -343,18 +345,16 @@ public class PressureFlowController {
      */
     @RequestMapping("/dayFlow")
     public String getDayFlow(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
-//        String devid = "3";
-//        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
-//            devid = request.getParameter("devid");
-//        }
         //获取消防栓Id
-        String hid = null;
-        if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
-            hid = request.getParameter("hid");
+        String devid = null;
+        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
+            devid = request.getParameter("devid");
         }
+
+
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防栓Id查找设备Id
-        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(devid));
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
         }
@@ -404,7 +404,6 @@ public class PressureFlowController {
             condition.put("devid", "0");
         }
 
-        System.out.println("devid:" + condition.get("devid"));
         condition.put("cparam", "P");
         List<ParameterInfo> listp = new ArrayList<ParameterInfo>();
         List<ParameterInfo> listp_re = new ArrayList<ParameterInfo>();
@@ -430,13 +429,13 @@ public class PressureFlowController {
     @RequestMapping("/pfnow")
     private String getpflist(PressureFlowModel pressureFlowModel, HttpServletRequest request, Map<String, String> condition) {
         //先查询一天的水流
-        String hid = null;
-        if (request.getParameter("hid") != null && !"".equals(request.getParameter("hid"))) {
-            hid = request.getParameter("hid");
+        String devid = null;
+        if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
+            devid = request.getParameter("devid");
         }
         HydrantidRelation hydrantidRelation = new HydrantidRelation();
         //根据消防栓Id查找设备Id
-        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(hid));
+        HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(devid));
         if (hydrantidRelation_re != null) {
             pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
         }

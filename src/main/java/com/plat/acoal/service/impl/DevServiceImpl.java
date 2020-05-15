@@ -190,4 +190,9 @@ public class DevServiceImpl implements DevService {
     public List<Dev> selectDevPByRegion(Integer currentPage, Dev dev) {
         return dm.selectDevPByRegion(dev);
     }
+
+    @Override
+    public Integer selectDevCountByType(Map<String, String> condition) {
+        return dm.selectDevCountByType(condition);
+    }
 }

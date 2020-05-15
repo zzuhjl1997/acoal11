@@ -93,6 +93,8 @@ public class FanController {
             startdate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 00:00:00";
             enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
         }
+        condition.put("startdate",startdate);
+        condition.put("enddate",enddate);
         int[] count = new int[24];
         String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
         for (int i = 0; i < 24; i++) {

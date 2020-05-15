@@ -282,7 +282,6 @@ public class GasController {
      * ch4监控列表
      *
      * @param devInfo
-     * @param session
      * @return
      */
     @RequestMapping("/ch4List")
@@ -328,7 +327,6 @@ public class GasController {
      * co监控列表
      *
      * @param devInfo
-     * @param session
      * @return
      */
     @RequestMapping("/coList")

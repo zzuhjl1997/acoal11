@@ -24,7 +24,7 @@
         fDust AS fdust,
         dev_id AS devid
         FROM
-        t_dust_history
+        t_dust
         WHERE
         1 = 1
         <if test="devid!=null">

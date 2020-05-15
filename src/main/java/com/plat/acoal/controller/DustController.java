@@ -202,6 +202,7 @@ public class DustController {
         condition.put("type", "4");
         //查询烟尘设备数
         int devcount = 0;
+        condition.remove("online");
         devcount = devServiceImpl.selectCountByType(condition);
         //查询烟尘的条数
         int count = 0;

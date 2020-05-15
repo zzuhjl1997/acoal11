@@ -77,4 +77,6 @@ public interface DevMapper {
     List<DevInfo> selectDevList(Map<String, String> condition);
 
     List<Dev> selectDevPByRegion(Dev dev);
+
+    Integer selectDevCountByType(Map<String, String> condition);
 }

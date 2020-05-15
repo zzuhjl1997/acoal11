@@ -229,6 +229,7 @@
         <if test="cparam=='Gas' ">
             AND cParam = 'CO' OR cParam = 'Ch4'
         </if>
+
         <if test="cparam=='PF' ">
             AND cParam = 'P' OR cParam = 'F'
         </if>

@@ -41,21 +41,23 @@ public class AlarmServiceImpl implements AlarmService {
         List<String >list = DateUtil.getAllDaysIn(condition.get("alarmTimeHead"),condition.get("alarmTimeTail"),"yyyy-MM-dd");
         List<AlarmStatisticsModel> asmList = am.selectAlarmStatisticsModelByCondition(condition);
         Map<String ,String> map = new HashMap<>();
-        System.out.println("asmList::::"+asmList.toString());
+        if(asmList.isEmpty()){
+            AlarmStatisticsModel asm = new AlarmStatisticsModel();
+            ArrayList<String> list1 = new ArrayList<>();
+            list.forEach((b) -> list1.add(map.getOrDefault(b, "0")));
+            asm.setXaxis(list);
+            asm.setYaxis(list1);
+            asmList.add(asm);
+            return asmList;
+        }
         asmList.forEach((a)->{
             ArrayList<String> list1 = new ArrayList<>();
-            System.out.println("a:::::"+a);
             int i = 0;
             for(String item:a.getXaxis()){
                 map.put(item,a.getTempY().get(i).getValue());
                 i++;
             }
-            list.forEach((b)->{
-                //YaxisModel y = new YaxisModel();
-                //y.setValue(map.getOrDefault(b, "0"));
-                //list1.add(y);
-                list1.add(map.getOrDefault(b, "0"));
-            });
+            list.forEach((b)-> list1.add(map.getOrDefault(b, "0")));
             a.setXaxis(list);
             a.setYaxis(list1);
             a.setTempY(null);

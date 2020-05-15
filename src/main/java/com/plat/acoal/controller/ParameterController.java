@@ -1,9 +1,11 @@
 package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.plat.acoal.dao.DevMapper;
 import com.plat.acoal.entity.OperationLog;
 import com.plat.acoal.entity.Parameter;
 import com.plat.acoal.entity.User;
+import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.service.OperationLogService;
 import com.plat.acoal.service.ParameterService;
@@ -22,9 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @Log4j2
@@ -34,6 +34,8 @@ public class ParameterController {
     private ParameterServiceImpl parameterService;
     @Autowired
     private OperationLogServiceImpl operationLogService;
+    @Autowired
+    private DevMapper devMapper;
 
     /**
      * 添加报警参数
@@ -52,13 +54,36 @@ public class ParameterController {
     /**
      * 根据父参数查看报警参数信息
      */
+
     @PostMapping("/list")
     private String selectParamByCondition(String cparam, @RequestParam(value = "devId", required = false, defaultValue = "0") Integer devId, HttpServletRequest request, HttpSession session) {
         Integer icustomerid = null;
         User user = JwtUtils.getUser(request);
         icustomerid = user.getIcustomerid();
+        Map<String, String> condition = new HashMap<>();
+        condition.put("devid", devId.toString());
+
+        List<DevInfo> listd = new ArrayList<>();
+
+        listd = devMapper.selectDevInfoByDevid(condition);
+
+        if (listd.size() > 0) {
+            for (DevInfo devInfo : listd) {
+                int type = devInfo.getType();
+                if (type == 5) {
+                    cparam = "CO";
+                } else if (type == 6) {
+                    cparam = "CH4";
+                } else if (type == 7) {
+                    cparam = "P";
+                } else if (type == 8) {
+                    cparam = "F";
+                }
+            }
+        }
 
         List<ParameterInfo> list = parameterService.selectParamByCondition(cparam, icustomerid, devId);
+
         if (list.size() < 1) {
             list = parameterService.selectParamByCondition(cparam, icustomerid, 0);
         }

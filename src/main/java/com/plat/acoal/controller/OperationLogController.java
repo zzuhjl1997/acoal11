@@ -37,8 +37,8 @@ public class OperationLogController {
         Integer icustomerid = null;
         User user = JwtUtils.getUser(request);
         icustomerid = user.getIcustomerid();
-//        String startdate = null;
-//        String enddate = null;
+        String startdate = null;
+        String enddate = null;
         Integer pageSize = 1;
         Integer currentPage = 1;
         Integer sequence = 0;
@@ -48,16 +48,23 @@ public class OperationLogController {
         if (condition.containsKey("currentPage")) {
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
-//            startdate = StringUtils.isBlank(condition.get("startdate")) ? null : (condition.get("startdate"));
-//            enddate = StringUtils.isBlank(condition.get("enddate")) ? null : (condition.get("enddate"));
+
             condition.remove("currentPage");
             condition.remove("pageSize");
         } else {
             currentPage = null;
             pageSize = null;
-//            startdate = null;
-//            enddate = null;
+
         }
+        if(condition.containsKey("startdate")&&condition.containsKey("enddate")){
+            startdate = StringUtils.isBlank(condition.get("startdate")) ? null : String.valueOf(condition.get("startdate") + " 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("enddate")) ? null : String.valueOf(condition.get("enddate") + " 23:59:59");
+        }else {
+            startdate = null;
+            enddate = null;
+        }
+        condition.put("startdate",startdate);
+        condition.put("enddate",enddate);
         count = osi.selectLogsCount(condition);
         List<OperationIAO> list = osi.selectLogs(condition, currentPage, pageSize);
         List<OperationIAO> list_re = new ArrayList<OperationIAO>();
@@ -67,7 +74,6 @@ public class OperationLogController {
             item.setDate_re(DateUtil.dateToString(item.getOperationdate(),"yyyy-MM-dd HH:mm:ss"));
             list_re.add(item);
         }
-//        param.put("tatal", String.valueOf(sequence));
         ResultData resultData = new ResultData();
         resultData.setData(list_re);
         resultData.setPagecount(count);

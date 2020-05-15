@@ -23,7 +23,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         from
-        t_gas_history
+        t_gas
         WHERE
         1 = 1
         <if test="devid!=null">
@@ -144,7 +144,7 @@
         SELECT
         *
         from
-        t_co_history
+        t_co
         WHERE
         1 = 1
         <if test="devid!=null">
@@ -217,7 +217,7 @@
 
     </select>
     <select id="selectGasList" resultType="com.plat.acoal.model.GasModel" parameterType="map">
-       SELECT
+        SELECT
         td.id AS devid,
         td.type AS type,
         tdt.`name` AS typename,
@@ -231,19 +231,23 @@
         FROM
         t_dev td
         left JOIN t_dev_type tdt ON td.type = tdt.id
-        left  JOIN t_co tc ON td.id = tc.dev_id
+        left JOIN t_co tc ON td.id = tc.dev_id
         where 1=1
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="devname!=null">
             AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
         </if>
-
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="type==null">
             AND td.type = 5
+        </if>
 
         <if test="icustomerid!=null">
             AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
         </if>
-		UNION
+        UNION
         SELECT
         td.id AS devid,
         td.type AS type,
@@ -264,32 +268,35 @@
         <if test="devname!=null">
             AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"
         </if>
-
+        <if test="type!=null">
+            AND td.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="type==null">
             AND td.type = 6
-
+        </if>
         <if test="icustomerid!=null">
             AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
         </if>
     </select>
     <select id="selectGasCount" resultType="java.lang.Integer" parameterType="map">
-SELECT
-	count( * )
-FROM
-	(
-	SELECT
-		td.id AS devid,
-		td.type AS type,
-		tdt.`name` AS typename,
-		td.`name` AS devname,
-		td.site AS site,
-		td.ip AS ip,
-		td.`online` AS `online`,
-		tc.dCollectDT AS updateTime,
-		tc.gCO AS val
-	FROM
-		t_dev td
-		INNER JOIN t_dev_type tdt ON td.type = tdt.id
-		INNER JOIN t_co tc ON td.id = tc.dev_id
+        SELECT
+        count( * )
+        FROM
+        (
+        SELECT
+        td.id AS devid,
+        td.type AS type,
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.`online` AS `online`,
+        tc.dCollectDT AS updateTime,
+        tc.gCO AS val
+        FROM
+        t_dev td
+        LEFT JOIN t_dev_type tdt ON td.type = tdt.id
+        LEFT JOIN t_co tc ON td.id = tc.dev_id
         where 1=1
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="devname!=null">
@@ -298,24 +305,27 @@ FROM
         <if test="type!=null">
             AND td.type = #{type,jdbcType=INTEGER}
         </if>
+        <if test="type==null">
+            AND td.type = 5
+        </if>
         <if test="icustomerid!=null">
             AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
         </if>
-		 UNION
-	SELECT
-		td.id AS devid,
-		td.type AS type,
-		tdt.`name` AS typename,
-		td.`name` AS devname,
-		td.site AS site,
-		td.ip AS ip,
-		td.`status` AS `status`,
-		tg.dCollectDT AS updateTime,
-		tg.gCH4 AS val
-	FROM
-		t_dev td
-		INNER JOIN t_dev_type tdt ON td.type = tdt.id
-		INNER JOIN t_gas tg ON td.id = tg.dev_id
+        UNION
+        SELECT
+        td.id AS devid,
+        td.type AS type,
+        tdt.`name` AS typename,
+        td.`name` AS devname,
+        td.site AS site,
+        td.ip AS ip,
+        td.`status` AS `status`,
+        tg.dCollectDT AS updateTime,
+        tg.gCH4 AS val
+        FROM
+        t_dev td
+        LEFT JOIN t_dev_type tdt ON td.type = tdt.id
+        LEFT JOIN t_gas tg ON td.id = tg.dev_id
         where 1=1
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="devname!=null">
@@ -324,10 +334,13 @@ FROM
         <if test="type!=null">
             AND td.type = #{type,jdbcType=INTEGER}
         </if>
+        <if test="type==null">
+            AND td.type = 6
+        </if>
         <if test="icustomerid!=null">
             AND td.iCustomerID = #{icustomerid,jdbcType=INTEGER}
         </if>
-	) a
+        ) a
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_gas

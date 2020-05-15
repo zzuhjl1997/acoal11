@@ -227,7 +227,6 @@ public class TemperatureController {
             System.out.println("更新时间" + DateUtil.dateToString(item.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
             System.out.println("更新时间" + item.getUpdateTime());
 
-//            System.out.println("对象"+item);
         }
         ResultData resultData = new ResultData();
         resultData.setPagecount(count);

@@ -377,7 +377,7 @@
         t_dev
         WHERE 1=1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
-        <if test="online != null">AND online = #{online}</if>
+       <!-- <if test="online != null">AND online = #{online}</if>-->
         <if test="type!=null">AND type = #{type}</if>
         <!--
                 <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
@@ -457,8 +457,8 @@
         td.status AS status
         FROM
         t_dev td
-        INNER JOIN t_dev_type tdt ON td.type = tdt.id
-        INNER JOIN t_hydrantid_relation th ON td.id = th.hydrantid
+        LEFT JOIN t_dev_type tdt ON td.type = tdt.id
+        LEFT JOIN t_hydrantid_relation th ON td.id = th.hydrantid
         WHERE
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
@@ -550,8 +550,8 @@
         count(*)
         FROM
         t_dev td
-        INNER JOIN t_dev_type tdt ON td.type = tdt.id
-        INNER JOIN t_hydrantid_relation th ON td.id = th.hydrantid
+        LEFT JOIN t_dev_type tdt ON td.type = tdt.id
+        LEFT JOIN t_hydrantid_relation th ON td.id = th.hydrantid
         WHERE
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
@@ -562,6 +562,7 @@
         td.id AS devid,
         td.NAME AS NAME,
         td.site AS site,
+        td.type as type,
         tr.`name` AS region,
         td.STATUS AS STATUS,
         td.ONLINE AS ONLINE,
@@ -596,8 +597,8 @@
         t_dev_active
         WHERE 1=1
         <if test="devid != null">AND dev_id = #{devid}</if>
-        <if test="starttime!=null">AND open_time BETWEEN #{starttime}</if>
-        <if test="endtime!=null">AND #{endtime}</if>
+        <if test="startdate!=null">AND open_time BETWEEN #{startdate}</if>
+        <if test="enddate!=null">AND #{enddate}</if>
         GROUP BY
         time
 
@@ -651,5 +652,19 @@
         </if>
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
         <if test="region != null">AND region = #{region}</if>
+    </select>
+    <select id="selectDevCountByType" resultType="java.lang.Integer">
+            SELECT
+            COUNT(*)
+            FROM
+            t_dev
+            WHERE 1=1
+            <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+            <if test="online != null">AND online = #{online}</if>
+            <if test="type!=null">AND type = #{type}</if>
+            <!--
+                    <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+            -->
+
     </select>
 </mapper>

@@ -90,32 +90,12 @@ public class AlarmController {
             jr.setMsg("删除异常！可能出现删除多个记录的情况！");
         }
         return JSON.toJSONString(jr);
-        /*
-        String[] alarmArray = alarmIds.split(",");
-        int iserror = 0;
-        for (int i = 0; i < alarmArray.length; i++) {
-            iserror += atsi.deleteByPrimaryKey(Long.valueOf(alarmArray[i]));
-        }
-        if (iserror == alarmArray.length) {
-            jr.setMsg("删除完毕！");
-            jr.setStatus(200);
-        } else if (iserror < alarmArray.length) {
-            jr.setMsg("删除错误！");
-            jr.setStatus(500);
-        } else if (iserror > alarmArray.length) {
-            jr.setStatus(555);
-            jr.setMsg("删除异常！可能出现删除多个记录的情况！");
-        }
-        return JSON.toJSONString(jr);
-         */
     }
 
     @ApiOperation(value = "通过条件查询报警信息后导出")
     @GetMapping("/exp")
     public ResponseEntity<byte[]> exportAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
-        /*User user = (User)session.getAttribute("user");
-        Integer customerId = user.getIcustomerid();
-        condition.put("customerId",customerId.toString());*/
+
         List list = atsi.selectAlarmModelByCondition(null, Integer.MAX_VALUE, condition).getList();
         System.out.println(list);
         return PoiUtils.exportAlarmModel2Excel(atsi.selectAlarmModelByCondition(null, Integer.MAX_VALUE, condition).getList());

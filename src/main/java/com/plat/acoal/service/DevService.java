@@ -68,4 +68,6 @@ public interface DevService {
 
     //参数设置的设备树
     List<Dev> selectDevPByRegion(Integer currentPage, Dev dev);
+
+    Integer selectDevCountByType(Map<String, String> condition);
 }

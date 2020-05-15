@@ -4,14 +4,13 @@ import com.plat.acoal.dao.DevMapper;
 import com.plat.acoal.dao.ParameterMapper;
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.entity.Parameter;
+import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.model.ParameterInfo;
 import com.plat.acoal.service.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ParameterServiceImpl implements ParameterService {
@@ -69,7 +68,7 @@ public class ParameterServiceImpl implements ParameterService {
                         parameter.setId(paramList.get(0).getId());
                         parameter.setUpdatedatetime(new Date());
                         parameterMapper.updateByPrimaryKeySelective(parameter);
-                    }else {
+                    } else {
                         // 插入一条新纪录
                         parameter.setDevId(0);
                         parameter.setAdddatetime(new Date());
@@ -130,6 +129,9 @@ public class ParameterServiceImpl implements ParameterService {
     public List<ParameterInfo> selectParamByCondition(String cparam, Integer icustomerid, Integer deviceId) {
 
         Parameter parameter = new Parameter();
+        //查询该devid对应的type
+
+
         if (deviceId == 0) {
             parameter.setDevId(deviceId);
             parameter.setCparam(cparam);
