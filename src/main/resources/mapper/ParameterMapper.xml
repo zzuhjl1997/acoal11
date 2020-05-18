@@ -267,6 +267,9 @@
         <if test="cparam!=null and cparam!=''">
             AND cParam = #{cparam}
         </if>
+        <if test="type!=null">
+            AND type = #{type}
+        </if>
 
 
     </select>
