@@ -23,7 +23,7 @@
     SELECT
     dCollectDT,tFlow,dev_id as devid
     FROM
-    t_flow_history
+    t_flow
     WHERE
     1 = 1
     <if test="flowid!=null">
@@ -31,7 +31,7 @@
     </if>
     ORDER BY
     dCollectDT
-    LIMIT 4
+    LIMIT 1
 
   </select>
   <select id="selectFByHour" resultType="com.plat.acoal.model.PressureFlowModel">

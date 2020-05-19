@@ -50,12 +50,11 @@ public class MonitorContoller {
         //type
         List<DevInfo> list = devServiceImpl.selectDevList(condition);
         List<DevInfo> listr = new ArrayList<>();
-        List<DevInfo> list_re = new ArrayList<>();
-        List<ParameterInfo> listp = new ArrayList<>();
+        List<DevInfo> list_re;
+        List<ParameterInfo> listp;
         //查询基础信息
         for (DevInfo devInfo : list) {
             condition.put("devid", String.valueOf(devInfo.getId()));
-//            condition.remove("devid");
             //0=离线 1=正常 2=报警
             if (devInfo != null) {
                 if (devInfo.getOnline() != null && devInfo.getOnline() == 1) {
@@ -290,10 +289,8 @@ public class MonitorContoller {
                                 }
                                 break;
 
-                            case 9:
-//                                condition.remove("devid");
+                            case 3:
                                 condition.remove("type");
-                                condition.remove("status");
 
                                 condition.put("devid", devInfo.getId().toString());
                                 List<CannonInfo> listc = cannonServiceImpl.selectNewCannonById(condition);
@@ -312,67 +309,51 @@ public class MonitorContoller {
                                 } else {
                                     devInfo.setRemark("离线");
                                 }
+                                break;
                             default:
                                 break;
-
                         }
-
-
                     }
 
-                } else {
-                    devInfo.setRemark("正常");
+                } else if (devInfo.getOnline() != null && devInfo.getOnline() == 0) {
+                    devInfo.setRemark("离线");
                 }
-            } else {
-                devInfo.setRemark("离线");
             }
             listr.add(devInfo);
         }
 
-    
+
         condition.remove("devid");
         condition.remove("type");
 
-    //正常1 离线0 报警2 3无数据
-        try
-
-    {
+        //正常1 离线0 报警2 3无数据
 
         if (condition.containsKey("status")) {
-//                if (condition.get("status").equals(1)) {
-//                    if (condition.get("status").equals(2)) {
-//                        list_re = listr.stream().filter(devInfo -> devInfo.getRemark().equals("报警")).collect(Collectors.toList());
-//                    } else {
-//                        //在线
-//                        list_re = listr.stream().filter(devInfo -> devInfo.getOnline().equals(1)).collect(Collectors.toList());
-//                    }
-//                } else {
-//                    //离线
-//                    list_re = listr.stream().filter(devInfo -> devInfo.getOnline() == 0).collect(Collectors.toList());
-//                }
-            if (condition.get("status").equals("2")) {
-                list_re = listr.stream().filter(devInfo -> devInfo.getRemark().equals("报警")).collect(Collectors.toList());
-            }
-              /*  }else if(condition.get("status").equals(1)){
-                    list_re = listr.stream().filter(devInfo -> devInfo.getRemark().equals("正常")).collect(Collectors.toList());
+            switch (condition.get("status")) {
+                case "0":
+                    list_re = listr.stream().filter(devInfo -> devInfo.getRemark() != null && devInfo.getRemark().equals("离线")).collect(Collectors.toList());
+                    break;
 
-                }else if(condition.get("status").equals(0)){
-                    list_re = listr.stream().filter(devInfo -> devInfo.getRemark().equals("离线")).collect(Collectors.toList());
-                } else if(condition.get("status").equals(3)){
-                    list_re = listr.stream().filter(devInfo -> devInfo.getRemark().equals("无数据")).collect(Collectors.toList());
-                }*/
+                case "1":
+                    list_re = listr.stream().filter(devInfo -> devInfo.getRemark() != null && devInfo.getRemark().equals("正常")).collect(Collectors.toList());
+                    break;
+                case "2":
+                    list_re = listr.stream().filter(devInfo -> devInfo.getRemark() != null && devInfo.getRemark().equals("报警")).collect(Collectors.toList());
+                    break;
+                case "3":
+                    list_re = listr.stream().filter(devInfo -> devInfo.getRemark() != null && devInfo.getRemark().equals("无数据")).collect(Collectors.toList());
+                    break;
+                default:
+                    list_re = listr;
+
+            }
         } else {
             list_re = listr;
-        }
-    } catch(
-    Exception e)
 
-    {
-        e.printStackTrace();
-    }
+        }
 
         return JSON.toJSONString(list_re);
-}
+    }
 
     @RequestMapping(value = "alldev")
     public String alldev(@RequestParam Map<String, String> condition, HttpSession session) {

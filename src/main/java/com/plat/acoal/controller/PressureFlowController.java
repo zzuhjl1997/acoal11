@@ -102,7 +102,7 @@ public class PressureFlowController {
         HydrantidRelation hydrantidRelation_re = hydrantidRelationServiceImpl.selectHydByHId(Integer.parseInt(devid));
         //查询实时水压
         if (hydrantidRelation_re != null) {
-            pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+            pressureFlowModel.setPressureid(hydrantidRelation_re.getPressureid());
         }
         String newdate = null;
         List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
@@ -115,12 +115,14 @@ public class PressureFlowController {
 
         //获取消防栓状态
         if (hydrantidRelation_re != null) {
-            pressureFlowModel.setDevid(hydrantidRelation_re.getFlowid());
+            pressureFlowModel.setFlowid(hydrantidRelation_re.getFlowid());
         }
 
 
         //查询实时流量
         List<PressureFlowModel> newFlow = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
+
+
         System.out.println(newFlow + "adwdqw");
         String[] arrtime = new String[24];
         double[] flow = new double[24];
@@ -149,6 +151,7 @@ public class PressureFlowController {
         resultData.setDate(newdate);
         resultData.setDatalst3(newPress);
         resultData.setArrddata3(flow);
+        resultData.setData(newFlow);
 
         return JSON.toJSONString(resultData);
     }
@@ -457,9 +460,9 @@ public class PressureFlowController {
         pressureFlowModel.setDcollectstart(startdate);
         pressureFlowModel.setDcollectend(enddate);
 
-        List<PressureFlowModel> newDust = pressureFlowServiceImpl.selectFByHour(pressureFlowModel);
+        List<PressureFlowModel> newpf= pressureFlowServiceImpl.selectFByHour(pressureFlowModel);
         ResultData resultData = new ResultData();
-        for (PressureFlowModel item : newDust) {
+        for (PressureFlowModel item : newpf) {
             Date dt = item.getDcollectdt();
             arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
 
@@ -470,18 +473,21 @@ public class PressureFlowController {
             pos++;
         }
         if (hydrantidRelation_re != null) {
-            pressureFlowModel.setDevid(hydrantidRelation_re.getPressureid());
+            pressureFlowModel.setPressureid(hydrantidRelation_re.getPressureid());
+            pressureFlowModel.setFlowid(hydrantidRelation_re.getFlowid());
         }
 
         resultData.setArrddata1(fLArr);
         resultData.setArrsdata1(arrhours);
         List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
+        List<PressureFlowModel> newflow = pressureFlowServiceImpl.selectNewFById(pressureFlowModel);
         String newdate = null;
         if (newPress.size() > 0) {
             newdate = DateUtil.dateToString(newPress.get(0).getDcollectdt(), "yyyy-MM-dd HH:mm:ss");
         }
         resultData.setDate(newdate);
-        resultData.setData(newPress);
+        resultData.setData(newflow);
+        resultData.setDatalst3(newPress);
         return JSON.toJSONString(resultData);
     }
 

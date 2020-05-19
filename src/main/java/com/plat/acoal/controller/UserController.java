@@ -45,7 +45,6 @@ public class UserController {
         Integer pageSize = 1;
 
         if (condition.containsKey("currentPage")) {
-//            System.out.println("哈瞌睡的感觉啊上的杰卡斯感到恐惧");
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
             pageSize = StringUtils.isBlank(condition.get("pageSize")) ? 1 : Integer.valueOf(condition.get("pageSize"));
             condition.remove("currentPage");
