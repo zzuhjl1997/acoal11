@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 public class TemperatureInfo {
     private String dcollectstart;
     private String dcollectend;
-    private Float ft;
+    private Double ft;
     private Date dcollectdt;
     private String dcollectdt_re;
     private int devid;

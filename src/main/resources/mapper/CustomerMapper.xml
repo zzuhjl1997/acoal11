@@ -53,6 +53,21 @@
         from t_customer
         where ID = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectCustomesByCondition" resultType="com.plat.acoal.model.CustomerInfo" parameterType="map">
+        SELECT
+        cCustomerName,
+        cCustomerAddress,
+        cOperationName,
+        cOperationPhone,
+        latitude,
+        longitude
+        FROM
+        t_customer
+        where 1=1
+        <if test="icustomerid!=null">and iCustomerID = #{id,jdbcType=INTEGER}</if>
+
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_customer
     where ID = #{id,jdbcType=INTEGER}

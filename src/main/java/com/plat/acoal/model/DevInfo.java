@@ -44,7 +44,7 @@ public class DevInfo {
     private Date updateTime;
     private String lastTime;
     private Integer status;
-    private double fT;
+    private Double fT;
     private Double tflow;
     private Double tpressure;
 
@@ -70,6 +70,9 @@ public class DevInfo {
     private Integer online;
     private Integer devid;
     private Integer rotate;
+    private Integer isopen;
+    private Integer isfire;
+    private Integer isfault;
     //总时间
     private String sumtime;
     //所有的在线率

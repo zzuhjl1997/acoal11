@@ -608,7 +608,7 @@
         SELECT
         td.id as id,
         td.NAME AS NAME,
-        tr.`name`,
+        tr.`name` regionname,
         td.site AS site,
         td.`code` AS CODE,
         td.type as type,

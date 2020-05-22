@@ -49,7 +49,7 @@ public class GasController {
      */
     @RequestMapping(value = "/newCh4", produces = "application/json;charset=UTF-8")
     public String selectNewCh4(GasModel gasModel, HttpServletRequest request) {
-        String devid =null;
+        String devid = null;
         if (request.getParameter("devid") != null && !"".equals(request.getParameter("devid"))) {
             devid = request.getParameter("devid");
         }
@@ -135,9 +135,7 @@ public class GasController {
             enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
         }
         double[] fGch4Arr = new double[24];
-        double[] fGcoArr = new double[24];
-        double[] fGo2Arr = new double[24];
-        String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
+        String[] arrhours = new String[24];
         for (int i = 0; i < 24; i++) {
             if (i < 10) {
                 arrhours[i] = "0" + String.valueOf(i) + ":00";
@@ -228,10 +226,8 @@ public class GasController {
             startdate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 00:00:00";
             enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
         }
-        double[] fGch4Arr = new double[24];
         double[] fGcoArr = new double[24];
-        double[] fGo2Arr = new double[24];
-        String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
+        String[] arrhours = new String[24];
         for (int i = 0; i < 24; i++) {
             if (i < 10) {
                 arrhours[i] = "0" + String.valueOf(i) + ":00";
@@ -392,7 +388,7 @@ public class GasController {
             currentPage = null;
             pageSize = null;
         }
-        int count_se=0;
+        int count_se = 0;
         List<GasModel> allgas = gasServiceImpl.selectGasList(condition, pageSize, currentPage);
         for (GasModel gasModel : allgas) {
             count_se++;

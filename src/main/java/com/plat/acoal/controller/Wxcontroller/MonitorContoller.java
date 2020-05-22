@@ -1,12 +1,14 @@
 package com.plat.acoal.controller.Wxcontroller;
 
 import com.alibaba.fastjson.JSON;
+import com.plat.acoal.bean.ResultData;
 import com.plat.acoal.entity.Dust;
 import com.plat.acoal.entity.Temperature;
 import com.plat.acoal.model.*;
 import com.plat.acoal.service.impl.*;
 import com.plat.acoal.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -364,6 +366,22 @@ public class MonitorContoller {
 
     @RequestMapping(value = "devinfo")
     public String devinfo(@RequestParam Map<String, String> condition, HttpSession session) {
+        Date date1 = new Date();
+        String startdate = null;
+        String enddate = null;
+        if (condition.containsKey("date")) {
+            startdate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 00:00:00");
+            enddate = StringUtils.isBlank(condition.get("date")) ? null : String.valueOf(condition.get("date") + " 23:59:59");
+        } else {
+            startdate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 00:00:00";
+            enddate = DateUtil.dateToString(date1, "yyyy-MM-dd") + " 23:59:59";
+        }
+        double[] Arr = new double[24];
+        String[] arrhours = new String[24];
+        for (int i = 0; i < 24; i++) {
+            arrhours[i] = String.valueOf(i);
+        }
+
         //type
         List<DevInfo> list = devServiceImpl.selectDevList(condition);
         List<ParameterInfo> listp;
@@ -378,10 +396,29 @@ public class MonitorContoller {
                         condition.put("type", String.valueOf(devInfo.getType()));
                         switch (devInfo.getType()) {
                             case 2:
+
                                 TemperatureInfo temperatureInfo = new TemperatureInfo();
                                 temperatureInfo.setDevid(devInfo.getId());
+
+                                int pos = 0;
+                                temperatureInfo.setDcollectstart(startdate);
+                                temperatureInfo.setDcollectend(enddate);
+
+                                List<Temperature> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
+                                for (Temperature item : newFt) {
+                                    if (item.getDcollectdt() != null) {
+                                        Date dt = item.getDcollectdt();
+                                        pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                                        arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                                        if (item.getFt() != null && pos < 24) {
+                                            Arr[pos] = item.getFt();
+                                            arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
+                                        }
+                                    }
+                                }
                                 listp = parameterServiceImpl.selectParamInfoByCondition(condition);
                                 List<TemperatureInfo> listft = temperatureServiceImpl.selectNewFtById(temperatureInfo);
+
                                 if (listft.size() > 0) {
                                     if (listp.size() > 0) {
                                         for (ParameterInfo parameterInfo : listp) {
@@ -391,6 +428,7 @@ public class MonitorContoller {
                                                     devInfo.setFT(temitem.getFt());
                                                 } else {
                                                     devInfo.setRemark("");
+                                                    devInfo.setFT(temitem.getFt());
                                                 }
 
                                             }
@@ -406,6 +444,8 @@ public class MonitorContoller {
                                                     devInfo.setFT(temitem.getFt());
                                                 } else {
                                                     devInfo.setRemark("");
+                                                    devInfo.setFT(temitem.getFt());
+
 
                                                 }
 
@@ -422,6 +462,20 @@ public class MonitorContoller {
                             case 4:
                                 DustModel dustModel = new DustModel();
                                 dustModel.setDevid(devInfo.getId());
+                                dustModel.setDcollectstart(startdate);
+                                dustModel.setDcollectend(enddate);
+                                List<DustModel> newDust = dustServiceImpl.selectInfoByHour(dustModel);
+                                ResultData resultData = new ResultData();
+                                for (DustModel item : newDust) {
+                                    if (item.getDcollectdt() != null) {
+                                        Date dt = item.getDcollectdt();
+                                        pos = Integer.parseInt(DateUtil.dateToString(dt, "HH").substring(11, 13));
+                                        arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                                        if (item.getFdust() != null && pos < 24) {
+                                            Arr[pos] = item.getFdust();
+                                        }
+                                    }
+                                }
                                 listp = parameterServiceImpl.selectParamInfoByCondition(condition);
                                 List<DustModel> listd = dustServiceImpl.selectNewInfoById(dustModel);
                                 if (listd.size() > 0) {
@@ -429,9 +483,13 @@ public class MonitorContoller {
                                         for (ParameterInfo parameterInfo : listp) {
                                             for (DustModel dustitem : listd) {
                                                 if (dustitem.getFdust() >= Double.parseDouble(parameterInfo.getCvalue())) {
-                                                    devInfo.setRemark("报警");
+                                                    devInfo.setRemark("粉尘浓度过高");
+                                                    devInfo.setFdust(dustitem.getFdust());
+
                                                 } else {
-                                                    devInfo.setRemark("正常");
+                                                    devInfo.setRemark("");
+                                                    devInfo.setFdust(dustitem.getFdust());
+
                                                 }
                                             }
 
@@ -442,9 +500,11 @@ public class MonitorContoller {
                                         for (ParameterInfo parameterInfo : listp) {
                                             for (DustModel dustitem : listd) {
                                                 if (dustitem.getFdust() >= Double.valueOf(parameterInfo.getCvalue())) {
-                                                    devInfo.setRemark("报警");
+                                                    devInfo.setRemark("粉尘浓度过高");
+                                                    devInfo.setFdust(dustitem.getFdust());
                                                 } else {
-                                                    devInfo.setRemark("正常");
+                                                    devInfo.setRemark("");
+                                                    devInfo.setFdust(dustitem.getFdust());
                                                 }
                                             }
 
@@ -458,6 +518,27 @@ public class MonitorContoller {
                             case 5:
                                 GasModel gasModel = new GasModel();
                                 gasModel.setDevid(devInfo.getId());
+                                for (int i = 0; i < 24; i++) {
+                                    if (i < 10) {
+                                        arrhours[i] = "0" + String.valueOf(i) + ":00";
+                                    } else {
+                                        arrhours[i] = String.valueOf(i) + ":00";
+                                    }
+                                }
+                                gasModel.setDcollectstart(startdate);
+                                gasModel.setDcollectend(enddate);
+                                List<GasModel> newGas = gasServiceImpl.selectCoByHour(gasModel);
+                                for (GasModel item : newGas) {
+                                    if (item.getDcollectdt() != null) {
+                                        Date dt = item.getDcollectdt();
+                                        pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                                        arrhours[pos] = DateUtil.dateToString(dt, "HH");
+
+                                        if (item.getGco() != null && pos < 24) {
+                                            Arr[pos] = item.getGch4();
+                                        }
+                                    }
+                                }
                                 listp = parameterServiceImpl.selectParamInfoByCondition(condition);
                                 List<GasModel> listco = gasServiceImpl.selectNewCoById(gasModel);
                                 if (listco.size() > 0) {
@@ -465,9 +546,12 @@ public class MonitorContoller {
                                         for (ParameterInfo parameterInfo : listp) {
                                             for (GasModel coitem : listco) {
                                                 if (coitem.getGco() >= Double.parseDouble(parameterInfo.getCvalue())) {
-                                                    devInfo.setRemark("报警");
+                                                    devInfo.setRemark("CO浓度过高");
+                                                    devInfo.setGco(coitem.getGco());
                                                 } else {
-                                                    devInfo.setRemark("正常");
+                                                    devInfo.setRemark("");
+                                                    devInfo.setGco(coitem.getGco());
+
                                                 }
 
                                             }
@@ -480,9 +564,12 @@ public class MonitorContoller {
                                         for (ParameterInfo parameterInfo : listp) {
                                             for (GasModel coitem : listco) {
                                                 if (coitem.getGco() >= Double.parseDouble(parameterInfo.getCvalue())) {
-                                                    devInfo.setRemark("报警");
+                                                    devInfo.setRemark("CO浓度过高");
+                                                    devInfo.setGco(coitem.getGco());
                                                 } else {
-                                                    devInfo.setRemark("正常");
+                                                    devInfo.setRemark("");
+                                                    devInfo.setGco(coitem.getGco());
+
                                                 }
 
                                             }
@@ -497,16 +584,40 @@ public class MonitorContoller {
                             case 6:
                                 gasModel = new GasModel();
                                 gasModel.setDevid(devInfo.getId());
+                                for (int i = 0; i < 24; i++) {
+                                    if (i < 10) {
+                                        arrhours[i] = "0" + String.valueOf(i) + ":00";
+                                    } else {
+                                        arrhours[i] = String.valueOf(i) + ":00";
+                                    }
+                                }
+                                gasModel.setDcollectstart(startdate);
+                                gasModel.setDcollectend(enddate);
+                                List<GasModel> ch4lst = gasServiceImpl.selectCh4ByHour(gasModel);
+                                for (GasModel item : ch4lst) {
+                                    if (item.getDcollectdt() != null) {
+                                        Date dt = item.getDcollectdt();
+                                        pos = Integer.parseInt(DateUtil.dateToString(dt, "HH").substring(11, 13));
+                                        arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                                        if (item.getGch4() != null && pos < 24) {
+                                            Arr[pos] = item.getGch4();
+                                        }
+                                    }
+                                }
+
                                 listp = parameterServiceImpl.selectParamInfoByCondition(condition);
                                 List<GasModel> listch4 = gasServiceImpl.selectNewCh4ById(gasModel);
                                 if (listch4.size() > 0) {
                                     if (listp.size() > 0) {
                                         for (ParameterInfo parameterInfo : listp) {
-                                            for (GasModel coitem : listch4) {
-                                                if (coitem.getGch4() >= Double.parseDouble(parameterInfo.getCvalue())) {
-                                                    devInfo.setRemark("报警");
+                                            for (GasModel ch4item : listch4) {
+                                                if (ch4item.getGch4() >= Double.parseDouble(parameterInfo.getCvalue())) {
+                                                    devInfo.setRemark("CH4浓度过高");
+                                                    devInfo.setGch4(ch4item.getGch4());
                                                 } else {
-                                                    devInfo.setRemark("正常");
+                                                    devInfo.setRemark("");
+                                                    devInfo.setGch4(ch4item.getGch4());
+
                                                 }
 
                                             }
@@ -517,11 +628,14 @@ public class MonitorContoller {
                                         listp = parameterServiceImpl.selectParamInfoByCondition(condition);
 
                                         for (ParameterInfo parameterInfo : listp) {
-                                            for (GasModel coitem : listch4) {
-                                                if (coitem.getGch4() >= Double.parseDouble(parameterInfo.getCvalue())) {
-                                                    devInfo.setRemark("报警");
+                                            for (GasModel ch4item : listch4) {
+                                                if (ch4item.getGch4() >= Double.parseDouble(parameterInfo.getCvalue())) {
+                                                    devInfo.setRemark("CH4浓度过高");
+                                                    devInfo.setGch4(ch4item.getGch4());
                                                 } else {
-                                                    devInfo.setRemark("正常");
+                                                    devInfo.setRemark("");
+                                                    devInfo.setGch4(ch4item.getGch4());
+
                                                 }
 
                                             }
@@ -534,6 +648,7 @@ public class MonitorContoller {
                                 }
                                 break;
                             case 7:
+
                                 PressureFlowModel pressureFlowModel = new PressureFlowModel();
                                 pressureFlowModel.setPressureid(devInfo.getId());
                                 listp = parameterServiceImpl.selectParamInfoByCondition(condition);
@@ -608,6 +723,33 @@ public class MonitorContoller {
                                 }
                                 break;
 
+                            case 9:
+                                condition.remove("type");
+                                //获取设备数据
+                               List<DevInfo> listfan = devServiceImpl.selectFanInfo(condition);
+
+                                for (DevInfo item : listfan) {
+                                    if(devInfo.getLastTime()!=null){
+                                        devInfo.setLastTime(item.getLastTime().substring(0,19));
+                                    }
+                                }
+                                condition.put("startdate",startdate);
+                                condition.put("enddate",enddate);
+                                int[] count = new int[24];
+                                //统计启动次数
+                                List<DevActiveInfo> listcount = devServiceImpl.selectCountOpen(condition);
+                                for (DevActiveInfo devActiveInfo : listcount) {
+                                    if (devActiveInfo.getTime() != null) {
+                                        String dt = devActiveInfo.getTime();
+                                        pos = Integer.parseInt(dt.substring(11, 13));
+                                        if (devActiveInfo.getNum() != null && pos < 24) {
+                                            arrhours[pos] = dt.substring(11, 13) + ":00";
+                                            Arr[pos] = devActiveInfo.getNum();
+                                        }
+                                    }
+
+                                }
+
                             case 3:
                                 condition.remove("type");
 
@@ -616,17 +758,28 @@ public class MonitorContoller {
                                 if (devInfo.getOnline() != null && devInfo.getOnline() == 1) {
                                     for (CannonInfo cannonInfo : listc) {
 
-                                        if (cannonInfo.getIsfire() == 1) {
-                                            devInfo.setRemark("报警");
-                                        } else if (cannonInfo.getIsfault() == 1) {
-                                            devInfo.setRemark("故障");
+                                        if (cannonInfo.getIsopen() == 1) {
+                                            devInfo.setRemark("消防炮已开启");
+                                            devInfo.setIsopen(cannonInfo.getIsopen());
+                                            devInfo.setIsfire(cannonInfo.getIsfire());
+                                            devInfo.setIsfault(cannonInfo.getIsfault());
+                                        } else if (cannonInfo.getIsopen() == 0) {
+                                            devInfo.setRemark("消防炮未开启");
+                                            devInfo.setIsopen(cannonInfo.getIsopen());
+                                            devInfo.setIsfire(cannonInfo.getIsfire());
+                                            devInfo.setIsfault(cannonInfo.getIsfault());
                                         } else {
-                                            devInfo.setRemark("正常");
+                                            devInfo.setRemark("");
+                                            devInfo.setIsopen(cannonInfo.getIsopen());
+                                            devInfo.setIsfire(cannonInfo.getIsfire());
+                                            devInfo.setIsfault(cannonInfo.getIsfault());
                                         }
 
                                     }
                                 } else {
+
                                     devInfo.setRemark("离线");
+
                                 }
                                 break;
                             default:
@@ -639,10 +792,20 @@ public class MonitorContoller {
                 }
             }
 
+
             listr.add(devInfo);
         }
 
-        return JSON.toJSONString(listr);
+        ResultData resultData = new ResultData();
+        if (listr.size() > 0) {
+            resultData.setCode(200);
+        } else {
+            resultData.setCode(500);
+        }
+        resultData.setData(listr);
+        resultData.setArrsdata1(arrhours);
+        resultData.setArrddata3(Arr);
+        return JSON.toJSONString(resultData);
     }
 
 
