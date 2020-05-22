@@ -618,6 +618,7 @@
         INNER JOIN t_region tr ON td.region = tr.id
         WHERE 1=1
         <if test="type != null">AND td.type = #{type,jdbcType=INTEGER}</if>
+        <if test="devid != null">AND td.id = #{devid,jdbcType=INTEGER}</if>
         <if test="region != null">AND td.region = #{region,jdbcType=INTEGER}</if>
     </select>
     <select id="selectDevAmountModel" parameterType="map" resultType="com.plat.acoal.model.DevAmountModel">

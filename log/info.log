@@ -17999,3 +17999,237 @@
 2020-05-19 14:44:57.468 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
 2020-05-19 14:44:57.473 [INFO ] com.alibaba.druid.pool.DruidDataSource.close - {dataSource-1} closed
 2020-05-19 15:05:29.292 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-20 16:58:27.015 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 20584 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-20 16:58:27.050 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-20 16:58:29.696 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-20 16:58:30.324 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-20 16:58:30.333 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-20 16:58:30.334 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-20 16:58:30.334 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-20 16:58:30.492 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-20 16:58:30.493 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 3368 ms
+2020-05-20 16:58:30.875 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-20 16:58:31.484 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-20 16:58:33.009 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-20 16:58:33.126 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-20 16:58:33.234 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-20 16:58:33.419 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-20 16:58:33.449 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-20 16:58:33.506 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-20 16:58:33.663 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-20 16:58:33.691 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-20 16:58:33.693 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 7.648 seconds (JVM running for 13.906)
+2020-05-20 17:03:52.330 [INFO ] org.springframework.test.context.support.AbstractTestContextBootstrapper.buildDefaultMergedContextConfiguration - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.plat.acoal.AcoalApplicationTests], using SpringBootContextLoader
+2020-05-20 17:03:52.334 [INFO ] org.springframework.test.context.support.AbstractContextLoader.generateDefaultLocations - Could not detect default resource locations for test class [com.plat.acoal.AcoalApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-05-20 17:03:52.336 [INFO ] org.springframework.test.context.support.AnnotationConfigContextLoaderUtils.detectDefaultConfigurationClasses - Could not detect default configuration classes for test class [com.plat.acoal.AcoalApplicationTests]: AcoalApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2020-05-20 17:03:52.445 [INFO ] org.springframework.boot.test.context.SpringBootTestContextBootstrapper.getOrFindConfigurationClasses - Found @SpringBootConfiguration com.plat.acoal.AcoalApplication for test class com.plat.acoal.AcoalApplicationTests
+2020-05-20 17:03:52.504 [INFO ] org.springframework.test.context.support.AbstractTestContextBootstrapper.getDefaultTestExecutionListenerClassNames - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2020-05-20 17:03:52.518 [INFO ] org.springframework.test.context.support.AbstractTestContextBootstrapper.getTestExecutionListeners - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2dcd168a, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@388526fb, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@21a21c64, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@7803bfd, org.springframework.test.context.support.DirtiesContextTestExecutionListener@42bc14c1, org.springframework.test.context.transaction.TransactionalTestExecutionListener@531f4093, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@62ef27a8, org.springframework.test.context.event.EventPublishingTestExecutionListener@6436a7db, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@460ebd80, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@6f3c660a, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@74f5ce22, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@25aca718, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@16fdec90]
+2020-05-20 17:03:52.776 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplicationTests on DESKTOP-9U931CE with PID 21212 (started by Administrator in D:\xz\acoal)
+2020-05-20 17:03:52.778 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-20 17:03:54.033 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-20 17:03:54.221 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-20 17:03:54.416 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-20 17:03:55.923 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-20 17:03:56.262 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-20 17:03:56.334 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-20 17:03:56.612 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-20 17:03:56.639 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-20 17:03:56.699 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-20 17:03:56.906 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplicationTests in 4.36 seconds (JVM running for 5.842)
+2020-05-20 17:03:57.295 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-20 17:03:57.299 [INFO ] com.alibaba.druid.pool.DruidDataSource.close - {dataSource-1} closed
+2020-05-21 17:57:36.709 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 13772 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 17:57:36.751 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 17:57:39.657 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 17:57:40.299 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 17:57:40.310 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 17:57:40.311 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 17:57:40.311 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 17:57:40.411 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 17:57:40.412 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 3517 ms
+2020-05-21 17:57:40.691 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 17:57:41.003 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 17:57:42.203 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 17:57:42.339 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 17:57:42.417 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 17:57:42.642 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 17:57:42.745 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 17:57:43.653 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 17:57:45.479 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 17:57:45.511 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 17:57:45.514 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 9.277 seconds (JVM running for 13.155)
+2020-05-21 17:58:19.844 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 17:58:19.844 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 17:58:19.850 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 6 ms
+2020-05-21 18:00:14.334 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 18292 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 18:00:14.338 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 18:00:16.259 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 18:00:16.752 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 18:00:16.772 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:00:16.773 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 18:00:16.774 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 18:00:16.885 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 18:00:16.885 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2498 ms
+2020-05-21 18:00:17.047 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 18:00:17.139 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 18:00:17.930 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 18:00:18.028 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:00:18.083 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 18:00:18.191 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 18:00:18.219 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 18:00:18.271 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 18:00:18.421 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:00:18.441 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 18:00:18.444 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 4.554 seconds (JVM running for 7.619)
+2020-05-21 18:01:43.158 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 18:01:43.158 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 18:01:43.165 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 6 ms
+2020-05-21 18:02:22.543 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 14184 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 18:02:22.548 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 18:02:23.514 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 18:02:23.883 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 18:02:23.891 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:02:23.892 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 18:02:23.892 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 18:02:23.977 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 18:02:23.977 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1376 ms
+2020-05-21 18:02:24.134 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 18:02:24.222 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 18:02:24.928 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 18:02:25.006 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:02:25.052 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 18:02:25.155 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 18:02:25.168 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 18:02:25.215 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 18:02:25.359 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:02:25.379 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 18:02:25.382 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 3.184 seconds (JVM running for 5.916)
+2020-05-21 18:02:44.502 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 18:02:44.502 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 18:02:44.508 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 6 ms
+2020-05-21 18:18:51.753 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 16440 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 18:18:51.756 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 18:18:52.599 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 18:18:52.773 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 18:18:52.778 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:18:52.779 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 18:18:52.779 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 18:18:52.837 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 18:18:52.838 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1025 ms
+2020-05-21 18:18:53.000 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 18:18:53.085 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 18:18:53.594 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 18:18:53.665 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:18:53.707 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 18:18:53.791 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 18:18:53.814 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 18:18:53.861 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 18:18:53.994 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:18:54.009 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 18:18:54.011 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 2.45 seconds (JVM running for 5.406)
+2020-05-21 18:19:19.105 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 18:19:19.105 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 18:19:19.110 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 5 ms
+2020-05-21 18:19:58.835 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:19:58.850 [INFO ] com.alibaba.druid.pool.DruidDataSource.close - {dataSource-1} closed
+2020-05-21 18:20:02.040 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 15224 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 18:20:02.047 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 18:20:02.974 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 18:20:03.156 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 18:20:03.162 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:20:03.163 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 18:20:03.163 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 18:20:03.223 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 18:20:03.223 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1117 ms
+2020-05-21 18:20:03.379 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 18:20:03.458 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 18:20:04.051 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 18:20:04.118 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:20:04.156 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 18:20:04.237 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 18:20:04.247 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 18:20:04.289 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 18:20:04.419 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:20:04.433 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 18:20:04.435 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 2.729 seconds (JVM running for 4.762)
+2020-05-21 18:20:30.187 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 18:20:30.188 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 18:20:30.193 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 5 ms
+2020-05-21 18:20:48.263 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:20:48.279 [INFO ] com.alibaba.druid.pool.DruidDataSource.close - {dataSource-1} closed
+2020-05-21 18:20:53.999 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 11244 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 18:20:54.004 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 18:20:55.175 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 18:20:55.593 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 18:20:55.604 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:20:55.604 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 18:20:55.605 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 18:20:55.703 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 18:20:55.703 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1643 ms
+2020-05-21 18:20:55.893 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 18:20:55.991 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 18:20:56.795 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 18:20:56.878 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:20:56.930 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 18:20:57.055 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 18:20:57.069 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 18:20:57.126 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 18:20:57.293 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:20:57.316 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 18:20:57.319 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 3.691 seconds (JVM running for 8.283)
+2020-05-21 18:21:01.369 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 18:21:01.370 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 18:21:01.377 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 6 ms
+2020-05-21 18:22:20.472 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:22:20.483 [INFO ] com.alibaba.druid.pool.DruidDataSource.close - {dataSource-1} closed
+2020-05-21 18:22:25.611 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 15588 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 18:22:25.616 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 18:22:26.746 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 18:22:27.148 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 18:22:27.157 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:22:27.158 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 18:22:27.158 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 18:22:27.255 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 18:22:27.255 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1587 ms
+2020-05-21 18:22:27.438 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 18:22:27.535 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 18:22:28.366 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 18:22:28.460 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:22:28.514 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 18:22:28.621 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 18:22:28.635 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 18:22:28.699 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 18:22:28.874 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:22:28.899 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 18:22:28.903 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 3.661 seconds (JVM running for 7.677)
+2020-05-21 18:22:55.507 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 18:22:55.507 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 18:22:55.513 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 6 ms
+2020-05-21 18:23:27.391 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:23:27.398 [INFO ] com.alibaba.druid.pool.DruidDataSource.close - {dataSource-1} closed
+2020-05-21 18:23:30.430 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting - Starting AcoalApplication on DESKTOP-9U931CE with PID 14104 (D:\xz\acoal\target\classes started by Administrator in D:\xz\acoal)
+2020-05-21 18:23:30.434 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2020-05-21 18:23:31.330 [INFO ] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-21 18:23:31.515 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8889 (http)
+2020-05-21 18:23:31.522 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:23:31.522 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting service [Tomcat]
+2020-05-21 18:23:31.523 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-05-21 18:23:31.585 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring embedded WebApplicationContext
+2020-05-21 18:23:31.586 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1118 ms
+2020-05-21 18:23:31.751 [INFO ] com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure.dataSource - Init DruidDataSource
+2020-05-21 18:23:31.832 [INFO ] com.alibaba.druid.pool.DruidDataSource.init - {dataSource-1} inited
+2020-05-21 18:23:32.440 [INFO ] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-05-21 18:23:32.504 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:23:32.542 [INFO ] org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping.<init> - Adding welcome page: class path resource [static/index.html]
+2020-05-21 18:23:32.622 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Context refreshed
+2020-05-21 18:23:32.633 [INFO ] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start - Found 1 custom documentation plugin(s)
+2020-05-21 18:23:32.675 [INFO ] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan - Scanning for api listing references
+2020-05-21 18:23:32.809 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Starting ProtocolHandler ["http-nio-8889"]
+2020-05-21 18:23:32.823 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8889 (http) with context path ''
+2020-05-21 18:23:32.825 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted - Started AcoalApplication in 2.64 seconds (JVM running for 4.664)
+2020-05-21 18:23:47.466 [INFO ] org.apache.juli.logging.DirectJDKLog.log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-21 18:23:47.466 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+2020-05-21 18:23:47.477 [INFO ] org.springframework.web.servlet.FrameworkServlet.initServletBean - Completed initialization in 11 ms
+2020-05-21 18:29:58.398 [INFO ] org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-21 18:29:58.402 [INFO ] com.alibaba.druid.pool.DruidDataSource.close - {dataSource-1} closed
