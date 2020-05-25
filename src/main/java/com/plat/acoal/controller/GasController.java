@@ -244,8 +244,8 @@ public class GasController {
         for (GasModel item : newGas) {
             if (item.getDcollectdt() != null) {
                 Date dt = item.getDcollectdt();
-                pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
-                arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                pos = Integer.parseInt(DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 13));
+                arrhours[pos] = DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 16);
 
                 if (item.getGco() != null && pos < 24) {
                     fGcoArr[pos] = item.getGch4();

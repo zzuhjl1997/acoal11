@@ -306,18 +306,6 @@
         <if test="alarmTimeTail">
             AND `t_alarm`.alarm_time &lt;= date_sub(#{alarmTimeTail},interval -1 day)
         </if>
-        <!--        <if test="alarmTimeHead != null and alarmTimeTail != null">-->
-        <!--            AND `t_alarm`.alarm_time between from_unixtime(#{alarmTimeHead,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') AND-->
-        <!--            from_unixtime(#{alarmTimeTail,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') + INTERVAL 1 DAY-->
-        <!--        </if>-->
-        <!--        <if test="alarmTimeHead != null and alarmTimeTail == null">-->
-        <!--            AND `t_alarm`.alarm_time between from_unixtime(#{alarmTimeHead,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') AND-->
-        <!--            FROM_UNIXTIME(UNIX_TIMESTAMP(CAST(SYSDATE()AS DATE) + INTERVAL 1 DAY),'%Y-%m-%d')-->
-        <!--        </if>-->
-        <!--        <if test="alarmTimeHead == null and alarmTimeTail != null">-->
-        <!--            AND `t_alarm`.alarm_time between from_unixtime(0,'%Y-%m-%d') AND-->
-        <!--            from_unixtime(#{alarmTimeTail,jdbcType=TIMESTAMP}/1000,'%Y-%m-%d') + INTERVAL 1 DAY-->
-        <!--        </if>-->
         <if test="alarmTypeId != null">
             AND `t_alarm`.type = #{alarmTypeId,jdbcType=INTEGER}
         </if>
@@ -345,8 +333,9 @@
         <if test="devStatus != null">
             AND `d`.status = #{devStatus,jdbcType=INTEGER}
         </if>
+        order by alarm_time desc
         <if test="limit != null">
-            order by alarm_time desc LIMIT ${limit}
+            LIMIT ${limit}
         </if>
     </select>
     <select id="selectAlarmStatisticsModelByCondition" parameterType="map" resultMap="AlarmStatisticsModelMap">
@@ -362,7 +351,9 @@
         <!--<if test="alarmTimeHead == null and alarmTimeTail == null">AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(alarm_time)</if>
         <if test="alarmTimeHead != null and alarmTimeTail == null">AND alarm_time &gt;= #{alarmTimeHead} AND alarm_time &lt; #{alarmTimeHead}+INTERVAL 7 DAY</if>
         <if test="alarmTimeTail != null and alarmTimeHead == null">AND alarm_time &lt;= #{alarmTimeTail} AND alarm_time &gt; #{alarmTimeTail}-INTERVAL 7 DAY</if>-->
-        <if test="alarmTimeTail != null and alarmTimeHead != null">AND alarm_time &gt;= #{alarmTimeHead} AND alarm_time &lt;= #{alarmTimeTail} +INTERVAL 1 DAY</if>
+        <if test="alarmTimeTail != null and alarmTimeHead != null">AND alarm_time &gt;= #{alarmTimeHead} AND alarm_time
+            &lt;= #{alarmTimeTail} +INTERVAL 1 DAY
+        </if>
         <if test="alarmType != null">AND type = #{alarmTypeId}</if>) AS `a`
         GROUP BY
         a.`type`,
@@ -545,8 +536,8 @@ FROM
         WHERE
         1 = 1
         <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
-        <if test="starttime!=null">AND lasteventtime BETWEEN  #{starttime,jdbcType=TIMESTAMP}</if>
-        <if test="endtime!=null">AND  #{endtime,jdbcType=TIMESTAMP}</if>
+        <if test="starttime!=null">AND lasteventtime BETWEEN #{starttime,jdbcType=TIMESTAMP}</if>
+        <if test="endtime!=null">AND #{endtime,jdbcType=TIMESTAMP}</if>
     </select>
 
 </mapper>

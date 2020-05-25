@@ -17,10 +17,10 @@ public class GasModel {
     private String typename;
     private Date updatetime;
     private String lasttime;
-    private Float gco;
-    private Float gch4;
-    private Float go2;
-    private Float val;
+    private Double gco;
+    private Double gch4;
+    private Double go2;
+    private Double val;
     private String dcollectdt_re;
     private Date dcollectdt;
     private Integer devid;

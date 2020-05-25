@@ -8,7 +8,7 @@ import java.util.Date;
 public class DustModel {
     private String dcollectstart;
     private String dcollectend;
-    private Float fdust;
+    private Double fdust;
 
     private String dcollectdt_re;
     private Date dcollectdt;

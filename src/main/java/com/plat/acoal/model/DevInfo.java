@@ -52,15 +52,15 @@ public class DevInfo {
 
     private String devname;
 
-    private Float gco;
+    private Double gco;
 
-    private Float gch4;
+    private Double gch4;
 
-    private Float go2;
+    private Double go2;
 
-    private Float fdust;
+    private Double fdust;
 
-    private Float power;
+    private Double power;
 
     private Integer alarm;
 

@@ -38,16 +38,6 @@ public class AlarmController {
     AlarmServiceImpl atsi;
 
     @ApiOperation(value = "通过条件获取报警模型")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "regionId", value = "区域ID", dataType = "String"),
-            @ApiImplicitParam(name = "", value = "", dataType = ""),
-            @ApiImplicitParam(name = "", value = "", dataType = ""),
-            @ApiImplicitParam(name = "", value = "", dataType = ""),
-            @ApiImplicitParam(name = "", value = "", dataType = ""),
-            @ApiImplicitParam(name = "", value = "", dataType = ""),
-            @ApiImplicitParam(name = "", value = "", dataType = ""),
-            @ApiImplicitParam(name = "", value = "", dataType = ""),
-    })
     @GetMapping("/am")
     public String selectAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest req) {
         System.out.println("通过token获取到USER："+ JwtUtils.getUser(req));

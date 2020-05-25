@@ -377,7 +377,9 @@
         t_dev
         WHERE 1=1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
-       <!-- <if test="online != null">AND online = #{online}</if>-->
+        <if test="online != null">AND online = #{online}</if>
+        <if test="type!=null and type==5 or type==6">AND type = 5 or type=6
+        </if>
         <if test="type!=null">AND type = #{type}</if>
         <!--
                 <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
@@ -656,17 +658,17 @@
         <if test="region != null">AND region = #{region}</if>
     </select>
     <select id="selectDevCountByType" resultType="java.lang.Integer">
-            SELECT
-            COUNT(*)
-            FROM
-            t_dev
-            WHERE 1=1
-            <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
-            <if test="online != null">AND online = #{online}</if>
-            <if test="type!=null">AND type = #{type}</if>
-            <!--
-                    <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
-            -->
+        SELECT
+        COUNT(*)
+        FROM
+        t_dev
+        WHERE 1=1
+        <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+        <if test="online != null">AND online = #{online}</if>
+        <if test="type!=null">AND type = #{type}</if>
+        <!--
+                <if test="name!=null">AND LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
+        -->
 
     </select>
 </mapper>

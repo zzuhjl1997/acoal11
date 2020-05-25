@@ -13,6 +13,7 @@ import com.plat.acoal.service.impl.DustServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import com.plat.acoal.utils.JwtUtils;
+import com.plat.acoal.utils.NumUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +58,12 @@ public class DustController {
         }
         List<DustModel> newDust = dustServiceImpl.selectNewInfoById(dustModel);
 
-        double[] newVal = new double[3];
+        double[] newVal = new double[1];
         int pos = 0;
         for (DustModel d : newDust
         ) {
             if (d != null) {
-                newVal[pos] = d.getFdust();
+                newVal[pos] = NumUtil.dianhoun(d.getFdust(),3);
             } else {
                 newVal[pos] = 0.0;
             }
@@ -141,12 +142,13 @@ public class DustController {
         for (DustModel item : newDust) {
             if (item.getDcollectdt() != null) {
                 Date dt = item.getDcollectdt();
-                pos = Integer.parseInt(DateUtil.dateToString(dt, "HH").substring(11, 13));
-                arrhours[pos] = DateUtil.dateToString(dt, "HH");
+
+                String a=DateUtil.dateToString(dt, "HH");
+                pos = Integer.parseInt(DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 13));
+                arrhours[pos] = DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 16);
                 if (item.getFdust() != null && pos < 24) {
                     fDustArr[pos] = item.getFdust();
                 }
-//                pos++;
             }
         }
 

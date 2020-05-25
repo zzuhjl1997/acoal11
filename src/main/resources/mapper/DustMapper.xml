@@ -81,16 +81,20 @@
         td.code AS code,
         tdu.dCollectDT AS updateTime,
         td.ip AS ip,
-        td.`status` AS `status`,
+        td.`online` AS `online`,
         tdu.fDust as fdust
         FROM
         t_dev td
         LEFT JOIN t_dev_type tdt ON td.type = tdt.id
         LEFT JOIN t_dust tdu ON td.id = tdu.dev_id
         WHERE 1=1
+<!--
         <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
+-->
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
+<!--
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+-->
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
         ) a
 
@@ -110,7 +114,7 @@
         td.code AS code,
         td.update_time AS updateTime,
         td.ip AS ip,
-        td.`status` AS `status`,
+        td.`online` AS `online`,
         tdu.fDust as fdust
         FROM
         t_dev td

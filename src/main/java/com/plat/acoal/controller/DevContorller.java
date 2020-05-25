@@ -583,9 +583,10 @@ public class DevContorller {
         //获取在线设备总数量
         int onlinedev = 0;
         //获取各种设备数量
-        alldev = devServiceImpl.selectCountByType(condition);
+        condition.remove("type");
+        alldev = devServiceImpl.selectDevCountByType(condition);
         condition.put("online", "1");
-        onlinedev = devServiceImpl.selectCountByType(condition);
+        onlinedev = devServiceImpl.selectDevCountByType(condition);
 
 
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
