@@ -13,6 +13,7 @@ import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.service.impl.TemperatureServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import com.plat.acoal.utils.JwtUtils;
+import com.plat.acoal.utils.NumUtil;
 import lombok.extern.log4j.Log4j2;
 import net.sf.jsqlparser.expression.StringValue;
 import org.apache.commons.lang.StringUtils;
@@ -126,22 +127,25 @@ public class TemperatureController {
         double[] ftArr = new double[24];
         String[] arrhours = new String[24];// {"","","","","","","","","","","","","","","","","","","","","","","",""};
         for (int i = 0; i < 24; i++) {
-//            arrhours[i] = String.valueOf(i)+":00";
-            arrhours[i] = String.valueOf(i);
+            if (i < 10) {
+                arrhours[i] = "0" + String.valueOf(i) + ":00";
+            } else {
+                arrhours[i] = String.valueOf(i) + ":00";
+            }
         }
         int pos = 0;
         temperatureInfo.setDevid(Integer.parseInt(devid));
         temperatureInfo.setDcollectstart(startdate);
         temperatureInfo.setDcollectend(enddate);
 
-        List<Temperature> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
-        for (Temperature item : newFt) {
+        List<TemperatureInfo> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
+        for (TemperatureInfo     item : newFt) {
             if (item.getDcollectdt() != null) {
                 Date dt = item.getDcollectdt();
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
-                arrhours[pos] = DateUtil.dateToString(dt, "HH");
+                arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
                 if (item.getFt() != null && pos < 24) {
-                    ftArr[pos] = item.getFt();
+                    ftArr[pos] = NumUtil.dianhoun(item.getFt(),3);
                     arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
                 }
             }

@@ -602,9 +602,9 @@ public class DevContorller {
         Integer count_tem_online = null;
         String tem_online = "0";
         condition.put("type", "2");
-        count_tem = devServiceImpl.selectCountByType(condition);
+        count_tem = devServiceImpl.selectDevCountByType(condition);
         condition.put("online", "1");
-        count_tem_online = devServiceImpl.selectCountByType(condition);
+        count_tem_online = devServiceImpl.selectDevCountByType(condition);
         tem_online = df.format((float) count_tem_online / count_tem * 100);
 
         condition.remove("online");
@@ -613,9 +613,9 @@ public class DevContorller {
         Integer count_co_online = null;
         String co_online = "0";
         condition.put("type", "5");
-        count_co = devServiceImpl.selectCountByType(condition);
+        count_co = devServiceImpl.selectDevCountByType(condition);
         condition.put("online", "1");
-        count_co_online = devServiceImpl.selectCountByType(condition);
+        count_co_online = devServiceImpl.selectDevCountByType(condition);
         if (count_co_online != null) {
             co_online = df.format((float) count_co_online / count_co * 100);
         }
@@ -627,9 +627,9 @@ public class DevContorller {
 
         condition.remove("online");
         condition.put("type", "6");
-        count_ch4 = devServiceImpl.selectCountByType(condition);
+        count_ch4 = devServiceImpl.selectDevCountByType(condition);
         condition.put("online", "1");
-        count_ch4_online = devServiceImpl.selectCountByType(condition);
+        count_ch4_online = devServiceImpl.selectDevCountByType(condition);
         if (count_ch4_online != 0) {
             ch4_online = df.format((float) count_ch4_online / count_ch4 * 100);
         }
@@ -640,9 +640,9 @@ public class DevContorller {
         String dust_online = "0";
         condition.remove("online");
         condition.put("type", "4");
-        count_dust = devServiceImpl.selectCountByType(condition);
+        count_dust = devServiceImpl.selectDevCountByType(condition);
         condition.put("online", "1");
-        count_dust_online = devServiceImpl.selectCountByType(condition);
+        count_dust_online = devServiceImpl.selectDevCountByType(condition);
         if (count_dust_online != 0) {
             dust_online = df.format((float) count_dust_online / count_dust * 100);
         }
@@ -653,9 +653,9 @@ public class DevContorller {
         Integer count_press_online = null;
         String press_online = "0";
         condition.put("type", "7");
-        count_press = devServiceImpl.selectCountByType(condition);
+        count_press = devServiceImpl.selectDevCountByType(condition);
         condition.put("online", "1");
-        count_press_online = devServiceImpl.selectCountByType(condition);
+        count_press_online = devServiceImpl.selectDevCountByType(condition);
         if (count_press_online != null) {
             dust_online = df.format((float) count_press_online / count_press * 100);
         }
@@ -664,9 +664,9 @@ public class DevContorller {
         Integer count_flow_online = null;
         String flow_online = "0";
         condition.put("type", "8");
-        count_flow = devServiceImpl.selectCountByType(condition);
+        count_flow = devServiceImpl.selectDevCountByType(condition);
         condition.put("online", "1");
-        count_flow_online = devServiceImpl.selectCountByType(condition);
+        count_flow_online = devServiceImpl.selectDevCountByType(condition);
         if (count_flow_online != 0) {
             flow_online = df.format((float) count_flow_online / count_flow * 100);
         }

@@ -13,6 +13,7 @@ import com.plat.acoal.service.impl.GasServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import com.plat.acoal.utils.JwtUtils;
+import com.plat.acoal.utils.NumUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class GasController {
         ) {
 
             if (g != null) {
-                newVal[pos] = g.getGch4();
+                newVal[pos] = NumUtil.dianhoun(g.getGch4(),2);
             }
             pos++;
         }
@@ -98,7 +99,7 @@ public class GasController {
         for (GasModel g : newGas
         ) {
             if (g != null) {
-                newVal[pos] = g.getGco();
+                newVal[pos] = NumUtil.dianhoun(g.getGco(),3);
             }
         }
         if (newGas.size() > 0) {
@@ -150,12 +151,12 @@ public class GasController {
         List<GasModel> newGas = gasServiceImpl.selectCh4ByHour(gasModel);
         ResultData resultData = new ResultData();
         for (GasModel item : newGas) {
-            if (item.getDcollectdt() != null) {
+            if (item != null) {
                 Date dt = item.getDcollectdt();
-                pos = Integer.parseInt(DateUtil.dateToString(dt, "HH").substring(11, 13));
-                arrhours[pos] = DateUtil.dateToString(dt, "HH");
-                if (item.getGch4() != null && pos < 24) {
-                    fGch4Arr[pos] = item.getGch4();
+                pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
+                arrhours[pos] = DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 16);
+                if (item.getGch4()!=null && pos < 24) {
+                    fGch4Arr[pos] =NumUtil.dianhoun(item.getGch4(),3) ;
                 }
             }
 //            pos++;
@@ -247,8 +248,8 @@ public class GasController {
                 pos = Integer.parseInt(DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 13));
                 arrhours[pos] = DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 16);
 
-                if (item.getGco() != null && pos < 24) {
-                    fGcoArr[pos] = item.getGch4();
+                if (item.getGco() != null&&item.getGco()!=null && pos < 24) {
+                    fGcoArr[pos] = NumUtil.dianhoun(item.getGco(),3);
                 }
 //                pos++;
             }

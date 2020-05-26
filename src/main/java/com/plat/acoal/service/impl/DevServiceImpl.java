@@ -112,7 +112,7 @@ public class DevServiceImpl implements DevService {
     public List<DevInfo> selectHydrantList(Map<String, String> condition, Integer currentPage, Integer pageSize) {
         if (currentPage != null) {
 
-            PageHelper.startPage(currentPage, pageSize = 1);
+            PageHelper.startPage(currentPage, pageSize);
 
         }
         return dm.selectHydrantList(condition);

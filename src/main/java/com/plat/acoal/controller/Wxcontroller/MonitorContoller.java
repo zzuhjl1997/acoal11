@@ -404,8 +404,8 @@ public class MonitorContoller {
                                 temperatureInfo.setDcollectstart(startdate);
                                 temperatureInfo.setDcollectend(enddate);
 
-                                List<Temperature> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
-                                for (Temperature item : newFt) {
+                                List<TemperatureInfo> newFt = temperatureServiceImpl.selectFtByHour(temperatureInfo);
+                                for (TemperatureInfo item : newFt) {
                                     if (item.getDcollectdt() != null) {
                                         Date dt = item.getDcollectdt();
                                         pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));

@@ -147,7 +147,7 @@ public class DustController {
                 pos = Integer.parseInt(DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 13));
                 arrhours[pos] = DateUtil.dateToString(dt, "yyyy-MM-dd HH:mm:ss").substring(11, 16);
                 if (item.getFdust() != null && pos < 24) {
-                    fDustArr[pos] = item.getFdust();
+                    fDustArr[pos] = NumUtil.dianhoun(item.getFdust(),3);
                 }
             }
         }

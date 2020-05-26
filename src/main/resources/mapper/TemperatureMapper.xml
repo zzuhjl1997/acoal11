@@ -63,7 +63,7 @@
     <!--        LIMIT 15-->
     <!--    </select>-->
     <!-- selectFtByHour查询一天的数据 -->
-    <select id="selectFtByHour" resultType="com.plat.acoal.entity.Temperature"
+    <select id="selectFtByHour" resultType="com.plat.acoal.model.TemperatureInfo"
             parameterType="com.plat.acoal.model.TemperatureInfo">
 
         SELECT

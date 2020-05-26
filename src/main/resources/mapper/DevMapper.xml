@@ -377,7 +377,9 @@
         t_dev
         WHERE 1=1
         <if test="icustomerid != null">AND iCustomerID = #{icustomerid}</if>
+<!--
         <if test="online != null">AND online = #{online}</if>
+-->
         <if test="type!=null and type==5 or type==6">AND type = 5 or type=6
         </if>
         <if test="type!=null">AND type = #{type}</if>
@@ -465,7 +467,7 @@
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and td.type=#{type}</if>
-        <if test="devname!=null">AND td.`name` LIKE "%"#{devname,jdbcType=VARCHAR}"%"</if>
+        <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
     </select>
     <!-- 大屏 CH4列表-->
     <select id="selectCh4ByCondition" resultType="com.plat.acoal.model.DevInfo">

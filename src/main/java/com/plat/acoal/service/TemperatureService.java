@@ -25,7 +25,7 @@ public interface TemperatureService {
      * 查询一天的数据
      * @return
      */
-    List<Temperature> selectFtByHour (TemperatureInfo temperatureInfo);
+    List<TemperatureInfo> selectFtByHour (TemperatureInfo temperatureInfo);
 
     /**
      * 查询温度监控列表

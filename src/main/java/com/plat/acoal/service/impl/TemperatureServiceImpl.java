@@ -23,7 +23,7 @@ public class TemperatureServiceImpl implements TemperatureService {
 
 
     @Override
-    public List<Temperature> selectFtByHour(TemperatureInfo temperatureInfo) {
+    public List<TemperatureInfo> selectFtByHour(TemperatureInfo temperatureInfo) {
         return temperatureMapper.selectFtByHour(temperatureInfo);
     }
 

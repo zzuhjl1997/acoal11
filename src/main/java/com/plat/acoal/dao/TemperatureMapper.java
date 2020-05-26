@@ -16,7 +16,7 @@ public interface TemperatureMapper {
   //  List<Temperature> selectFtByTime(TemperatureInfo temperatureInfo);
     List<Temperature> selectHFtByTime(TemperatureInfo temperatureInfo);
 //    List<Temperature> selectFtByMinute(TemperatureInfo temperatureInfo);
-    List<Temperature> selectFtByHour(TemperatureInfo temperatureInfo);
+    List<TemperatureInfo> selectFtByHour(TemperatureInfo temperatureInfo);
     List<DevInfo> selectFtList(DevInfo devInfo);
 
     int selectFtCount(Map<String, String> condition);

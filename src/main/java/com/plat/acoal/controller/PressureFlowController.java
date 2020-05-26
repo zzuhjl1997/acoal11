@@ -12,6 +12,7 @@ import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.service.impl.PressureFlowServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import com.plat.acoal.utils.JwtUtils;
+import com.plat.acoal.utils.NumUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ public class PressureFlowController {
         List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
         for (PressureFlowModel d : newPress
         ) {
+
             Date dt = d.getDcollectdt();
             d.setDcollectdt_re(DateUtil.dateToString(dt));
         }
@@ -108,6 +110,7 @@ public class PressureFlowController {
         List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
         for (PressureFlowModel d : newPress
         ) {
+            d.setTpressure(NumUtil.dianhoun(d.getTpressure(),3));
             Date dt = d.getDcollectdt();
             newdate = DateUtil.dateToString(dt);
         }
@@ -139,7 +142,7 @@ public class PressureFlowController {
                 Date dt = d.getDcollectdt();
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
                 arrtime[pos] = DateUtil.dateToString(dt, "HH:00");
-                flow[pos] = d.getTflow();
+                flow[pos] = NumUtil.dianhoun(d.getTflow(),3);
 //                pos++;
             }
         }
@@ -312,7 +315,7 @@ public class PressureFlowController {
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
                 arrhours[pos] = dfhour.format(dt);
                 if (item.getTpressure() != null && pos < 24) {
-                    fPArr[pos] = item.getTpressure();
+                    fPArr[pos] = NumUtil.dianhoun(item.getTpressure(),3);
                 }
             }
 //            pos++;
@@ -396,7 +399,7 @@ public class PressureFlowController {
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
                 arrhours[pos] = dfhour.format(dt);
                 if (item.getTflow() != null && pos < 24) {
-                    fPArr[pos] = item.getTflow();
+                    fPArr[pos] = NumUtil.dianhoun(item.getTflow(),3);
                 }
             }
 
