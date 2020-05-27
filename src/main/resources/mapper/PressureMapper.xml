@@ -36,7 +36,7 @@
             parameterType="com.plat.acoal.model.PressureFlowModel">
         SELECT
         DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
-        tpressure,dev_id as devid
+        avg(tpressure) as tpressure
         FROM
         t_pressure_history
         WHERE

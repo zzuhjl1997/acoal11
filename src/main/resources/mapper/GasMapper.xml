@@ -40,8 +40,7 @@
 
         SELECT
         DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
-        AVG( gCH4 ) AS gCH4,
-        dev_id AS devid
+        AVG( gCH4 ) AS gCH4
         FROM
         t_gas_history
         WHERE
@@ -124,8 +123,7 @@
             parameterType="com.plat.acoal.model.GasModel">
         SELECT
         DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
-        AVG( gCO ) AS gCO,
-        dev_id AS devid
+        AVG( gCO ) AS gCO
         FROM
         t_co_history
         WHERE
@@ -239,6 +237,7 @@
         </if>
         <if test="type!=null">
             AND td.type = #{type,jdbcType=INTEGER}
+            AND tc.gCO IS NOT NULL
         </if>
         <if test="type==null">
             AND td.type = 5
@@ -270,6 +269,7 @@
         </if>
         <if test="type!=null">
             AND td.type = #{type,jdbcType=INTEGER}
+            AND tg.gCH4 IS NOT NULL
         </if>
         <if test="type==null">
             AND td.type = 6
@@ -304,6 +304,7 @@
         </if>
         <if test="type!=null">
             AND td.type = #{type,jdbcType=INTEGER}
+            AND tc.gCO IS NOT NULL
         </if>
         <if test="type==null">
             AND td.type = 5
@@ -333,6 +334,7 @@
         </if>
         <if test="type!=null">
             AND td.type = #{type,jdbcType=INTEGER}
+            AND tg.gCH4 IS NOT NULL
         </if>
         <if test="type==null">
             AND td.type = 6

@@ -314,6 +314,7 @@
         <if test="regionId != null">AND `r`.id = #{regionId}</if>
         <if test="regionName != null">AND `r`.name = #{regionName}</if>
         <if test="customerId != null">AND `d`.customer = #{customerId}</if>
+        order by `devActiveOpenTime` desc
     </select>
 
     <select id="selectDevByCustomerId" resultMap="BaseResultMap" parameterType="java.lang.Integer">

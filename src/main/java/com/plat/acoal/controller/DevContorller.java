@@ -9,10 +9,7 @@ import com.plat.acoal.service.RegionService;
 import com.plat.acoal.service.impl.AlarmServiceImpl;
 import com.plat.acoal.service.impl.DevServiceImpl;
 import com.plat.acoal.service.impl.RegionServiceImpl;
-import com.plat.acoal.utils.DateUtil;
-import com.plat.acoal.utils.JsonResult;
-import com.plat.acoal.utils.JwtUtils;
-import com.plat.acoal.utils.NumberUtil;
+import com.plat.acoal.utils.*;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
@@ -531,7 +528,7 @@ public class DevContorller {
         ) {
             pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             press_region[pos] = item.getRegionname();
-            press_value[pos] = item.getTpressure();
+            press_value[pos] = NumUtil.dianhoun(item.getTpressure(),3);
 //            pos++;
         }
         //获取区域水流数据
@@ -542,8 +539,8 @@ public class DevContorller {
         ) {
             pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             flow_region[pos] = item.getRegionname();
-            flow_value[pos] = item.getTflow();
-//            pos++;
+            flow_value[pos] = NumUtil.dianhoun(item.getTflow(),3);
+//          pos++;
         }
         //获取区域温度
         condition.put("type", "2");
@@ -552,7 +549,7 @@ public class DevContorller {
         ) {
             pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
             tem_region[pos] = item.getRegionname();
-            tem_value[pos] = item.getFT();
+            tem_value[pos] = NumUtil.dianhoun(item.getFT(),3);
 //          pos++;
         }
         //获取总设备，在线设备数量，每种在线设备的数量

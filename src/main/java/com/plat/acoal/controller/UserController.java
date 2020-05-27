@@ -33,9 +33,18 @@ public class UserController {
     public OperationLogServiceImpl osi;
 
     @RequestMapping("/search")
-    public String selectAllUserCus(@RequestParam Map<String, String> condition) {
+    public String selectAllUserCus(@RequestParam Map<String, String> condition, HttpServletRequest request) {
         int sequence = 0;
 //        User user = new User();
+
+        User user_s = JwtUtils.getUser(request);
+        Integer icustomerid = null;
+        if (user_s != null) {
+            icustomerid = user_s.getIcustomerid();
+            condition.put("icustomerid", icustomerid.toString());
+        }
+
+
         Map<String, String> param = new HashMap<String, String>();
         String cusername = null;
         if (condition.containsKey("cusername")) {
@@ -43,6 +52,8 @@ public class UserController {
         }
         Integer currentPage = 1;
         Integer pageSize = 1;
+
+
 
         if (condition.containsKey("currentPage")) {
             currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));

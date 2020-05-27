@@ -37,7 +37,7 @@
   <select id="selectFByHour" resultType="com.plat.acoal.model.PressureFlowModel">
     SELECT
     DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
-    tflow,dev_id as devid
+    AVG(tflow) as tflow
     FROM
     t_flow_history
     WHERE
