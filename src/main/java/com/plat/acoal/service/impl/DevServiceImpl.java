@@ -195,4 +195,21 @@ public class DevServiceImpl implements DevService {
     public Integer selectDevCountByType(Map<String, String> condition) {
         return dm.selectDevCountByType(condition);
     }
+
+    @Override
+    public JsonResult updatehydrant(Map<String, String> condition) {
+        JsonResult jr = new JsonResult();
+        try {
+
+            int flag = dm.updatehydrant(condition);
+            if (flag > 0) {
+                jr.setMsg("修改成功");
+                jr.setStatus(200);
+            }
+        } catch (Exception e) {
+            jr.setMsg("修改失败");
+            jr.setStatus(300);
+        }
+        return jr;
+    }
 }

@@ -11,6 +11,7 @@ import com.plat.acoal.service.impl.HydrantidRelationServiceImpl;
 import com.plat.acoal.service.impl.ParameterServiceImpl;
 import com.plat.acoal.service.impl.PressureFlowServiceImpl;
 import com.plat.acoal.utils.DateUtil;
+import com.plat.acoal.utils.JsonResult;
 import com.plat.acoal.utils.JwtUtils;
 import com.plat.acoal.utils.NumUtil;
 import lombok.extern.log4j.Log4j2;
@@ -472,7 +473,6 @@ public class PressureFlowController {
             if (item.getTflow() != null && pos < 24) {
                 fLArr[pos] = item.getTflow();
             }
-
             pos++;
         }
         if (hydrantidRelation_re != null) {
@@ -492,6 +492,17 @@ public class PressureFlowController {
         resultData.setData(newflow);
         resultData.setDatalst3(newPress);
         return JSON.toJSONString(resultData);
+    }
+    @RequestMapping(value = "/updatehydrant")
+    private JsonResult updatehydrant(@RequestParam Map<String, String> condition, HttpSession session) {
+        JsonResult jr = new JsonResult();
+        if (condition.get("status") != null ) {
+            jr = devServiceImpl.updatehydrant(condition);
+        } else if (condition.get("status") == null ) {
+            jr.setStatus(100);
+            jr.setMsg("参数不足");
+        }
+        return jr;
     }
 
 }

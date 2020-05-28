@@ -70,4 +70,6 @@ public interface DevService {
     List<Dev> selectDevPByRegion(Integer currentPage, Dev dev);
 
     Integer selectDevCountByType(Map<String, String> condition);
+
+    JsonResult updatehydrant(Map<String, String> condition);
 }

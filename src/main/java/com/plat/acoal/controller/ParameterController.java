@@ -97,7 +97,7 @@ public class ParameterController {
      * 修改参数
      */
     @PostMapping("/update")
-    private String updateParameter(Parameter parameter, Integer ischecked, HttpServletRequest request) {
+    private String updateParameter(@RequestParam Map<String, String> condition,Parameter parameter, Integer ischecked, HttpServletRequest request) {
         // 获取customerid
         //Optional.ofNullable()
         Integer icustomerid = null;

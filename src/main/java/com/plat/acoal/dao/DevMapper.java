@@ -4,6 +4,7 @@ package com.plat.acoal.dao;
 
 import com.plat.acoal.entity.Dev;
 import com.plat.acoal.model.*;
+import com.plat.acoal.utils.JsonResult;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -79,4 +80,6 @@ public interface DevMapper {
     List<Dev> selectDevPByRegion(Dev dev);
 
     Integer selectDevCountByType(Map<String, String> condition);
+
+    int updatehydrant(Map<String, String> condition);
 }

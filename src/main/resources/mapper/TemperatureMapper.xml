@@ -101,7 +101,6 @@
         LEFT JOIN t_dev_type tdt ON td.type = tdt.id
         LEFT JOIN t_temperature tt ON td.id = tt.dev_id
         WHERE 1=1
-        and tt.ft !=null
         <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>

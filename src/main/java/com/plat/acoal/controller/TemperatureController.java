@@ -64,7 +64,7 @@ public class TemperatureController {
 //            Date dt = t.getDcollectdt();
 
             if (t != null) {
-                newVal[pos] = t.getFt();
+                newVal[pos] =NumUtil.dianhoun(t.getFt(),1);
             } else {
                 newVal[pos] = 0.0;
             }
@@ -145,7 +145,7 @@ public class TemperatureController {
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
                 arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
                 if (item.getFt() != null && pos < 24) {
-                    ftArr[pos] = NumUtil.dianhoun(item.getFt(),3);
+                    ftArr[pos] = NumUtil.dianhoun(item.getFt(),1);
                     arrhours[pos] = DateUtil.dateToString(dt, "HH:mm");
                 }
             }
@@ -219,6 +219,14 @@ public class TemperatureController {
         //查询设备总数
         int devcount = devServiceImpl.selectCountByType(condition);
         List<DevInfo> listinfo = temperatureServiceImpl.selectFtList(devInfo, currentPage, pageSize);
+        for (DevInfo info : listinfo) {
+            if(info.getFT()!=null){
+                info.setFT(NumUtil.dianhoun(info.getFT(),1));
+            }else {
+                info.setFT(0.0);
+            }
+
+        }
         int sequence = 0;
         //获取数据总条数
         int count = 0;

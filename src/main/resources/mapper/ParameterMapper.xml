@@ -47,9 +47,9 @@
     <insert id="insertSelective" parameterType="com.plat.acoal.entity.Parameter">
         insert into t_parameter
         <trim prefix="(" suffix=")" suffixOverrides=",">
-       <!--     <if test="id != null">
-                ID,
-            </if>-->
+            <!--     <if test="id != null">
+                     ID,
+                 </if>-->
             <if test="icustomerid != null">
                 iCustomerID,
             </if>
@@ -94,9 +94,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-       <!--     <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>-->
+            <!--     <if test="id != null">
+                     #{id,jdbcType=BIGINT},
+                 </if>-->
             <if test="icustomerid != null">
                 #{icustomerid,jdbcType=INTEGER},
             </if>
@@ -218,7 +218,8 @@
         cValue,
         cValue2,
         cReTime,
-        iDelayTime
+        iDelayTime,
+        type
         FROM
         t_parameter
         WHERE
@@ -271,6 +272,33 @@
             AND type = #{type}
         </if>
 
+
+    </select>
+    <select id="selectPaByCondition" resultType="com.plat.acoal.model.ParameterInfo" parameterType="com.plat.acoal.model.ParameterInfo">
+        SELECT
+        id,
+        cParam,
+        cValue,
+        cValue2,
+        dev_id as devid,
+        gradeID,
+        type
+        FROM
+        `t_parameter`
+        WHERE
+        1 = 1
+        <if test="devId!=null">
+            AND dev_id = #{devId}
+        </if>
+        <if test="icustomerid!=null and icustomerid != ''">
+            AND iCustomerID = #{icustomerid}
+        </if>
+        <if test="cparam!=null and cparam!=''">
+            AND cParam = #{cparam}
+        </if>
+        <if test="type!=null">
+            AND type = #{type}
+        </if>
 
     </select>
 </mapper>
