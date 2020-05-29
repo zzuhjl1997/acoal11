@@ -82,4 +82,6 @@ public interface DevMapper {
     Integer selectDevCountByType(Map<String, String> condition);
 
     int updatehydrant(Map<String, String> condition);
+
+    int insertActiveInfo(DevActiveModel devActiveModel);
 }

@@ -72,4 +72,6 @@ public interface DevService {
     Integer selectDevCountByType(Map<String, String> condition);
 
     JsonResult updatehydrant(Map<String, String> condition);
+
+    int insertActiveInfo(DevActiveModel devActiveModel);
 }

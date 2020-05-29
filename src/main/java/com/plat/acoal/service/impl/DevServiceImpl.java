@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.plat.acoal.dao.DevMapper;
 import com.plat.acoal.entity.Dev;
+import com.plat.acoal.entity.DevActive;
+import com.plat.acoal.entity.OperationLog;
 import com.plat.acoal.model.*;
 import com.plat.acoal.service.DevService;
 import com.plat.acoal.utils.JsonResult;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -166,6 +169,7 @@ public class DevServiceImpl implements DevService {
     @Override
     public JsonResult updatefan(Map<String, String> condition) {
         JsonResult jr = new JsonResult();
+
         try {
 
 
@@ -173,6 +177,7 @@ public class DevServiceImpl implements DevService {
             if (flag > 0) {
                 jr.setMsg("修改成功");
                 jr.setStatus(200);
+
             }
         } catch (Exception e) {
             jr.setMsg("修改失败");
@@ -211,5 +216,10 @@ public class DevServiceImpl implements DevService {
             jr.setStatus(300);
         }
         return jr;
+    }
+
+    @Override
+    public int insertActiveInfo(DevActiveModel devActiveModel) {
+        return dm.insertActiveInfo(devActiveModel);
     }
 }

@@ -34,22 +34,18 @@
 
     <select id="selectPByHour" resultType="com.plat.acoal.model.PressureFlowModel"
             parameterType="com.plat.acoal.model.PressureFlowModel">
+
         SELECT
-        DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
+        a.dCollectDT,
         avg(tpressure) as tpressure
         FROM
-        t_pressure_history
-        WHERE
-        1 = 1
-        <if test="devid!=null">
-            AND dev_id= #{devid,jdbcType=BIGINT}
-        </if>
+        ( SELECT DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) AS dCollectDT, tpressure FROM  t_pressure_history WHERE 1 = 1
+        <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
         <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
         <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
-        group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
-        ORDER BY
-        id ASC
-        LIMIT 24
+        ORDER BY id ASC LIMIT 24 ) a
+        GROUP BY
+        a.dCollectDT
     </select>
     <!--水压列表监测列表 -->
     <select id="selectPList" resultType="com.plat.acoal.model.DevInfo">

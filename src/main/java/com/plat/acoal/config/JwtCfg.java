@@ -18,6 +18,7 @@ public class JwtCfg {
         registrationBean.setFilter(new JwtFilter());
         registrationBean.addUrlPatterns("/alarm/*");
         registrationBean.addUrlPatterns("/dev/*");
+        registrationBean.addUrlPatterns("/fan/*");
         registrationBean.addUrlPatterns("/param/*");
         registrationBean.addUrlPatterns("/cannon/*");
         registrationBean.addUrlPatterns("/dust/*");

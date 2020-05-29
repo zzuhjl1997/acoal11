@@ -65,21 +65,18 @@
     <!-- selectFtByHour查询一天的数据 -->
     <select id="selectFtByHour" resultType="com.plat.acoal.model.TemperatureInfo"
             parameterType="com.plat.acoal.model.TemperatureInfo">
-
         SELECT
-        DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
-        AVG(fT) as fT
+        a.dCollectDT,
+        AVG( fT ) AS fT
         FROM
-        t_temperature_history
-        WHERE
-        1 = 1
+        ( SELECT DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) AS dCollectDT, fT FROM t_temperature_history WHERE 1 = 1
         <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
         <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
         <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
-        group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
-        ORDER BY
-        id ASC
-        LIMIT 24
+        ORDER BY id ASC LIMIT 24 ) a
+        GROUP BY
+        a.dCollectDT
+
     </select>
     <!--查询温度监控列表 -->
     <select id="selectFtList" resultType="com.plat.acoal.model.DevInfo" parameterType="com.plat.acoal.model.DevInfo">
@@ -105,7 +102,6 @@
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
-
         ) a
     </select>
     <select id="selectFtCount" resultType="java.lang.Integer">

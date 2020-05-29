@@ -499,17 +499,17 @@ public class DevContorller {
         icustomerid = user.getIcustomerid();
         //获取CO,CH4,粉尘实时数据
         int pos = 0;
-        String[] press_region = new String[4];
-        double[] press_value = new double[4];
+        String[] press_region = new String[5];
+        double[] press_value = new double[5];
         String[] tem_region = new String[4];
         double[] tem_value = new double[4];
-        String[] flow_region = new String[4];
-        double[] flow_value = new double[4];
+        String[] flow_region = new String[5];
+        double[] flow_value = new double[5];
 
         for (int i = 1; i < 5; i++) {
-            press_region[i - 1] = i + "号区域";
+            press_region[i - 1] = i + "号设备";
             tem_region[i - 1] = i + "号区域";
-            flow_region[i - 1] = i + "号区域";
+            flow_region[i - 1] = i + "号设备";
         }
 
 
@@ -526,10 +526,14 @@ public class DevContorller {
 //        System.out.println("dstsuigfise"+list_press);
         for (DevInfo item : list_press
         ) {
-            pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
-            press_region[pos] = item.getRegionname();
-            press_value[pos] = NumUtil.dianhoun(item.getTpressure(),3);
+            if (item != null) {
+                pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                press_region[pos] = item.getName();
+                if (item.getTpressure() != null) {
+                    press_value[pos] = NumUtil.dianhoun(item.getTpressure(), 3);
+                }
 //            pos++;
+            }
         }
         //获取区域水流数据
         condition.put("type", "8");
@@ -537,20 +541,28 @@ public class DevContorller {
         System.out.println("dstsuigfise" + list_flow);
         for (DevInfo item : list_flow
         ) {
-            pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
-            flow_region[pos] = item.getRegionname();
-            flow_value[pos] = NumUtil.dianhoun(item.getTflow(),3);
+            if (item != null) {
+                pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                flow_region[pos] = item.getName();
+                if (item.getTflow() != null) {
+                    flow_value[pos] = NumUtil.dianhoun(item.getTflow(), 3);
+                }
 //          pos++;
+            }
         }
         //获取区域温度
         condition.put("type", "2");
         List<DevInfo> list_tem = devServiceImpl.selectTemNowByCondition(condition);
         for (DevInfo item : list_tem
         ) {
-            pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
-            tem_region[pos] = item.getRegionname();
-            tem_value[pos] = NumUtil.dianhoun(item.getFT(),3);
+            if (item != null) {
+                pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
+                tem_region[pos] = item.getRegionname();
+                if (item.getFT() != null) {
+                    tem_value[pos] = NumUtil.dianhoun(item.getFT(), 1);
+                }
 //          pos++;
+            }
         }
         //获取总设备，在线设备数量，每种在线设备的数量
 

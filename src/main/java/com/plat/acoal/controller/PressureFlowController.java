@@ -111,7 +111,7 @@ public class PressureFlowController {
         List<PressureFlowModel> newPress = pressureFlowServiceImpl.selectNewPById(pressureFlowModel);
         for (PressureFlowModel d : newPress
         ) {
-            d.setTpressure(NumUtil.dianhoun(d.getTpressure(),3));
+            d.setTpressure(NumUtil.dianhoun(d.getTpressure(), 3));
             Date dt = d.getDcollectdt();
             newdate = DateUtil.dateToString(dt);
         }
@@ -143,7 +143,7 @@ public class PressureFlowController {
                 Date dt = d.getDcollectdt();
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
                 arrtime[pos] = DateUtil.dateToString(dt, "HH:00");
-                flow[pos] = NumUtil.dianhoun(d.getTflow(),3);
+                flow[pos] = NumUtil.dianhoun(d.getTflow(), 3);
 //                pos++;
             }
         }
@@ -268,7 +268,7 @@ public class PressureFlowController {
      * @return
      */
     @RequestMapping("/dayPress")
-    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request,@RequestParam Map<String, String> condition) {
+    public String getDayPress(PressureFlowModel pressureFlowModel, HttpServletRequest request, @RequestParam Map<String, String> condition) {
 
         //获取消防栓Id
         String devid = null;
@@ -316,7 +316,7 @@ public class PressureFlowController {
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
                 arrhours[pos] = dfhour.format(dt);
                 if (item.getTpressure() != null && pos < 24) {
-                    fPArr[pos] = NumUtil.dianhoun(item.getTpressure(),3);
+                    fPArr[pos] = NumUtil.dianhoun(item.getTpressure(), 3);
                 }
             }
 //            pos++;
@@ -400,7 +400,7 @@ public class PressureFlowController {
                 pos = Integer.parseInt(DateUtil.dateToString(dt).substring(11, 13));
                 arrhours[pos] = dfhour.format(dt);
                 if (item.getTflow() != null && pos < 24) {
-                    fPArr[pos] = NumUtil.dianhoun(item.getTflow(),3);
+                    fPArr[pos] = NumUtil.dianhoun(item.getTflow(), 3);
                 }
             }
 
@@ -464,7 +464,7 @@ public class PressureFlowController {
         pressureFlowModel.setDcollectstart(startdate);
         pressureFlowModel.setDcollectend(enddate);
 
-        List<PressureFlowModel> newpf= pressureFlowServiceImpl.selectFByHour(pressureFlowModel);
+        List<PressureFlowModel> newpf = pressureFlowServiceImpl.selectFByHour(pressureFlowModel);
         ResultData resultData = new ResultData();
         for (PressureFlowModel item : newpf) {
             Date dt = item.getDcollectdt();
@@ -493,18 +493,36 @@ public class PressureFlowController {
         resultData.setDatalst3(newPress);
         return JSON.toJSONString(resultData);
     }
+
     @RequestMapping(value = "/updatehydrant")
-    private JsonResult updatehydrant(@RequestParam Map<String, String> condition, HttpSession session) {
+    private JsonResult updatehydrant(@RequestParam Map<String, String> condition, HttpSession session, HttpServletRequest request) {
         JsonResult jr = new JsonResult();
-        if (condition.get("status") != null ) {
+        DevActiveModel devActiveModel = new DevActiveModel();
+        devActiveModel.setUserId(JwtUtils.getUser(request).getIuserid());
+        devActiveModel.setDevId(Integer.parseInt(condition.get("id")));
+        if (condition.get("status") != null) {
             jr = devServiceImpl.updatehydrant(condition);
-        } else if (condition.get("status") == null ) {
-            jr.setStatus(100);
-            jr.setMsg("参数不足");
+
+            if (condition.get("status") != null || condition.get("is_auto") != null) {
+                jr = devServiceImpl.updatefan(condition);
+                if (condition.containsKey("status")) {
+                    if (condition.get("status").equals("1")) {
+                        devActiveModel.setActflg(1);
+                        devActiveModel.setDevActiveOpenTime(new Date());
+                    } else if (condition.get("status").equals("0")) {
+                        devActiveModel.setActflg(2);
+                        devActiveModel.setDevActiveCloseTime(new Date());
+                    }
+                }
+                int i = devServiceImpl.insertActiveInfo(devActiveModel);
+            } else if (condition.get("status") == null) {
+                jr.setStatus(100);
+                jr.setMsg("参数不足");
+            }
+
         }
         return jr;
     }
-
 }
 
 

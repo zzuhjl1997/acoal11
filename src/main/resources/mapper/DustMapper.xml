@@ -39,21 +39,18 @@
             parameterType="com.plat.acoal.model.DustModel">
 
         SELECT
-        DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) as dCollectDT,
-        AVG(fDust) AS fdust
+        a.dCollectDT,
+        AVG( fdust )
         FROM
-        t_dust_history
-        WHERE
+        ( SELECT DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) AS dCollectDT, fDust AS fdust FROM t_dust_history WHERE
         1 = 1
         <if test="devid!=null">
             AND dev_id= #{devid,jdbcType=BIGINT}
         </if>
         <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
-        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
-        group by DATE_FORMAT(dCollectDT,'%Y-%m-%d %H')
-        ORDER BY
-        id ASC
-        LIMIT 24
+        <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>) a
+        GROUP BY
+        a.dCollectDT
     </select>
 
     <!--  根据区域id查找粉尘浓度数据-->

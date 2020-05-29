@@ -165,6 +165,53 @@
             </if>
         </trim>
     </insert>
+    <insert id="insertActiveInfo" parameterType="com.plat.acoal.model.DevActiveModel" >
+     insert into  t_dev_active
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="devId != null">
+                dev_id,
+            </if>
+            <if test="userId != null">
+                user,
+            </if>
+            <if test="devActiveOpenTime != null">
+                open_time,
+            </if>
+
+            <if test="devActiveCloseTime != null">
+                close_time,
+            </if>
+            <if test="actflg != null">
+                actflg,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="devId != null">
+                #{devId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="devActiveOpenTime != null">
+                #{devActiveOpenTime,jdbcType=INTEGER},
+            </if>
+
+            <if test="devActiveCloseTime != null">
+                #{devActiveCloseTime,jdbcType=INTEGER},
+            </if>
+
+            <if test="actflg != null">
+                #{actflg,jdbcType=INTEGER},
+            </if>
+
+        </trim>
+
+
+
+
+
+    </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.plat.acoal.entity.Dev">
         update t_dev
         <set>
@@ -513,35 +560,35 @@
     <select id="selectPressNowByCondition" resultType="com.plat.acoal.model.DevInfo">
         SELECT
         AVG( tp.tpressure ) AS tpressure,
-        tr.`name` AS regionname
+        td.`name` AS NAME
         FROM
-        t_pressure tp
-        INNER JOIN t_dev td ON tp.dev_id = td.id
-        INNER JOIN t_region tr ON td.region = tr.id
+        t_dev td
+        LEFT JOIN t_pressure tp ON tp.dev_id = td.id
         WHERE
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and td.type=#{type}</if>
         <if test="region!=null">and td.region=#{type}</if>
+        and type=7
         GROUP BY
-        region
+        td.id
+
     </select>
     <select id="selectFlowNowByCondition" resultType="com.plat.acoal.model.DevInfo">
         SELECT
         AVG( tf.tFlow ) AS tFlow,
-        tr.`name` AS regionname
+        td.`name` AS NAME
         FROM
-        t_flow tf
-        INNER JOIN t_dev td ON tf.dev_id = td.id
-        INNER JOIN t_region tr ON td.region = tr.id
+        t_dev td
+        LEFT JOIN t_flow tf ON tf.dev_id = td.id
         WHERE
         1 = 1
         <if test="icustomerid != null">AND td.iCustomerID = #{icustomerid}</if>
         <if test="type!=null">and td.type=#{type}</if>
         <if test="region!=null">and td.region=#{type}</if>
+        AND type = 8
         GROUP BY
-        region
-
+        td.id
 
     </select>
     <select id="selectTemNowByCondition" resultType="com.plat.acoal.model.DevInfo">

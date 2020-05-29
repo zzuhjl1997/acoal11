@@ -30,4 +30,6 @@ public class DevActiveModel {
     private Date devActiveOpenTime;
     //dev_active.close_time
     private Date devActiveCloseTime;
+
+    private Integer actflg;
 }
