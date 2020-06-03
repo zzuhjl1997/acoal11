@@ -1,0 +1,6 @@
+0:0:0:0:0:0:0:1 - - [02/Jun/2020:17:24:12 +0800] "GET /dev/realtimedata HTTP/1.1" 500 219
+0:0:0:0:0:0:0:1 - - [02/Jun/2020:17:24:25 +0800] "GET /jwt/login?username=yx&password=222 HTTP/1.1" 405 164
+0:0:0:0:0:0:0:1 - - [02/Jun/2020:17:24:34 +0800] "POST /jwt/login?username=yx&password=222 HTTP/1.1" 200 802
+0:0:0:0:0:0:0:1 - - [02/Jun/2020:17:25:59 +0800] "POST /dev/realtimedata HTTP/1.1" 200 5617
+0:0:0:0:0:0:0:1 - - [02/Jun/2020:17:28:28 +0800] "POST /temperature/monitordayFt?devid=3 HTTP/1.1" 200 466
+0:0:0:0:0:0:0:1 - - [02/Jun/2020:17:28:46 +0800] "POST /temperature/ftList HTTP/1.1" 200 2396

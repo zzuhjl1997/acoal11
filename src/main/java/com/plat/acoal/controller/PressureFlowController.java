@@ -287,12 +287,12 @@ public class PressureFlowController {
         Date date = new Date();
         startdate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 00:00:00";
         enddate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 23:59:59";
-        if (request.getParameter("startdate") != null && !"".equals(request.getParameter("startdate"))) {
-            startdate = request.getParameter("startdate");
+        if (request.getParameter("date") != null && !"".equals(request.getParameter("date"))) {
+            startdate = request.getParameter("date");
             startdate += " 00:00:00";
         }
-        if (request.getParameter("enddate") != null && !"".equals(request.getParameter("enddate"))) {
-            enddate = request.getParameter("enddate");
+        if (request.getParameter("date") != null && !"".equals(request.getParameter("date"))) {
+            enddate = request.getParameter("date");
             enddate += " 23:59:59";
         }
         double[] fPArr = new double[24];
@@ -371,12 +371,12 @@ public class PressureFlowController {
         Date date = new Date();
         startdate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 00:00:00";
         enddate = DateUtil.dateToString(date, "yyyy-MM-dd") + " 23:59:59";
-        if (request.getParameter("startdate") != null && !"".equals(request.getParameter("startdate"))) {
-            startdate = request.getParameter("startdate");
+        if (request.getParameter("date") != null && !"".equals(request.getParameter("date"))) {
+            startdate = request.getParameter("date");
             startdate += " 00:00:00";
         }
-        if (request.getParameter("enddate") != null && !"".equals(request.getParameter("enddate"))) {
-            enddate = request.getParameter("enddate");
+        if (request.getParameter("date") != null && !"".equals(request.getParameter("date"))) {
+            enddate = request.getParameter("date");
             enddate += " 23:59:59";
         }
         double[] fPArr = new double[24];
@@ -507,10 +507,10 @@ public class PressureFlowController {
                 jr = devServiceImpl.updatefan(condition);
                 if (condition.containsKey("status")) {
                     if (condition.get("status").equals("1")) {
-                        devActiveModel.setActflg(1);
+                        devActiveModel.setActflg("1");
                         devActiveModel.setDevActiveOpenTime(new Date());
                     } else if (condition.get("status").equals("0")) {
-                        devActiveModel.setActflg(2);
+                        devActiveModel.setActflg("2");
                         devActiveModel.setDevActiveCloseTime(new Date());
                     }
                 }

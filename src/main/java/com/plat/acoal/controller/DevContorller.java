@@ -499,17 +499,21 @@ public class DevContorller {
         icustomerid = user.getIcustomerid();
         //获取CO,CH4,粉尘实时数据
         int pos = 0;
-        String[] press_region = new String[5];
-        double[] press_value = new double[5];
-        String[] tem_region = new String[4];
-        double[] tem_value = new double[4];
-        String[] flow_region = new String[5];
-        double[] flow_value = new double[5];
+        String[] press_region = new String[2];
+        double[] press_value = new double[2];
+        String[] tem_region = new String[10];
+        double[] tem_value = new double[10];
+        String[] flow_region = new String[2];
+        double[] flow_value = new double[2];
 
-        for (int i = 1; i < 5; i++) {
-            press_region[i - 1] = i + "号设备";
-            tem_region[i - 1] = i + "号区域";
+        for (int i = 1; i < 11; i++) {
+
+            tem_region[i - 1] = i + "号设备";
+
+        }
+        for(int i=1;i<3;i++){
             flow_region[i - 1] = i + "号设备";
+            press_region[i - 1] = i + "号设备";
         }
 
 
@@ -556,8 +560,8 @@ public class DevContorller {
         for (DevInfo item : list_tem
         ) {
             if (item != null) {
-                pos = Integer.parseInt(item.getRegionname().substring(0, 1)) - 1;
-                tem_region[pos] = item.getRegionname();
+                pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                tem_region[pos] = item.getName();
                 if (item.getFT() != null) {
                     tem_value[pos] = NumUtil.dianhoun(item.getFT(), 1);
                 }

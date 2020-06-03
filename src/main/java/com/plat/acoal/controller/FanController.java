@@ -2,8 +2,6 @@ package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.plat.acoal.bean.ResultData;
-import com.plat.acoal.entity.DevActive;
-import com.plat.acoal.entity.OperationLog;
 import com.plat.acoal.model.DevActiveInfo;
 import com.plat.acoal.model.DevActiveModel;
 import com.plat.acoal.model.DevInfo;
@@ -50,11 +48,29 @@ public class FanController {
         //获取该设备的总运行时间
         String times = "";
         long time = 0;
+        long opentime = 0;
+        long closetime = 0;
         List<DevActiveModel> list_time = new ArrayList<DevActiveModel>();
+
+        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, pageSize, condition).getList();
+        long now = (new Date()).getTime();
+        if (list_time.size() > 0 && list_time.get(list_time.size() - 1).getActflg().equals("1")) {
+            closetime = now;
+        }
+
+        condition.put("actflg", "2");
         list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, pageSize, condition).getList();
         for (DevActiveModel item : list_time) {
-            time += item.getDevActiveCloseTime().getTime() - item.getDevActiveOpenTime().getTime();
+            closetime += item.getDevActiveOpenTime().getTime();
         }
+
+        condition.put("actflg", "1");
+        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, pageSize, condition).getList();
+        for (DevActiveModel item : list_time) {
+            opentime += item.getDevActiveOpenTime().getTime();
+        }
+        time = closetime - opentime;
+
         times = DateUtil.millisecondToTime(time);
         System.out.println(times);
         //获取设备数据
@@ -65,7 +81,6 @@ public class FanController {
             devInfo.setSumtime(times);
             if (devInfo.getLastTime() != null) {
                 devInfo.setLastTime(devInfo.getLastTime().substring(0, 19));
-
             }
         }
         ResultData resultData = new ResultData();
@@ -115,6 +130,7 @@ public class FanController {
         int pos = 0;
         //统计启动次数
         List<DevActiveInfo> list = new ArrayList<>();
+        condition.put("actflg", "1");
         list = devServiceImpl.selectCountOpen(condition);
         for (DevActiveInfo devActiveInfo : list) {
             if (devActiveInfo.getTime() != null) {
@@ -139,24 +155,38 @@ public class FanController {
         JsonResult jr = new JsonResult();
         DevActiveModel devActiveModel = new DevActiveModel();
         devActiveModel.setUserId(JwtUtils.getUser(request).getIuserid());
-        devActiveModel.setDevId(Integer.parseInt(condition.get("id")));
+
+
         if (condition.get("status") != null || condition.get("is_auto") != null) {
             jr = devServiceImpl.updatefan(condition);
             if (condition.containsKey("status")) {
                 if (condition.get("status").equals("1")) {
-                    devActiveModel.setActflg(1);
+                    devActiveModel.setActflg("1");
                     devActiveModel.setDevActiveOpenTime(new Date());
                 } else if (condition.get("status").equals("0")) {
-                    devActiveModel.setActflg(2);
+                    devActiveModel.setActflg("2");
                     devActiveModel.setDevActiveCloseTime(new Date());
                 }
             }
-            int i = devServiceImpl.insertActiveInfo(devActiveModel);
+            condition.put("type","9");
+            if (condition.containsKey("id")) {
+                devActiveModel.setDevId(Integer.parseInt(condition.get("id")));
+            }else {
 
-        } else if (condition.get("status") == null && condition.get("status") == null) {
+                  List<DevInfo> listd=devServiceImpl.selectDevList(condition);
+                for (DevInfo devInfo : listd) {
+                    devActiveModel.setDevId(devInfo.getId());
+                    int i = devServiceImpl.insertActiveInfo(devActiveModel);
+                }
+            }
+
+
+        } else if (condition.get("status") == null) {
             jr.setStatus(100);
             jr.setMsg("参数不足");
         }
         return jr;
     }
+
+
 }

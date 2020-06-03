@@ -1,3 +1,4 @@
+
 package com.plat.acoal.model;
 
 import lombok.Data;

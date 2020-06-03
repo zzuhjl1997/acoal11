@@ -75,8 +75,12 @@ public class DevInfo {
     private Integer isfault;
     //总时间
     private String sumtime;
+    private String ser_num;
     //所有的在线率
     private List<Map<String,String>> mapList;
+
+    //消防炮状态
+    private Integer canno_status;
 
 
 }

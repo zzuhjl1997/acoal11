@@ -40,7 +40,7 @@
 
         SELECT
         a.dCollectDT,
-        AVG( fdust )
+        AVG( fdust ) as fdust
         FROM
         ( SELECT DATE_FORMAT( dCollectDT, '%Y-%m-%d %H:00:00' ) AS dCollectDT, fDust AS fdust FROM t_dust_history WHERE
         1 = 1

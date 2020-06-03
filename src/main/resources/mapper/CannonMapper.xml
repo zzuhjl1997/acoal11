@@ -30,7 +30,9 @@
         td.`name` AS NAME,
         td.site AS site,
         tca.collectDT AS updateTime,
-        td.ip AS ip,
+        td.ser_num
+        AS ser_num
+        ,
         td.`status` AS `status`,
         tca.isfault AS isfault,
         tca.isfire AS isfire,
@@ -95,7 +97,6 @@
         <if test="is_auto!=null">AND td.`is_auto` = #{is_auto,jdbcType=INTEGER}</if>
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
         ) a)b
-
 
 
     </select>

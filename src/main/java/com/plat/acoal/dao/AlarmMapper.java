@@ -53,4 +53,9 @@ public interface AlarmMapper {
     List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo);
     int selectAlarmCount(Map<String, String> condition);
 
+
+    List<VoiceAlarmModel> selectVoiceAlarm();
+
+    List<AlarmPopupModel> selectAlarmPopupModel();
+
 }

@@ -232,7 +232,7 @@
         </if>
 
         <if test="cparam=='PF' ">
-            AND cParam = 'P' OR cParam = 'F'
+            AND cParam = 'P'
         </if>
 
         <!--  <if test="gradeid!=null">

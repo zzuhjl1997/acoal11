@@ -37,7 +37,6 @@ public class AlarmController {
     @Autowired
     AlarmServiceImpl atsi;
 
-    @ApiOperation(value = "通过条件获取报警模型")
     @GetMapping("/am")
     public String selectAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest req) {
         System.out.println("通过token获取到USER："+ JwtUtils.getUser(req));
@@ -80,12 +79,29 @@ public class AlarmController {
             jr.setMsg("删除异常！可能出现删除多个记录的情况！");
         }
         return JSON.toJSONString(jr);
+        /*
+        String[] alarmArray = alarmIds.split(",");
+        int iserror = 0;
+        for (int i = 0; i < alarmArray.length; i++) {
+            iserror += atsi.deleteByPrimaryKey(Long.valueOf(alarmArray[i]));
+        }
+        if (iserror == alarmArray.length) {
+            jr.setMsg("删除完毕！");
+            jr.setStatus(200);
+        } else if (iserror < alarmArray.length) {
+            jr.setMsg("删除错误！");
+            jr.setStatus(500);
+        } else if (iserror > alarmArray.length) {
+            jr.setStatus(555);
+            jr.setMsg("删除异常！可能出现删除多个记录的情况！");
+        }
+        return JSON.toJSONString(jr);
+         */
     }
 
     @ApiOperation(value = "通过条件查询报警信息后导出")
     @GetMapping("/exp")
-    public ResponseEntity<byte[]> exportAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
-
+    public ResponseEntity<byte[]> exportAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         List list = atsi.selectAlarmModelByCondition(null, Integer.MAX_VALUE, condition).getList();
         System.out.println(list);
         return PoiUtils.exportAlarmModel2Excel(atsi.selectAlarmModelByCondition(null, Integer.MAX_VALUE, condition).getList());
@@ -93,7 +109,7 @@ public class AlarmController {
 
     @ApiOperation(value = "通过条件获取报警统计模型", notes = "用于折线图")
     @GetMapping("/asm")
-    public String selectAlarmStatisticsModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectAlarmStatisticsModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         String alarmTimeHead = "";
         String alarmTimeTail = "";
         if (condition.containsKey("alarmTimeHead")) {
@@ -131,17 +147,17 @@ public class AlarmController {
     }
 
     @GetMapping("/arm")
-    public String selectAlarmRatioModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectAlarmRatioModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         return JSON.toJSONString(atsi.selectAlarmRatioModel());
     }
 
     @GetMapping("/dafm")
-    public String selectDevAlarmFrequencyModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectDevAlarmFrequencyModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         return JSON.toJSONString(atsi.selectDevAlarmFrequencyModel(condition));
     }
 
     @GetMapping("/daim")
-    public String selectDevAlarmInfoModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectDevAlarmInfoModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         if("".equals(condition.get("devType"))){
             condition.remove("devType");
         }
@@ -149,46 +165,36 @@ public class AlarmController {
     }
 
     @GetMapping("/dafcm")
-    public String selectAlarmFourCountModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectAlarmFourCountModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         return JSON.toJSONString(atsi.selectAlarmFourCountModel());
     }
 
     @GetMapping("/taam")
     //获取当日的报警总数
-    public String selectTodayAlarmAmountModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectTodayAlarmAmountModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         return JSON.toJSONString(atsi.selectTodayAlarmAmountModel(condition));
     }
 
     @GetMapping("/tuam")
     //获取当日的未处理的报警总数
-    public String selectTodayUntreatedAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectTodayUntreatedAlarmModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         return JSON.toJSONString(atsi.selectTodayAlarmUntreatedModel(condition));
     }
 
     @GetMapping("/aavm")
     //获取所有的报警数
-    public String selectAlarmAmountValueModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectAlarmAmountValueModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         return JSON.toJSONString(atsi.selectAlarmAmountModel(condition));
     }
 
     @GetMapping("/uavm")
     //获取所有的未处理报警总数
-    public String selectUntreatedAlarmValueModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectUntreatedAlarmValueModelByCondition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         return JSON.toJSONString(atsi.selectAlarmUntreatedModel(condition));
     }
-
-    @ApiOperation(value = "通过参数获取未处理的报警信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageSize", value = "页面大小"),
-            @ApiImplicitParam(name = "currentPage", value = "当前页码数"),
-            @ApiImplicitParam(name = "devName", value = "设备名称"),
-            @ApiImplicitParam(name = "alarmGrade", value = "报警等级ID"),
-            @ApiImplicitParam(name = "alarmType", value = "报警类型ID"),
-            @ApiImplicitParam(name = "alarmTimeHead", value = "开始时间"),
-            @ApiImplicitParam(name = "alarmTimeTail", value = "结束时间"),
-    })
+    
     @GetMapping("/uam")
-    public String selectUntreatedAlarmModelByCondidition(@RequestParam Map<String, String> condition, HttpSession session) {
+    public String selectUntreatedAlarmModelByCondidition(@RequestParam Map<String, String> condition, HttpServletRequest res) {
         int currentPage = 1;
         int pageSize = Integer.MAX_VALUE;
         if (condition.containsKey("currentPage")) {
@@ -206,7 +212,17 @@ public class AlarmController {
 
     @ApiOperation(value = "根据报警主键更新报警信息的处理状态")
     @PutMapping("/uam")
-    public String updateUntreatedAlarmStatusByCondition(@RequestParam Map<String,String> condition, HttpSession session){
+    public String updateUntreatedAlarmStatusByCondition(@RequestParam Map<String,String> condition, HttpServletRequest res){
         return JSON.toJSONString(atsi.updateUntreatedAlarmStatus(condition));
+    }
+
+    @GetMapping("/va")
+    public String selectVoiceAlarm(){
+        return JSON.toJSONString(atsi.selectVoiceAlarm());
+    }
+
+    @GetMapping("/apm")
+    public String selectAlarmPopupModel(){
+        return JSON.toJSONString(atsi.selectAlarmPopupModel());
     }
 }

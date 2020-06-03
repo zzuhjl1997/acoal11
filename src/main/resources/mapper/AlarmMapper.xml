@@ -10,19 +10,19 @@
         <result column="data" jdbcType="REAL" property="data"/>
         <result column="info" jdbcType="VARCHAR" property="info"/>
         <result column="alarm_time" jdbcType="TIMESTAMP" property="alarmTime"/>
-        <result column="status" jdbcType="INTEGER" property="status"/>
+       <!-- <result column="status" jdbcType="INTEGER" property="status"/>-->
         <result column="threshold" jdbcType="REAL" property="threshold"/>
         <result column="count" jdbcType="INTEGER" property="count"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="deal_user_id" jdbcType="INTEGER" property="dealUserId"/>
         <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime"/>
-        <result column="dealimgpath" jdbcType="VARCHAR" property="dealimgpath"/>
+       <!-- <result column="dealimgpath" jdbcType="VARCHAR" property="dealimgpath"/>
         <result column="isfault" jdbcType="INTEGER" property="isfault"/>
         <result column="lastvideopath" jdbcType="VARCHAR" property="lastvideopath"/>
         <result column="lastalarmtime" jdbcType="TIMESTAMP" property="lastalarmtime"/>
         <result column="lastimgpath" jdbcType="VARCHAR" property="lastimgpath"/>
         <result column="imgpath" jdbcType="VARCHAR" property="imgpath"/>
-        <result column="videopath" jdbcType="VARCHAR" property="videopath"/>
+        <result column="videopath" jdbcType="VARCHAR" property="videopath"/>-->
     </resultMap>
     <resultMap id="AlarmModelMap" type="com.plat.acoal.model.AlarmModel">
         <id column="alarmId" property="alarmId" jdbcType="INTEGER"/>
@@ -65,7 +65,7 @@
         </collection>
     </resultMap>
     <sql id="Base_Column_List">
-    id, iCustomerID, dev_id, type, grade, data, info, alarm_time, status, threshold,
+    id, iCustomerID, dev_id, type, grade, data, info, alarm_time, status, threshold, 
     count, remark, deal_user_id, deal_time,imgpath,videopath,lastalarmtime,lastimgpath,lastvideopath,isfault,dealimgpath
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -79,10 +79,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="com.plat.acoal.entity.Alarm">
-    insert into t_alarm (id, iCustomerID, dev_id,
-      type, grade, data, info,
-      alarm_time, status, threshold,
-      count, remark, deal_user_id,
+    insert into t_alarm (id, iCustomerID, dev_id, 
+      type, grade, data, info, 
+      alarm_time, status, threshold, 
+      count, remark, deal_user_id, 
       deal_time,imgpath,videopath,lastalarmtime,lastimgpath,lastvideopath,isfault,dealimgpath)
     values (
     #{id,jdbcType=BIGINT}, #{icustomerid,jdbcType=INTEGER}, #{devId,jdbcType=INTEGER},
@@ -348,9 +348,6 @@
         <if test="customerId != null">
             AND iCustomerID = #{customerId}
         </if>
-        <!--<if test="alarmTimeHead == null and alarmTimeTail == null">AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(alarm_time)</if>
-        <if test="alarmTimeHead != null and alarmTimeTail == null">AND alarm_time &gt;= #{alarmTimeHead} AND alarm_time &lt; #{alarmTimeHead}+INTERVAL 7 DAY</if>
-        <if test="alarmTimeTail != null and alarmTimeHead == null">AND alarm_time &lt;= #{alarmTimeTail} AND alarm_time &gt; #{alarmTimeTail}-INTERVAL 7 DAY</if>-->
         <if test="alarmTimeTail != null and alarmTimeHead != null">AND alarm_time &gt;= #{alarmTimeHead} AND alarm_time
             &lt;= #{alarmTimeTail} +INTERVAL 1 DAY
         </if>
@@ -509,6 +506,38 @@ FROM
     <update id="updateUntreatedAlarmStatus" parameterType="String">
         UPDATE t_alarm set `status` = 2,`remark` = #{remark} where id = #{id}
     </update>
+    <select id="selectVoiceAlarm" resultType="com.plat.acoal.model.VoiceAlarmModel">
+        SELECT
+	`name` AS `devName`,
+	`data` AS `alarmValue`,
+	`threshold` AS `alarmThreshold`
+FROM
+	t_alarm,
+	t_dev
+WHERE
+	t_alarm.dev_id = t_dev.id
+	AND alarm_time >= now( ) - INTERVAL 3 MINUTE
+	order by alarm_time desc;
+    </select>
+    <select id="selectAlarmPopupModel" resultType="com.plat.acoal.model.AlarmPopupModel">
+SELECT
+	td.`name` AS `devName`,
+	`data` AS `alarmValue`,
+	`threshold` AS `alarmThreshold`,
+	DATE_FORMAT( ta.alarm_time, '%Y年%m月%d日 %H时%i分%S秒' ) as `alarmTime`,
+	tr.`name` as `devRegion` ,
+	`count` as `times`
+FROM
+	t_alarm ta,
+	t_dev td,
+	t_region tr
+WHERE
+	ta.dev_id = td.id
+	and td.region = tr.id
+	AND alarm_time >= now( ) - INTERVAL 3 MINUTE
+ORDER BY
+	alarmTime DESC;
+    </select>
     <select id="selectAlarmInfoByCondition" resultType="com.plat.acoal.model.AlarmInfo"
             parameterType="com.plat.acoal.model.AlarmInfo">
         SELECT
@@ -539,5 +568,4 @@ FROM
         <if test="starttime!=null">AND lasteventtime BETWEEN #{starttime,jdbcType=TIMESTAMP}</if>
         <if test="endtime!=null">AND #{endtime,jdbcType=TIMESTAMP}</if>
     </select>
-
 </mapper>

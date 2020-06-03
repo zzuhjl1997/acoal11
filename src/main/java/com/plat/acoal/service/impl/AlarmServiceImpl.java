@@ -16,17 +16,12 @@ import java.util.stream.Stream;
 
 @Service
 public class AlarmServiceImpl implements AlarmService {
-
     @Autowired
     private AlarmMapper am;
-    @Override
-    public List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo) {
-        return am.selectAlarmInfoByCondition(alarmInfo);
-    }
 
     @Override
-    public PageInfo<AlarmModel> selectAlarmModelByCondition(Integer currentPage,Integer pageSize, Map<String,String> condition){
-        Optional.ofNullable(currentPage).ifPresent(a->PageHelper.startPage(a,pageSize));
+    public PageInfo<AlarmModel> selectAlarmModelByCondition(Integer currentPage, Integer pageSize, Map<String, String> condition) {
+        Optional.ofNullable(currentPage).ifPresent(a -> PageHelper.startPage(a, pageSize));
         List<AlarmModel> list = am.selectAlarmModelByCondition(condition);
         return new PageInfo<>(list);
     }
@@ -38,9 +33,9 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Override
     public List<AlarmStatisticsModel> selectAlarmStatisticsModelByCondition(Map<String, String> condition) {
-        List<String >list = DateUtil.getAllDaysIn(condition.get("alarmTimeHead"),condition.get("alarmTimeTail"),"yyyy-MM-dd");
+        List<String> list = DateUtil.getAllDaysIn(condition.get("alarmTimeHead"), condition.get("alarmTimeTail"), "yyyy-MM-dd");
         List<AlarmStatisticsModel> asmList = am.selectAlarmStatisticsModelByCondition(condition);
-        Map<String ,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         if(asmList.isEmpty()){
             AlarmStatisticsModel asm = new AlarmStatisticsModel();
             ArrayList<String> list1 = new ArrayList<>();
@@ -50,14 +45,14 @@ public class AlarmServiceImpl implements AlarmService {
             asmList.add(asm);
             return asmList;
         }
-        asmList.forEach((a)->{
+        asmList.forEach((a) -> {
             ArrayList<String> list1 = new ArrayList<>();
             int i = 0;
-            for(String item:a.getXaxis()){
-                map.put(item,a.getTempY().get(i).getValue());
+            for (String item : a.getXaxis()) {
+                map.put(item, a.getTempY().get(i).getValue());
                 i++;
             }
-            list.forEach((b)-> list1.add(map.getOrDefault(b, "0")));
+            list.forEach((b) -> list1.add(map.getOrDefault(b, "0")));
             a.setXaxis(list);
             a.setYaxis(list1);
             a.setTempY(null);
@@ -81,12 +76,12 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public List<DevAlarmModel> selectDevAlarmModel(Map<String, String> condition){
+    public List<DevAlarmModel> selectDevAlarmModel(Map<String, String> condition) {
         return am.selectDevAlarmModel(condition);
     }
 
     @Override
-    public List<DevAlarmFrequencyModel> selectDevAlarmFrequencyModel(Map<String,String> condition){
+    public List<DevAlarmFrequencyModel> selectDevAlarmFrequencyModel(Map<String, String> condition) {
         return am.selectDevAlarmFrequencyModel(condition);
     }
 
@@ -101,7 +96,7 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public TodayAlarmAmountModel selectTodayAlarmAmountModel(Map<String ,String> condition) {
+    public TodayAlarmAmountModel selectTodayAlarmAmountModel(Map<String, String> condition) {
         return am.selectTodayAlarmAmountModel(condition);
     }
 
@@ -126,7 +121,7 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public JsonResult updateUntreatedAlarmStatus(Map<String,String> condition) {
+    public JsonResult updateUntreatedAlarmStatus(Map<String, String> condition) {
         JsonResult jr = new JsonResult();
         int iserror = am.updateUntreatedAlarmStatus(condition);
         if (iserror == 1) {
@@ -141,9 +136,31 @@ public class AlarmServiceImpl implements AlarmService {
         }
         return jr;
     }
+
+    @Override
+    public List<String> selectVoiceAlarm() {
+        List<String> returnList = new ArrayList<>();
+        List<VoiceAlarmModel> voiceAlarmModels = am.selectVoiceAlarm();
+        voiceAlarmModels.forEach(a->returnList.add(a.toString()));
+        return returnList;
+    }
+
+    @Override
+    public List<String> selectAlarmPopupModel(){
+        List<String> returnList = new ArrayList<>();
+        List<AlarmPopupModel> voiceAlarmModels = am.selectAlarmPopupModel();
+        voiceAlarmModels.forEach(a->returnList.add(a.toString()));
+        return returnList;
+    }
+
     @Override
     public int selectAlarmCount(Map<String, String> condition) {
         return am.selectAlarmCount(condition);
     }
+    @Override
+    public List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo) {
+        return am.selectAlarmInfoByCondition(alarmInfo);
+    }
+
 
 }

@@ -25,8 +25,8 @@ public interface AlarmService {
     UntreatedAlarmValueModel selectAlarmUntreatedModel(Map<String ,String> condition);
     List<UntreatedAlarmModel> selectUntreatedAlarmModel(Map<String,String> condition);
     JsonResult updateUntreatedAlarmStatus(Map<String,String> condition);
+    List<String> selectVoiceAlarm();
+    List<String> selectAlarmPopupModel();
     List<AlarmInfo> selectAlarmInfoByCondition(AlarmInfo alarmInfo) ;
     int selectAlarmCount(Map<String, String> condition);
-
 }
-

@@ -26,10 +26,8 @@ public class DevActiveModel {
     private Integer userId;
     //user.cUserName
     private String userName;
-    //dev_active.open_time
-    private Date devActiveOpenTime;
+    private String actflg;
     //dev_active.close_time
     private Date devActiveCloseTime;
-
-    private Integer actflg;
+    private Date devActiveOpenTime;
 }

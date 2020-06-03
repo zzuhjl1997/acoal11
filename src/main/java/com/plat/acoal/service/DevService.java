@@ -24,7 +24,7 @@ public interface DevService {
 
     DevAmountModel selectDevAmountModel(Map<String, String> condition);
 
-
+    List<DevActiveInfo> selectCountOpen(Map<String, String> condition);
     Dev selectDevById(Dev dev);
 
     List<DevInfo> selectFireList(Dev dev);
@@ -60,7 +60,6 @@ public interface DevService {
 
     List<DevInfo> selectFanInfo(Map<String, String> condition);
 
-    List<DevActiveInfo> selectCountOpen(Map<String, String> condition);
 
     JsonResult updatefan(Map<String, String> condition);
 

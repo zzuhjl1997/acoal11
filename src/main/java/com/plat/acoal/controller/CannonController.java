@@ -79,6 +79,19 @@ public class CannonController {
             item.setLastTime(DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("更新时间"+DateUtil.dateToString(item.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
             System.out.println("对象"+item);
+            //1=火警 2=故障 3=正常 4=离线
+            if(item.getOnline()==1){
+               if(item.getIsfire()==1){
+                   item.setCanno_status(1);
+               }else if(item.getIsfault()==1){
+                   item.setCanno_status(2);
+               }else {
+                   item.setCanno_status(3);
+               }
+            }else if(item.getOnline()==0) {
+                item.setCanno_status(4);
+            }
+
         }
 
         ResultData resultData = new ResultData();

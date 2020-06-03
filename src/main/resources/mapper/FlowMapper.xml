@@ -44,7 +44,7 @@
         <if test="devid!=null">AND dev_id = #{devid,jdbcType=INTEGER}</if>
         <if test="dcollectstart!=null">AND dCollectDT BETWEEN #{dcollectstart,jdbcType=TIMESTAMP}</if>
         <if test="dcollectend!=null">AND #{dcollectend,jdbcType=TIMESTAMP}</if>
-        ORDER BY id ASC LIMIT 24 ) a
+        ORDER BY id ASC ) a
         GROUP BY
         a.dCollectDT
     </select>
