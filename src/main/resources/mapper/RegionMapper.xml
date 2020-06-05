@@ -121,7 +121,7 @@
         iCustomerID = #{icustomerid,jdbcType=INTEGER};
     </select>
     <select id="selectRegionModelByCondition" resultType="com.plat.acoal.model.RegionModel">
-        select id AS regionId,name AS regionName from t_region where 1=1
+        select id AS `id`,name AS `name` from t_region where 1=1
         <if test="customerId != null">
             AND icustomerid = #{customerId}
         </if>

@@ -146,11 +146,8 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public List<String> selectAlarmPopupModel(){
-        List<String> returnList = new ArrayList<>();
-        List<AlarmPopupModel> voiceAlarmModels = am.selectAlarmPopupModel();
-        voiceAlarmModels.forEach(a->returnList.add(a.toString()));
-        return returnList;
+    public List<AlarmPopupModel> selectAlarmPopupModel(){
+        return am.selectAlarmPopupModel();
     }
 
     @Override

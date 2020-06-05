@@ -146,7 +146,7 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
-            <!--<plugin>
+<!--            <plugin>
                 &lt;!&ndash;Mybatis-generator插件,用于自动生成Mapper和POJO&ndash;&gt;
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>

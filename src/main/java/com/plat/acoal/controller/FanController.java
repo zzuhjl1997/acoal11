@@ -1,11 +1,14 @@
 package com.plat.acoal.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.plat.acoal.bean.ResultData;
+import com.plat.acoal.entity.User;
 import com.plat.acoal.model.DevActiveInfo;
 import com.plat.acoal.model.DevActiveModel;
 import com.plat.acoal.model.DevInfo;
 import com.plat.acoal.service.impl.DevServiceImpl;
+import com.plat.acoal.service.impl.FanServiceImpl;
 import com.plat.acoal.service.impl.OperationLogServiceImpl;
 import com.plat.acoal.utils.DateUtil;
 import com.plat.acoal.utils.JsonResult;
@@ -31,6 +34,8 @@ public class FanController {
     private OperationLogServiceImpl operationLogService;
     @Autowired
     private DevServiceImpl getDevServiceImpl;
+    @Autowired
+    private FanServiceImpl fanServiceImpl;
 
     @RequestMapping(value = "/faninfo")
     private String newfan(@RequestParam Map<String, String> condition, HttpSession session) {
@@ -52,20 +57,23 @@ public class FanController {
         long closetime = 0;
         List<DevActiveModel> list_time = new ArrayList<DevActiveModel>();
 
-        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, pageSize, condition).getList();
+//        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, pageSize, condition).getList();
+
+        list_time=devServiceImpl.seldevFanModel(currentPage, pageSize, condition).getList();
+
         long now = (new Date()).getTime();
         if (list_time.size() > 0 && list_time.get(list_time.size() - 1).getActflg().equals("1")) {
             closetime = now;
         }
 
         condition.put("actflg", "2");
-        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, pageSize, condition).getList();
+        list_time = devServiceImpl.seldevFanModel(currentPage, pageSize, condition).getList();
         for (DevActiveModel item : list_time) {
             closetime += item.getDevActiveOpenTime().getTime();
         }
 
         condition.put("actflg", "1");
-        list_time = devServiceImpl.selectDevActiveModelByCondtition(currentPage, pageSize, condition).getList();
+        list_time = devServiceImpl.seldevFanModel(currentPage, pageSize, condition).getList();
         for (DevActiveModel item : list_time) {
             opentime += item.getDevActiveOpenTime().getTime();
         }
@@ -79,8 +87,8 @@ public class FanController {
 
         for (DevInfo devInfo : list) {
             devInfo.setSumtime(times);
-            if (devInfo.getLastTime() != null) {
-                devInfo.setLastTime(devInfo.getLastTime().substring(0, 19));
+            if (devInfo.getDcollectdt() != null) {
+                devInfo.setDcollectdt(devInfo.getDcollectdt().substring(0, 19));
             }
         }
         ResultData resultData = new ResultData();
@@ -171,12 +179,16 @@ public class FanController {
             condition.put("type","9");
             if (condition.containsKey("id")) {
                 devActiveModel.setDevId(Integer.parseInt(condition.get("id")));
+                int i = devServiceImpl.insertActiveInfo(devActiveModel);
+
+
             }else {
 
                   List<DevInfo> listd=devServiceImpl.selectDevList(condition);
                 for (DevInfo devInfo : listd) {
                     devActiveModel.setDevId(devInfo.getId());
-                    int i = devServiceImpl.insertActiveInfo(devActiveModel);
+                    int  i = devServiceImpl.insertActiveInfo(devActiveModel);
+
                 }
             }
 
@@ -186,6 +198,27 @@ public class FanController {
             jr.setMsg("参数不足");
         }
         return jr;
+    }
+    @RequestMapping("/fanlist")
+    private String getfanlist(@RequestParam Map<String, String> condition, HttpServletRequest request) {
+        Integer icustomerid = null;
+        User user = JwtUtils.getUser(request);
+        icustomerid = user.getIcustomerid();
+        Integer type = null;
+//         if (condition.containsKey("type")) {
+//             type = StringUtils.isBlank(condition.get("type")) ? 1 : Integer.valueOf(condition.get("type"));
+//         }
+        condition.put("type", "9");
+        Integer count = null;
+        List<DevInfo> list = fanServiceImpl.selectFanListByCondition(condition);
+        count = devServiceImpl.selectCountByType(condition);
+        ResultData resultData = new ResultData();
+        if (list.size() > 0) {
+            resultData.setDate(DateUtil.dateToString(list.get(list.size() - 1).getUpdateTime()));
+        }
+        resultData.setData(list);
+        resultData.setDevcount(count);
+        return JSON.toJSONString(resultData, SerializerFeature.DisableCircularReferenceDetect);
     }
 
 

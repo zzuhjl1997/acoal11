@@ -14,5 +14,4 @@ public class DevActiveInfo {
     private String time;
     private Date openTime;
     private Date closeTime;
-
 }

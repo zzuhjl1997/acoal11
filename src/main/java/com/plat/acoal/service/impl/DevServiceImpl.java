@@ -57,8 +57,7 @@ public class DevServiceImpl implements DevService {
             PageHelper.startPage(currentPage,pageSize);
         }
         List<DevActiveModel> devActiveModelList = dm.selectDevActiveModelByCondition(condition);
-        PageInfo<DevActiveModel> returnDa = new PageInfo<>(devActiveModelList);
-        return returnDa;
+        return new PageInfo<>(devActiveModelList);
     }
 
     @Override
@@ -222,4 +221,21 @@ public class DevServiceImpl implements DevService {
     public int insertActiveInfo(DevActiveModel devActiveModel) {
         return dm.insertActiveInfo(devActiveModel);
     }
+
+    @Override
+    public List<DevInfo> selectHStatusByDevid(Map<String, String> condition) {
+        return dm.selectHStatusByDevid(condition);
+    }
+
+    @Override
+    public PageInfo<DevActiveModel> seldevFanModel(Integer currentPage, Integer pageSize, Map<String, String> condition) {
+        if(currentPage != null){
+            PageHelper.startPage(currentPage,pageSize);
+        }
+        List<DevActiveModel> devActiveModelList = dm.selectdevFanModel(condition);
+        PageInfo<DevActiveModel> returnDa = new PageInfo<>(devActiveModelList);
+        return returnDa;
+    }
+
+
 }

@@ -93,7 +93,7 @@ public class PressureFlowController {
         //根据消防阀门id查询消防阀门开启状态
         int isopen = 0;
         condition.put("devid", devid.toString());
-        List<DevInfo> lst = devServiceImpl.selectDevInfoByDevid(condition);
+        List<DevInfo> lst = devServiceImpl.selectHStatusByDevid(condition);
         if (lst.size() > 0) {
             for (DevInfo devInfo : lst) {
                 if (devInfo != null) {

@@ -6,6 +6,7 @@ import com.plat.acoal.entity.Dev;
 import com.plat.acoal.model.*;
 import com.plat.acoal.utils.JsonResult;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Map;
 
@@ -73,4 +74,8 @@ public interface DevService {
     JsonResult updatehydrant(Map<String, String> condition);
 
     int insertActiveInfo(DevActiveModel devActiveModel);
+
+    List<DevInfo> selectHStatusByDevid(Map<String, String> condition);
+
+    PageInfo<DevActiveModel> seldevFanModel(Integer currentPage, Integer pageSize, Map<String, String> condition);
 }

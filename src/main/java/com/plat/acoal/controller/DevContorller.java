@@ -73,20 +73,15 @@ public class DevContorller {
 
     @GetMapping("/dam")
     public String selectDevActiveModelByCondition(@RequestParam Map<String, String> condition, HttpSession session) {
-        /*User user = (User)session.getAttribute("user");
-        Integer customerId = user.getIcustomerid();
-        condition.put("customerId",customerId.toString());*/
-        Integer currentPage = 1;
-        Integer pageSize = Integer.MAX_VALUE;
+        int currentPage = 1;
+        int pageSize = Integer.MAX_VALUE;
         if (condition.containsKey("currentPage")) {
-            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.valueOf(condition.get("currentPage"));
+            currentPage = StringUtils.isBlank(condition.get("currentPage")) ? 1 : Integer.parseInt(condition.get("currentPage"));
             condition.remove("currentPage");
         }
         if (condition.containsKey("pageSize")) {
-            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? Integer.MAX_VALUE : Integer.valueOf(condition.get("pageSize"));
+            pageSize = StringUtils.isBlank(condition.get("pageSize")) ? Integer.MAX_VALUE : Integer.parseInt(condition.get("pageSize"));
             condition.remove("pageSize");
-        } else {
-            pageSize = Integer.MAX_VALUE;
         }
         return JSON.toJSONString(dsi.selectDevActiveModelByCondtition(currentPage, pageSize, condition));
     }
@@ -531,7 +526,14 @@ public class DevContorller {
         for (DevInfo item : list_press
         ) {
             if (item != null) {
-                pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                if(item.getName().length()==7){
+                    pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                }else {
+                    pos = Integer.parseInt(item.getName().substring(0, 2)) - 1;
+
+                }
+
+
                 press_region[pos] = item.getName();
                 if (item.getTpressure() != null) {
                     press_value[pos] = NumUtil.dianhoun(item.getTpressure(), 3);
@@ -546,7 +548,13 @@ public class DevContorller {
         for (DevInfo item : list_flow
         ) {
             if (item != null) {
-                pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                if(item.getName().length()==7){
+                    pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                }else {
+                    pos = Integer.parseInt(item.getName().substring(0, 2)) - 1;
+
+                }
+
                 flow_region[pos] = item.getName();
                 if (item.getTflow() != null) {
                     flow_value[pos] = NumUtil.dianhoun(item.getTflow(), 3);
@@ -560,7 +568,14 @@ public class DevContorller {
         for (DevInfo item : list_tem
         ) {
             if (item != null) {
-                pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                if(item.getName().length()==7){
+                    pos = Integer.parseInt(item.getName().substring(0, 1)) - 1;
+                }else {
+                    pos = Integer.parseInt(item.getName().substring(0, 2)) - 1;
+
+                }
+
+
                 tem_region[pos] = item.getName();
                 if (item.getFT() != null) {
                     tem_value[pos] = NumUtil.dianhoun(item.getFT(), 1);

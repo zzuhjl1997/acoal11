@@ -28,6 +28,7 @@ public class JwtCfg {
         registrationBean.addUrlPatterns("/temperature/*");
         registrationBean.addUrlPatterns("/user/*");
         registrationBean.addUrlPatterns("/region/*");
+        registrationBean.addUrlPatterns("/mstonline/*");
         return registrationBean;
     }
 }

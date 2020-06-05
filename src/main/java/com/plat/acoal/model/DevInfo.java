@@ -81,6 +81,7 @@ public class DevInfo {
 
     //消防炮状态
     private Integer canno_status;
+    private String dcollectdt;
 
 
 }

@@ -367,7 +367,7 @@
 	IFNULL(tdt.`name`,'未知') as `name`,
 	sum( count ) AS `value`
 FROM
-	( SELECT ta.count, td.type AS `type` FROM t_alarm ta LEFT JOIN t_dev td ON ta.dev_id = td.id ) a
+	( SELECT ta.count, td.type AS `type` FROM t_alarm ta LEFT JOIN t_dev td ON ta.dev_id = td.id where ta.type!=8) a
 	LEFT JOIN t_dev_type tdt ON a.type = tdt.id
 GROUP BY
 	`name`
@@ -516,7 +516,7 @@ FROM
 	t_dev
 WHERE
 	t_alarm.dev_id = t_dev.id
-	AND alarm_time >= now( ) - INTERVAL 3 MINUTE
+	AND alarm_time >= now( ) - INTERVAL 3 day
 	order by alarm_time desc;
     </select>
     <select id="selectAlarmPopupModel" resultType="com.plat.acoal.model.AlarmPopupModel">
@@ -534,7 +534,7 @@ FROM
 WHERE
 	ta.dev_id = td.id
 	and td.region = tr.id
-	AND alarm_time >= now( ) - INTERVAL 3 MINUTE
+	AND alarm_time >= now( ) - INTERVAL 3 day
 ORDER BY
 	alarmTime DESC;
     </select>

@@ -37,20 +37,20 @@
         <result column="devSerNum" property="devSerNum" jdbcType="VARCHAR"/>
         <result column="devRemark" property="devRemark" jdbcType="VARCHAR"/>
     </resultMap>
-    <resultMap id="DevActiveModelMap" type="com.plat.acoal.model.DevActiveModel">
-        <id column="devActiveId" property="devActiveId" jdbcType="INTEGER"/>
-        <result column="devId" property="devId" jdbcType="INTEGER"/>
-        <result column="devName" property="devName" jdbcType="VARCHAR"/>
-        <result column="devTypeId" property="devTypeId" jdbcType="INTEGER"/>
-        <result column="devTypeName" property="devTypeName" jdbcType="VARCHAR"/>
-        <result column="regionName" property="regionName" jdbcType="VARCHAR"/>
-        <result column="regionId" property="regionId" jdbcType="INTEGER"/>
-        <result column="devSite" property="devSite" jdbcType="VARCHAR"/>
-        <result column="devActiveCloseTime" property="devActiveCloseTime" jdbcType="TIMESTAMP"/>
-        <result column="devActiveOpenTime" property="devActiveOpenTime" jdbcType="TIMESTAMP"/>
-        <result column="userId" property="userId" jdbcType="INTEGER"/>
-        <result column="userName" property="userName" jdbcType="VARCHAR"/>
-    </resultMap>
+<!--    <resultMap id="DevActiveModelMap" type="com.plat.acoal.model.DevActiveModel">-->
+<!--        <id column="devActiveId" property="devActiveId" jdbcType="INTEGER"/>-->
+<!--        <result column="devId" property="devId" jdbcType="INTEGER"/>-->
+<!--        <result column="devName" property="devName" jdbcType="VARCHAR"/>-->
+<!--        <result column="devTypeId" property="devTypeId" jdbcType="INTEGER"/>-->
+<!--        <result column="devTypeName" property="devTypeName" jdbcType="VARCHAR"/>-->
+<!--        <result column="regionName" property="regionName" jdbcType="VARCHAR"/>-->
+<!--        <result column="regionId" property="regionId" jdbcType="INTEGER"/>-->
+<!--        <result column="devSite" property="devSite" jdbcType="VARCHAR"/>-->
+<!--        <result column="devActiveCloseTime" property="devActiveCloseTime" jdbcType="TIMESTAMP"/>-->
+<!--        <result column="devActiveOpenTime" property="devActiveOpenTime" jdbcType="TIMESTAMP"/>-->
+<!--        <result column="userId" property="userId" jdbcType="INTEGER"/>-->
+<!--        <result column="userName" property="userName" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
 
     <sql id="Base_Column_List">
     id, code, iCustomerID, region, site, name, type, ip, ser_num, remark, create_time,
@@ -268,7 +268,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <update id="updatefan" parameterType="map">
-        UPDATE t_dev
+        UPDATE t_fan
         <set>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
@@ -279,22 +279,23 @@
                </if>-->
         </set>
         where 1=1
-        <if test="id!=null">and id = #{id,jdbcType=INTEGER}</if>
-        <if test="type != null">
-            type = #{type,jdbcType=INTEGER},
-        </if>
+        <if test="id!=null">and dev_id = #{id,jdbcType=INTEGER}</if>
+        <!--   <if test="type != null">
+               type = #{type,jdbcType=INTEGER},
+           </if>-->
 
 
     </update>
     <update id="updatehydrant" parameterType="map">
-        UPDATE t_dev
+        UPDATE t_valve
         <set>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
             </if>
 
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where 1=1
+        <if test="id!=null">and dev_id = #{id,jdbcType=INTEGER}</if>
     </update>
 
     <select id="selectNameByCondition" parameterType="Map" resultMap="DevNameModelMap">
@@ -305,10 +306,15 @@
     </select>
 
     <select id="selectTypeByCondition" parameterType="Map" resultMap="DevTypeModelMap">
-        select id,name from t_dev_type;
+        select id,name from t_dev_type
+        where
+        1 =1
         <if test="customerId != null">
             AND customer = #{customerId}
-        </if>;
+        </if>
+        <if test="isalarm != null">
+            and isalarm = #{isalarm}
+        </if>
     </select>
 
     <select id="selectDevInfoByCondition" parameterType="map" resultMap="DevInfoModel">
@@ -344,7 +350,7 @@
         order by `devTypeId`,`devCode`,`devSerNum`
     </select>
 
-    <select id="selectDevActiveModelByCondition" parameterType="map" resultMap="DevActiveModelMap">
+    <select id="selectDevActiveModelByCondition" resultType="com.plat.acoal.model.DevActiveModel">
         SELECT
         `da`.id AS `devActiveId` ,
         `da`.dev_id AS `devId`,
@@ -379,6 +385,7 @@
         <if test="regionId != null">AND `r`.id = #{regionId}</if>
         <if test="regionName != null">AND `r`.name = #{regionName}</if>
         <if test="customerId != null">AND `d`.customer = #{customerId}</if>
+        order by `devActiveOpenTime` desc
     </select>
 
     <select id="selectDevByCustomerId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -644,20 +651,14 @@
         <if test="devid != null">AND td.id= #{devid}</if>
     </select>
     <select id="selectFanInfo" resultType="com.plat.acoal.model.DevInfo" parameterType="map">
-        select
-        td.power AS power,
-        td.rotate AS rotate,
-        td.is_auto AS is_auto,
-        td.`status` AS `status`,
-        tda.open_time AS lasttime
+        SELECT
+        dev_id as devid,
+        `status`,
+        dcollectdt
         FROM
-        t_dev td
-        LEFT JOIN t_dev_active tda ON td.id = tda.dev_id
-        where 1=1
-        <if test="devId != null">AND td.id= #{devId}</if>
-        ORDER BY
-        tda.open_time DESC
-        LIMIT 1
+        t_fan
+        WHERE 1=1
+        <if test="devId != null">AND dev_id = #{devid}</if>
     </select>
     <select id="selectCountOpen" resultType="com.plat.acoal.model.DevActiveInfo" parameterType="map">
         SELECT
@@ -740,5 +741,50 @@
         -->
 
     </select>
+    <select id="selectHStatusByDevid" resultType="com.plat.acoal.model.DevInfo">
+        SELECT
+        `status`
+        FROM
+        t_valve
+        WHERE 1=1
+        <if test="devid != null">AND dev_id = #{devid}</if>
+    </select>
+    <select id="selectdevFanModel" resultType="com.plat.acoal.model.DevActiveModel">
+        SELECT
+        `da`.id AS `devActiveId` ,
+        `da`.dev_id AS `devId`,
+        `da`.close_time AS `devActiveCloseTime`,
+        `da`.open_time AS `devActiveOpenTime`,
+        `da`.user AS `userId`,
+        `da`.actflg AS `actflg`,
+        `u`.cUserName AS `userName`,
+        `d`.name AS `devName`,
+        `d`.type AS `devTypeId`,
+        `dt`.name AS `devTypeName`,
+        `d`.region AS `regionId`,
+        `r`.name AS `regionName`,
+        `d`.site AS `devSite`
+        FROM
+        (SELECT * FROM t_dev_active
+        WHERE 1 = 1
+        <if test="devid != null">AND t_dev_active.dev_id = #{devid,jdbcType=INTEGER}</if>
+        <if test="user != null">AND t_dev_active.user = #{userId,jdbcType=INTEGER}</if>
+        <if test="alarmTimeHead!=null">AND ta.alarm_time &gt;=#{alarmTimeHead}</if>
+        <if test="alarmTimeTail!=null">AND ta.alarm_time &lt;=#{alarmTimeTail}</if>
+        <if test="actflg!=null">AND t_dev_active.actflg =#{actflg}</if>
+        )AS `da`
+        LEFT JOIN t_dev AS `d` ON `da`.dev_id = `d`.id
+        LEFT JOIN t_dev_type AS `dt` ON `d`.type = `dt`.id
+        LEFT JOIN t_user AS `u` ON `da`.USER = `u`.iUserID
+        LEFT JOIN t_region AS `r` ON `d`.region = `r`.id
+        WHERE
+        1 = 1
+        <if test="devTypeId != null">AND `dt`.id = #{devTypeId}</if>
+        <if test="devName != null">AND `dt`.name '%' #{devName} '%'</if>
+        <if test="regionId != null">AND `r`.id = #{regionId}</if>
+        <if test="regionName != null">AND `r`.name = #{regionName}</if>
+        <if test="customerId != null">AND `d`.customer = #{customerId}</if>
+    </select>
+
 
 </mapper>

@@ -38,31 +38,38 @@ public class MstonLineController {
         listgtype.add(parama2);
         return JSON.toJSONString(listgtype);
     }
-    @RequestMapping("/isauto")
+    @RequestMapping("/isopen")
     private String getauto(){
-        List<Map<String,String>> listauto=new ArrayList<Map<String, String>>();
+        List<Map<String,String>> listopen=new ArrayList<Map<String, String>>();
         Map<String,String> parama=new HashMap<String, String>();
         Map<String,String> parama2=new HashMap<String, String>();
         parama.put("code","0");
         parama.put("type","关闭");
         parama2.put("code","1");
         parama2.put("type","开启");
-        listauto.add(parama);
-        listauto.add(parama2);
-        return JSON.toJSONString(listauto);
+        listopen.add(parama);
+        listopen.add(parama2);
+        return JSON.toJSONString(listopen);
     }
-   /* @RequestMapping("/status")
+    @RequestMapping("/status")
     private String getstatus(){
         List<Map<String,String>> listauto=new ArrayList<Map<String, String>>();
         Map<String,String> parama=new HashMap<String, String>();
         Map<String,String> parama2=new HashMap<String, String>();
-        parama.put("code","0");
-        parama.put("status","关闭");
-        parama2.put("code","1");
-        parama2.put("status","开启");
-        parama2.put("status","开启");
+        Map<String,String> parama3=new HashMap<String, String>();
+        Map<String,String> parama4=new HashMap<String, String>();
+        parama.put("code","1");
+        parama.put("status","火警");
+        parama2.put("code","2");
+        parama2.put("status","故障");
+        parama3.put("code","3");
+        parama3.put("status","正常");
+        parama4.put("code","4");
+        parama4.put("status","离线");
         listauto.add(parama);
         listauto.add(parama2);
+        listauto.add(parama3);
+        listauto.add(parama4);
         return JSON.toJSONString(listauto);
-    }*/
+    }
 }

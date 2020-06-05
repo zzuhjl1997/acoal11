@@ -51,17 +51,32 @@ public class ParameterServiceImpl implements ParameterService {
         parameterInfo.setIcustomerid(parameter.getIcustomerid());
         List<ParameterInfo> parameters0 = parameterMapper.selectPaByCondition(parameterInfo);
 
-        //若是devid=0的值不存在,insert devid=0
+        //若是devid=0的值不存在,insert devid=0 否则修改
 
         Parameter parameter1 = new Parameter();
         //将一个对象的属性值赋值给另一个对象, 属性名需要相同
         BeanUtils.copyProperties(parameter, parameter1);
         parameter1.setDevId(0);
+
         if (parameters0.size() < 1) {
             parameterMapper.insertSelective(parameter1);
+
+        }
+        parameters0 = parameterMapper.selectPaByCondition(parameterInfo);
+        for (ParameterInfo info : parameters0) {
+            parameter1.setId(info.getId());
+        }
+        if (ischecked != null && ischecked == 1) {
+            if (parameters0.size() < 1) {
+                parameterMapper.insertSelective(parameter1);
+            }else {
+                parameterMapper.updateByPrimaryKeySelective(parameter1);
+            }
+
         }
 
         //判断该参数是否已经存在
+//        if (parameter.getDevId() != 0) {
         parameterInfo.setDevId(parameter.getDevId());
         List<ParameterInfo> parameters = parameterMapper.selectPaByCondition(parameterInfo);
         //若存在，update
@@ -72,17 +87,44 @@ public class ParameterServiceImpl implements ParameterService {
         else {
             parameterMapper.insertSelective(parameter);
         }
+        //如果设备id不为零
+        //通过设备ID查询type值
+        switch (parameter.getCparam()) {
+            case "T":
+                parameter.setType(2);
+                break;
+            case "D":
+                parameter.setType(4);
+                break;
+            case "CO":
+                parameter.setType(5);
+            case "CH4":
+                parameter.setType(6);
+            case "P":
+                parameter.setType(7);
+            case "F":
+                parameter.setType(8);
+        }
+
+//        }
         //看看需不需要所有设备与此同值
         if (ischecked != null && ischecked == 1) {
+
             List<Dev> devList = devMapper.selectDevByCustomerId(parameter.getIcustomerid(), parameter.getType());
+
+
             for (Dev dev : devList) {
                 //获取设备列表 对每一个设备id的参数进行判断  看看对应设备id是否存在
                 parameterInfo.setDevId(dev.getId());
                 List<ParameterInfo> pars = parameterMapper.selectPaByCondition(parameterInfo);
                 //若存在update   若不存在 不管了
                 if (pars.size() > 0) {
-                    parameter.setDevId(0);
-                    parameterMapper.updateByPrimaryKeySelective(parameter);
+                    for (ParameterInfo par : pars) {
+                        parameter.setId(par.getId());
+                        parameter.setDevId(par.getDevId());
+                        parameterMapper.updateByPrimaryKeySelective(parameter);
+                    }
+
                 }
             }
         }

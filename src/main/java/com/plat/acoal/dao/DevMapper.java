@@ -84,4 +84,8 @@ public interface DevMapper {
     int updatehydrant(Map<String, String> condition);
 
     int insertActiveInfo(DevActiveModel devActiveModel);
+
+    List<DevInfo> selectHStatusByDevid(Map<String, String> condition);
+
+    List<DevActiveModel> selectdevFanModel(Map<String, String> condition);
 }

@@ -33,5 +33,5 @@ public class Parameter {
     private Date updatedatetime;
 
     private Integer adduserid;
-    private Integer cvalue2;
+    private String cvalue2;
 }

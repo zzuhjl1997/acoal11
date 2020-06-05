@@ -46,8 +46,16 @@
         <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
+        <if test="isopen!=null">AND tca.`isopen` = #{isopen,jdbcType=INTEGER}</if>
+        <if test="isfire!=null">AND tca.`isfire` = #{isfire,jdbcType=INTEGER}</if>
+        <if test="isfault!=null">AND tca.`isfault` = #{isfault,jdbcType=INTEGER}</if>
+<!--
         <if test="status!=null">AND td.`status` = #{status,jdbcType=INTEGER}</if>
+-->
+<!--
         <if test="is_auto!=null">AND td.`is_auto` = #{is_auto,jdbcType=INTEGER}</if>
+-->
+
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
         ) a
     </select>
@@ -94,7 +102,9 @@
         <if test="type!=null">AND td.type= #{type,jdbcType=INTEGER}</if>
         <if test="icustomerid!=null">AND td.`icustomerid` = #{icustomerid,jdbcType=INTEGER}</if>
         <if test="online!=null">AND td.`online` = #{online,jdbcType=INTEGER}</if>
-        <if test="is_auto!=null">AND td.`is_auto` = #{is_auto,jdbcType=INTEGER}</if>
+        <if test="isopen!=null">AND tca.`isopen` = #{isopen,jdbcType=INTEGER}</if>
+        <if test="isfire!=null">AND tca.`isfire` = #{isfire,jdbcType=INTEGER}</if>
+        <if test="isfault!=null">AND tca.`isfault` = #{isfault,jdbcType=INTEGER}</if>
         <if test="name!=null">AND td.`name` LIKE "%"#{name,jdbcType=VARCHAR}"%"</if>
         ) a)b
 
